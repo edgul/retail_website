@@ -1,0 +1,176 @@
+﻿<!-- review.html 
+     Provides fields for text entry and user rating of the website.
+     Displays submitted data in html below
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>EnterpriseHardware.com - Sitemap</title>
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+    <script src="Scripts/jquery-1.11.2.js"></script>
+    <style>
+        a#stars:hover, a#start:active, a#stars:visited, a#stars:link {
+            text-decoration: none;
+        }
+
+        a#stars {
+            color: #91170a;
+        }
+
+        a:hover, a:focus {
+            color: #d9230f;
+        }
+
+        .starhover {
+            color: #d9230f;
+        }
+
+        .starclicked {
+            color: #d9230f;
+            /*text-shadow: #d9230f 0px 0px 2px 2px;*/
+            text-shadow: 2px 2px 5px #4e120b;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <!-- navbar code -->
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html"><img alt="Enterprise Hardware Logo" src="images/logo.svg.png" width="20" height="20"></a>
+                <a class="navbar-brand" href="index.html">Enterprise Hardware</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="catalog.html">Catalog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li class="active"><a href="review.html">Review</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+
+        <div class="jumbotron text-center">
+
+            <!-- Header and stars input-->
+            <p class="page-header">
+                Rate our site:
+            </p>
+            <p>
+                <a href="#" id="stars">
+                    <span class="glyphicon glyphicon-star" data-rating="1"></span>
+                    <span class="glyphicon glyphicon-star" data-rating="2"></span>
+                    <span class="glyphicon glyphicon-star" data-rating="3"></span>
+                    <span class="glyphicon glyphicon-star" data-rating="4"></span>
+                    <span class="glyphicon glyphicon-star" data-rating="5"></span>
+                </a>
+            </p>
+
+            <!-- form with input fields and buttons -->
+            <form method="post" name="form" id="form" >
+                User: <br />
+                <input type="text" onclick="this.value = '';" name="username" id="username" value="anonymous" /> <br /> <br />
+                
+                Describe your experience using our website:<br />
+                <textarea style="height:200px; width:400px" name="descMsg" id="descMsg"> </textarea> <br /><br />
+                <input type="button" name="submit" value="submit" id="submit"/>
+            </form>
+        </div>
+
+
+    </div>
+    <script>
+        var rating;
+        var reviewMsg;
+        var splitMsg;
+        var user;
+        var starsEls = $("a#stars span");
+
+        //mouse hover color change on stars
+        starsEls.hover(function (event) {
+            var thisstar = $(event.target);
+            for (var i = 0; i < starsEls.length; i++) {
+                if ($(starsEls[i]).data('rating') <= thisstar.data('rating')) {
+                    $(starsEls[i]).addClass('starhover');
+                }
+            }
+        }, function (event) {
+            starsEls.removeClass('starhover');
+        });
+
+        //mouse click -- changes colour
+        starsEls.click(function (event) {
+            rating = $(event.target).data('rating');
+
+            var thisstar = $(event.target);
+            for (var i = 0; i < starsEls.length; i++) {
+                if ($(starsEls[i]).data('rating') <= thisstar.data('rating')) {
+                    $(starsEls[i]).addClass('starclicked');
+                } else {
+                    $(starsEls[i]).removeClass('starclicked');
+                }
+            }
+
+
+        });
+
+        //add review to html
+        $("#submit").click(function () {
+
+            //grabs and checks the inputs if null
+            reviewMsg = $("#descMsg").val();
+            if (rating == null || reviewMsg == "") {
+                alert("Before submitting you must: \n\t- Rate by stars\n\t- Enter a description");
+            }
+            else {
+                user = $("#username").val();
+                if (user == '') {
+                    user = "Anonymous";
+                }
+                
+                //splits input string
+                splitMsg = reviewMsg.split("\n");
+
+                var starsImages = '';   // HTML for desired number of stars
+                for (var i = 0; i < parseInt(rating) ; i++) {
+                    starsImages += '<span class="glyphicon glyphicon-star" data-rating="1"></span>';
+                }
+
+                //$("#postings").append("<h2>"+ user +" says: " + rating + "stars!</h2> <p>");
+                $("#postings").append("<h2>" + user + " says: " + starsImages + " </h2> <p>");
+                for (i = 0; i < splitMsg.length; i++) {
+                    $("#postings").append(splitMsg[i] + "<br />");
+                }
+                $("#postings").append("</p><br />");
+
+            }
+        });
+            
+        //gets star input
+        //gets msg
+        //posts to html
+    </script>
+
+    <div id="postings" class="container">
+
+    </div>
+</body>
+
+
+</html>
+

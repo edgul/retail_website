@@ -1,0 +1,95 @@
+﻿<!-- contact.html 
+     Displays contact and developer info
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>EnterpriseHardware.com - Contact</title>
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+
+    <script src="Scripts/jquery-1.11.2.js"></script>
+    <script>
+
+        //hides info on header click
+        $(document).ready(function () {
+            $("#contactHeader").click(function () {
+                $("#contactInfo").toggle("slow");
+            })
+            $("#designersHeader").click(function () {
+                $("#designersTable").toggle("slow");
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html"><img alt="Enterprise Hardware Logo" src="images/logo.svg.png" width="20" height="20"></a>
+                <a class="navbar-brand" href="index.html">Enterprise Hardware</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="catalog.html">Catalog</a></li>
+                    <li class="active"><a href="contact.html">Contact</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="review.html">Review</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+
+        <h1 id="contactHeader"> Contact: </h1>
+
+        <p id="contactInfo">
+            Phone: 905-555-9140 <br />
+            Email: info@enterprisehardware.com <br />
+            Address: 123 Fake Street, Hamilton, Ontario <br />
+        </p>
+        <hr>
+
+        <h2 id="designersHeader"> Designers </h2>
+        
+        <!-- table with developer info -->
+        <table class="table table-striped" id="designersTable">
+            <thead>
+                <tr>
+                    <th> First Name </th>
+                    <th> Last Name </th>
+                    <th> Student Number </th>
+                    <th> Mac ID </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td> Edward </td>
+                    <td> Guloien </td>
+                    <td> 0749435 </td>
+                    <td> guloiej </td>
+                </tr>
+                <tr>
+                    <td> Musharraf </td>
+                    <td> Azeem </td>
+                    <td> 1065180 </td>
+                    <td> azeemm </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+

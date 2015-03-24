@@ -1,0 +1,85 @@
+﻿<!-- index.html 
+     Welcome page. Picture and website description, links to everywhere else.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" /> 							<!-- Add to other pages -->
+	<title>EnterpriseHardware.com - Home</title>
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+    <script src="Scripts/jquery-1.11.2.js"></script>
+    <script>
+        //event for button click to hide picture
+        $(document).ready(function () {
+            $("button").click(function(){
+                $("#pic").toggle("slow");
+            })
+        });    
+    </script>
+
+</head>
+
+<body>
+    
+    <!-- navbar code -->
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html"><img alt="Enterprise Hardware Logo" src="images/logo.svg.png" width="20" height="20"></a>
+                <a class="navbar-brand" href="index.html">Enterprise Hardware</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="catalog.html">Catalog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="review.html">Review</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- button for hiding picture -->
+    <button> Hide </button>
+
+    <div class="container" id="pic" >
+        <div class="jumbotron text-center">
+                <!--<h1> Welcome </h1>-->
+                <img src="images/server-room-banner.jpg" alt="Server Room Banner" title="Enterprise Hardware" class="img-responsive img-rounded center-block"/>
+
+                <!--<p class="lead">-->
+                <p class="page-header">
+                    Welcome to Enterprise Hardware. We sell computers to make your office IT dreams come true.
+                </p>
+                <p><a class="btn btn-primary btn-lg" href="catalog.html">Visit our Catalog</a></p>
+        </div>
+
+
+
+        
+
+    </div>
+
+
+    <footer class="footer">
+        <div class="container">
+            Works best in Chrome and Firefox
+            
+            <a href="http://www.google.com/chrome/"><img src="images/Google_Chrome_icon_(2011).png" /></a>
+            <a href="http://www.mozilla.org/firefox/"><img src="images/firefox-512-noshadow.png" /></a>
+</div>
+    </footer>
+    
+
+</body>
+</html>
+
