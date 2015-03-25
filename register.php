@@ -2,6 +2,36 @@
      Displays fields for user input to create an account of the website.
      Uses cookies to pass data to other pages.
 -->
+
+<?php 
+    require_once ("Includes/var_init.php"); 
+    require_once  ("Includes/connectDB.php");
+
+//	print_r($_POST);
+
+    if (isset($_POST['submit'])){
+        $username = $_POST['username'];
+        $fname = $_POST['firstname'];
+        $lname = $_POST['lastname'];
+        $email = $_POST['email']; 
+        $phone_num = $_POST['phone']; 
+        $street_num = $_POST['streetnum'];
+        $street_name = $_POST['streetname'];
+        $unit_num = $_POST['unitnum'];
+        $city= $_POST['city'];
+        $province= $_POST['province'];
+        $postalcode= $_POST['postalcode'];
+        $password = $_POST['password1'];
+        
+		$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
+
+		$statement = $databaseConnection->query($query);
+ 
+//      $_SESSION['userid'] = $userId;
+//      $_SESSION['username'] = $username;
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,15 +139,15 @@
             else {
                 //makes a cookie if all fields are good
                 setCookie("username", username, "password1", password1);
-                var x = window.confirm("Account was created for username: " + getCookie("username") + "\nProceed to login page to login?");
+                alert("Account was created for username: " + getCookie("username") )
 
-                //prompts for navigation to login page
+                /*//prompts for navigation to login page
                 if (x == true) {
-                    window.location.href = "login.html";
+                    window.location.href = "register.php";
                 }
                 else {
                     document.getElementById("form").reset();
-                }
+                }*/
 
                 return true;
             }
@@ -149,7 +179,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Home</a></li>
-                    <li class="active"><a href="register.html">Register</a></li>
+                    <li class="active"><a href="register.php">Register</a></li>
                     <li><a href="login.html">Login</a></li>
                     <li><a href="catalog.html">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -167,7 +197,7 @@
     <div class="container">
             <h1>Register your information</h1>
         <div class="col-sm-4">
-            <form method="post" name="form" id="form" >
+            <form action="register.php" method="post" name="form" id="form" >
                 <fieldset>
 
                     <!-- Contact info fields -->
@@ -314,7 +344,7 @@
                 <!-- Submit and clear buttons -->
                 <div class="form-group ">
                     <input type="reset" value="Clear Form" class="btn btn-default">
-                    <input type="button" onclick="return validate(form)" value="Register" class="btn btn-default pull-right">
+                    <input type="submit" name="submit"  onclick="return validate(form)" formaction="register.php" formmethod="post" value="Register" class="btn btn-default pull-right">
 
                 </div>
             </form>
@@ -322,21 +352,6 @@
            
         </div>
         </div>
-		<?php
-			$servername = "mysqlsrv2";
-			$username = "guloiej";
-			$password = "0749435";
-
-			// Create connection
-			$conn = new mysqli($servername, $username, $password);
-			//mysql -u guloiej -h mysqlsrv2 -p -A guloiej_db
-
-			// Check connection
-			if ($conn->connect_error) {
-    			die("Connection failed: " . $conn->connect_error); 
-			}
-			echo "Connected successfully" ;
-		?> 
 </body>
 </html>
 
