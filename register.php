@@ -4,12 +4,11 @@
 -->
 
 <?php 
-    require_once ("Includes/var_init.php"); 
-    require_once  ("Includes/connectDB.php");
-
-//	print_r($_POST);
 
     if (isset($_POST['submit'])){
+    	require_once ("Includes/var_init.php"); 
+    	require_once  ("Includes/connectDB.php");
+    	require_once  ("Includes/session.php");
         $username = $_POST['username'];
         $fname = $_POST['firstname'];
         $lname = $_POST['lastname'];
@@ -27,8 +26,8 @@
 
 		$statement = $databaseConnection->query($query);
  
-//      $_SESSION['userid'] = $userId;
-//      $_SESSION['username'] = $username;
+      $_SESSION['username'] = $username;
+      $_SESSION['password'] = $password;
     }
 ?>
 
@@ -180,14 +179,17 @@
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Home</a></li>
                     <li class="active"><a href="register.php">Register</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><a href="login.php">Login</a></li>
                     <li><a href="catalog.html">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="sitemap.html">Sitemap</a></li>
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Help</a></li>
+                    <li><form action="logout.php" method="post">
+                             <input type="submit" value="Logout" >
+                    </li>
+					<li><a href="#">Help</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

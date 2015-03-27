@@ -2,6 +2,37 @@
      Displays fields for user and password entry to login to the website.
     Only most recently registered username will be be able to enter. (currently)
 -->
+<?php
+	
+	if (isset($_POST['submit'])){
+		require_once ("Includes/session.php");
+		$username = $_POST['username'];
+        $password = $_POST['password1'];
+        /*$fname = $_POST['firstname'];
+        $lname = $_POST['lastname'];
+        $email = $_POST['email'];
+        $phone_num = $_POST['phone'];
+        $street_num = $_POST['streetnum'];
+        $street_name = $_POST['streetname'];
+        $unit_num = $_POST['unitnum'];
+        $city= $_POST['city'];
+        $province= $_POST['province'];
+        $postalcode= $_POST['postalcode'];*/
+
+		$query = "select username, password from users where username='" . $username . "' and password='" . $password . "'";
+		$result = $databaseConnection->query($query);
+
+		if ($result->num_rows > 0) {
+			$row = $result-> fetch_assoc();
+			$_SESSION['username'] = $row['username'];
+			$_SESSION['password'] = $row['password'];
+		}
+		else
+			include("Includes/logout.php");	
+				
+		print_r($_SESSION);
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,13 +96,18 @@
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="register.php">Register</a></li>
-                    <li class="active"><a href="login.html">Login</a></li>
+                    <li class="active"><a href="login.php">Login</a></li>
                     <li><a href="catalog.html">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="sitemap.html">Sitemap</a></li>
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+						<form action="logout.php" method="post">
+							<input type="submit" value="Logout" > 
+						</form>
+					</li>
                     <li><a href="#">Help</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -83,7 +119,7 @@
         <div class="col-sm-4">
             <h1>Login</h1>
 
-            <form>
+            <form action="login.php" method="post" name="form" id="form">
                 <fieldset>
                     <!--class="col-sm-4"-->
                     <div class="form-group">
@@ -105,8 +141,8 @@
                 </fieldset>
                 <!--<div class="form-group">-->
                 <input type="reset" value="Reset" class="btn btn-default">
-                <input type="button" onclick="getUserInfo()" value="Login" class="btn btn-default pull-right">
-                <!--</div>-->
+                <input type="submit" name="submit" formaction="login.php" formmethod="post" value="Login" class="btn btn-default pull-right">
+                <!--</div>--> <!--onclick="getUserInfo()"-->
             </form>
         </div>
     </div>
