@@ -46,6 +46,7 @@
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="userupdate.php">Profile Update</a></li>
                     <li><form action="logout.php" method="post">
                              <input type="submit" value="Logout" >
 					</li>
@@ -72,6 +73,7 @@
         <table class="table table-striped" id="catalogTable">
             <thead>
                 <tr>
+                    <th> In stock </th>
                     <th> Add to cart</th>
                     <th class="col-md-1"> Image </th>
                     <th class="col-md-1"> Name </th>
@@ -90,7 +92,14 @@
 
                 <!-- Row Entry1 -->
                 <tr>
-                    <td> <input type="checkbox" name="boss" value="boss" /> </td>
+                    <td> # </td>
+                    <td> <select name="boss"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add1">
+					</td>
                     <td><a data-toggle="modal" href="#imgModal"></a></td>
                     <td> The Boss </td>  
                     <td> $1000 </td>
@@ -105,7 +114,14 @@
 
                 <!-- Row Entry2 -->
                 <tr>
-                    <td> <input type="checkbox" name="num2" value="num2" /></td>
+                    <td> # </td>
+                    <td> <select name="#2"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add3">
+					</td>
                     <td><a data-toggle="modal" href="#imgModal"></a></td>
                     <td> The #2 </td>
                     <td> $950 </td>
@@ -121,7 +137,14 @@
 
                 <!-- Row Entry3 -->
                 <tr>
-                    <td> <input type="checkbox" name="salesrep" value="salesrep" /></td>
+                    <td> # </td>
+                    <td> <select name="sales rep"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add4">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"></a></td>
                     <td> The Sales Rep </td>
                     <td> $900</td>
@@ -137,7 +160,14 @@
 
                 <!-- Row Entry4 -->
                 <tr>
-                    <td> <input type="checkbox" name="techie" value="techie" /></td>
+                    <td> # </td>
+                    <td> <select name="techie"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add5">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Techie </td>
                     <td> $850</td>
@@ -153,7 +183,14 @@
 
                 <!-- Row Entry5 -->
                 <tr>
-                    <td> <input type="checkbox" name="assitant" value="assistant" /></td>
+                    <td> # </td>
+                    <td> <select name="assistant"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add5">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Assistant </td>
                     <td> $700 </td>
@@ -169,7 +206,14 @@
 
                 <!-- Row Entry6 -->
                  <tr>
-                    <td> <input type="checkbox" name="manager" value="manager" /></td>
+                    <td> # </td>
+                    <td> <select name="manager"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add6">
+					</td>
                      <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Manager </td>
                     <td> $ 800 </td>
@@ -185,7 +229,14 @@
 
                 <!-- Row Entry7 -->
                 <tr>
-                    <td> <input type="checkbox" name="crewlead" value="crewlead" /></td>
+                    <td> # </td>
+                    <td> <select name="crew lead"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add7">
+					</td>
                     <td><a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Crew Lead </td>
                     <td> $600 </td>
@@ -201,7 +252,14 @@
 
                 <!-- Row Entry8 -->
                  <tr>
-                    <td> <input type="checkbox" name="crewmember" value="crewmember" /></td>
+                    <td> # </td>
+                    <td> <select name="crew member"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add8">
+					</td>
                      <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Crew Member </td>
                     <td> $550</td>
@@ -217,7 +275,14 @@
 
                 <!-- Row Entry9 -->
                 <tr>
-                    <td> <input type="checkbox" name="HR" value="HR" /></td>
+                    <td> # </td>
+                    <td> <select name="hr"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add9">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The HR </td>
                     <td> $700 </td>
@@ -233,7 +298,14 @@
 
                 <!-- Row Entry10 -->
                 <tr>
-                    <td> <input type="checkbox" name="clerk" value="clerk" /></td>
+                    <td> # </td>
+                    <td> <select name="clerk"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add10">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Clerk </td>
                     <td> $350 </td>
@@ -249,7 +321,14 @@
 
                 <!-- Row Entry11 -->
                 <tr>
-                    <td> <input type="checkbox" name="guest" value="guest" /></td>
+                    <td> # </td>
+                    <td> <select name="guest"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add11">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Guest </td>
                     <td> $300 </td>
@@ -265,7 +344,14 @@
 
                 <!-- Row Entry12 -->
                 <tr>
-                    <td> <input type="checkbox" name="coop" value="coop" /></td>
+                    <td> # </td>
+                    <td> <select name="coop"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add12">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Coop </td>
                     <td> $250 </td>
@@ -281,7 +367,14 @@
 
                 <!-- Row Entry13 -->
                 <tr>
-                    <td> <input type="checkbox" name="intern" value="intern" /></td>
+                    <td> # </td>
+                    <td> <select name="intern"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add13">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Intern</td>
                     <td> $200</td>
@@ -297,7 +390,14 @@
 
                 <!-- Row Entry14 -->
                 <tr>
-                    <td> <input type="checkbox" name="secretary" value="secretary" /></td>
+                    <td> # </td>
+                    <td> <select name="secretary"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add14">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Secretary </td>
                     <td> $100 </td>
@@ -313,7 +413,14 @@
 
                 <!-- Row Entry15 -->
                 <tr>
-                    <td> <input type="checkbox" name="janitor" value="janitor" /></td>
+                    <td> # </td>
+                    <td> <select name="janitor"/>
+						<option value="0">0</option> 
+						<option value="1">1</option> 
+						<option value="2">2</option> 
+						<option value="3">3</option> 
+						<input type="button" value="add" name="add15">
+					</td>
                     <td> <a data-toggle="modal" href="#imgModal"> </a></td>
                     <td> The Janitor </td>
                     <td> $75 </td>

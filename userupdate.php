@@ -3,6 +3,7 @@
      Uses cookies to pass data to other pages.
 -->
 <?php
+   	require_once  ("Includes/session.php");
     if (isset($_POST['submit'])){
 		print_r($_POST);
     	require_once ("Includes/var_init.php"); 
@@ -22,9 +23,7 @@
        	$postalcode= $_POST['postalcode'];
        	$password = $_POST['password1'];
 
-		echo $username;
 		$delete = "DELETE FROM users WHERE username='" . $username . "'";
-		echo $delete;
 		$databaseConnection->query($delete);
 
 		$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
@@ -200,14 +199,14 @@
     </nav>
 
 <?php 
-	$_SESSION['username'] = "kingshit";
+	print_r($_SESSION);
     if (isset($_SESSION['username'])){
-    	require_once ("Includes/var_init.php"); 
-    	require_once  ("Includes/connectDB.php");
-    	require_once  ("Includes/session.php");
+    	//require_once ("Includes/var_init.php"); 
+    	//require_once  ("Includes/connectDB.php");
+    	//require_once  ("Includes/session.php");
         
 		//$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
-		$username="kingshit";
+		$username=$_SESSION['username'];
 		$query = "SELECT * FROM users WHERE username='" . $username . "'";
 		$result = $databaseConnection->query($query);
 

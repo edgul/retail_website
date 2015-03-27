@@ -5,8 +5,8 @@
 <?php
 
 	
+	require_once ("Includes/session.php");
 	if (isset($_POST['submit'])){
-		require_once ("Includes/session.php");
 		//on pageload
 	/*	$idletime=60;//after 60 seconds the user gets logged out
 		if (time()-$_SESSION['timestamp']>$idletime){
@@ -41,9 +41,10 @@
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['password'] = $row['password'];
 		}
-		else
+		else{
 			include("Includes/logout.php");	
-				
+		}
+
 		print_r($_SESSION);
 	}
 ?>
@@ -110,7 +111,6 @@
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="register.php">Register</a></li>
-                    <li><a href="userupdate.php">Profile Update</a></li>
                     <li class="active"><a href="login.php">Login</a></li>
                     <li><a href="catalog.html">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -118,6 +118,7 @@
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="userupdate.php">Profile Update</a></li>
                     <li>
 						<form action="logout.php" method="post">
 							<input type="submit" value="Logout" > 

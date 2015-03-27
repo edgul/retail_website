@@ -4,11 +4,11 @@
 -->
 
 <?php 
+    require_once  ("Includes/session.php");
 
     if (isset($_POST['submit'])){
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
-    	require_once  ("Includes/session.php");
         $username = $_POST['username'];
         $fname = $_POST['firstname'];
         $lname = $_POST['lastname'];
@@ -186,6 +186,7 @@
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="userupdate.php">Profile Update</a></li>
                     <li><form action="logout.php" method="post">
                              <input type="submit" value="Logout" >
                     </li>

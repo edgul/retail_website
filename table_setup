@@ -1,6 +1,7 @@
 mysql -u guloiej -h mysqlsrv2 -p -A guloiej_db << EOF
 
 drop table users;
+drop table inventory;
 
 create table users (
 	username varchar(255) NOT NULL, 
@@ -18,34 +19,88 @@ create table users (
 	PRIMARY KEY (username)
 );
 
+create table inventory (
+	p_id varchar(255) NOT NULL,
+	name varchar(255) NOT NULL,
+	qty int NOT NULL,
+	price int NOT NULL,
+	type varchar(255) NOT NULL,
+	proc varchar(255) NOT NULL,
+	space varchar(255) NOT NULL,
+	s_type varchar(255) NOT NULL,
+	screen int NOT NULL,
+	PRIMARY KEY (p_id)
+);
+
 insert into users values (
-	'kingshit',
-	'ed',
-	'gul',
-	'ed@hotmail.com',
-	'555-555-555',
-	'11',
-	'street',
-	'5',
-	'Ham',
-	'ON',
-	'q1q1q1',
-	'Use123#'
+	'kingshit', 'ed', 'gul', 'ed@hotmail.com', '555-555-555', '11', 'street',
+	 '5', 'Ham', 'ON', 'q1q1q1', 'Use123#'
 );
 
 insert into users values(
-	'twotwo',
-	'two',
-	'two',
-	'two@hotmail.com',
-	'555-555-555',
-	'11',
-	'street',
-	'5',
-	'Ham',
-	'ON',
-	'q1q1q1',
-	'Use123#'
+	'twotwo', 'two', 'two', 'two@hotmail.com', '555-555-555', '11', 'street',
+	'5', 'Ham', 'ON', 'q1q1q1', 'Use123#'
 );
+
+insert into inventory values(
+	'1', 'boss', 3, 1000, 'desktop', 'intel i7', '2 TB', 'HD', 30
+);	
+
+insert into inventory values(
+	'2', '#2', 3, 950, 'laptop', 'intel i7', '2 TB', 'HD', 15
+);	
+
+insert into inventory values(
+	'3', 'sales rep', 3, 900, 'laptop', 'intel i5', '750 GB', 'SSD', 14
+);	
+
+insert into inventory values(
+	'4', 'techie', 3, 850, 'laptop', 'intel i7', '2 TB', 'SSD', 15
+);	
+
+insert into inventory values(
+	'5', 'assistant', 3, 700, 'laptop', 'intel i5', '500 GB', 'HD', 20
+);	
+
+insert into inventory values(
+	'6', 'manager', 3, 800, 'desktop', 'intel i7', '1 TB', 'HD', 20
+);	
+
+insert into inventory values(
+	'7', 'crew lead', 3, 600, 'laptop', 'intel i5', '750 GB', 'SSD', 14
+);	
+
+insert into inventory values(
+	'8', 'crew member', 3, 550, 'laptop', 'intel i3', '250 GB', 'HD', 14
+);	
+
+insert into inventory values(
+	'9', 'hr', 3, 700, 'desktop', 'intel i7', '1 TB', 'HD',22 
+);	
+
+insert into inventory values(
+	'10', 'cleark', 3, 350, 'laptop', 'intel i3', '250 GB', 'HD', 15
+);	
+
+insert into inventory values(
+	'11', 'guest', 3, 300, 'desktop', 'intel i3', '250 GB', 'HD', 20
+);	
+
+insert into inventory values(
+	'12', 'coop', 3, 250, 'laptop', 'intel i5', '750 GB', 'HD',17 
+
+);	
+
+insert into inventory values(
+	'13', 'intern', 3, 200, 'desktop', 'intel i3', '500 GB', 'HD',15 
+);	
+
+insert into inventory values(
+	'14', 'secretary', 3, 100, 'desktop', 'intel i3', '500 GB', 'HD', 10
+);	
+
+insert into inventory values(
+	'15', 'janitor', 3, 75, 'laptop', 'banana sticker', '256 KB', 'HD', 7 
+);	
 
 EOF
