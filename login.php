@@ -3,9 +3,23 @@
     Only most recently registered username will be be able to enter. (currently)
 -->
 <?php
+
 	
 	if (isset($_POST['submit'])){
 		require_once ("Includes/session.php");
+		//on pageload
+	/*	$idletime=60;//after 60 seconds the user gets logged out
+		if (time()-$_SESSION['timestamp']>$idletime){
+			session_destroy();
+			session_unset();
+			echo "\n What what!";
+		}else{
+			$_SESSION['timestamp']=time();
+		}
+		//on session creation
+		$_SESSION['timestamp']=time(); 
+	*/
+
 		$username = $_POST['username'];
         $password = $_POST['password1'];
         /*$fname = $_POST['firstname'];
@@ -96,6 +110,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="register.php">Register</a></li>
+                    <li><a href="userupdate.php">Profile Update</a></li>
                     <li class="active"><a href="login.php">Login</a></li>
                     <li><a href="catalog.html">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -142,7 +157,7 @@
                 <!--<div class="form-group">-->
                 <input type="reset" value="Reset" class="btn btn-default">
                 <input type="submit" name="submit" formaction="login.php" formmethod="post" value="Login" class="btn btn-default pull-right">
-                <!--</div>--> <!--onclick="getUserInfo()"-->
+                <!--</div>--> 
             </form>
         </div>
     </div>
