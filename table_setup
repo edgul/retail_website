@@ -1,0 +1,51 @@
+mysql -u guloiej -h mysqlsrv2 -p -A guloiej_db << EOF
+
+drop table users;
+
+create table users (
+	username varchar(255) NOT NULL, 
+	fname varchar(255) NOT NULL, 
+	lname varchar(255) NOT NULL, 
+	email varchar(255) NOT NULL UNIQUE, 
+	phone_num varchar(255) NOT NULL,
+	street_num varchar(255) NOT NULL, 
+	street_name varchar(255) NOT NULL, 
+	unit_num varchar(255), 
+	city varchar(255) NOT NULL,
+	province varchar(255) NOT NULL, 
+	postalcode varchar(255) NOT NULL, 
+	password varchar(255) NOT NULL, 
+	PRIMARY KEY (username)
+);
+
+insert into users values (
+	'kingshit',
+	'ed',
+	'gul',
+	'ed@hotmail.com',
+	'555-555-555',
+	'11',
+	'street',
+	'5',
+	'Ham',
+	'ON',
+	'q1q1q1',
+	'Use123#'
+);
+
+insert into users values(
+	'twotwo',
+	'two',
+	'two',
+	'two@hotmail.com',
+	'555-555-555',
+	'11',
+	'street',
+	'5',
+	'Ham',
+	'ON',
+	'q1q1q1',
+	'Use123#'
+);
+
+EOF
