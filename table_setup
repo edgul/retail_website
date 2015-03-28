@@ -43,11 +43,11 @@ insert into users values(
 );
 
 insert into inventory values(
-	'1', 'boss', 3, 1000, 'desktop', 'intel i7', '2 TB', 'HD', 30
+	'1', 'boss', 7, 1000, 'desktop', 'intel i7', '2 TB', 'HD', 30
 );	
 
 insert into inventory values(
-	'2', '#2', 3, 950, 'laptop', 'intel i7', '2 TB', 'HD', 15
+	'2', '#2', 2, 950, 'laptop', 'intel i7', '2 TB', 'HD', 15
 );	
 
 insert into inventory values(
@@ -55,11 +55,11 @@ insert into inventory values(
 );	
 
 insert into inventory values(
-	'4', 'techie', 3, 850, 'laptop', 'intel i7', '2 TB', 'SSD', 15
+	'4', 'techie', 5, 850, 'laptop', 'intel i7', '2 TB', 'SSD', 15
 );	
 
 insert into inventory values(
-	'5', 'assistant', 3, 700, 'laptop', 'intel i5', '500 GB', 'HD', 20
+	'5', 'assistant', 2, 700, 'laptop', 'intel i5', '500 GB', 'HD', 20
 );	
 
 insert into inventory values(
