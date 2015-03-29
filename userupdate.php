@@ -4,6 +4,7 @@
 -->
 <?php
    	require_once  ("Includes/session.php");
+	print_r($_SESSION);
     if (isset($_POST['submit'])){
 		print_r($_POST);
     	require_once ("Includes/var_init.php"); 

@@ -15,16 +15,6 @@
 		require_once ("Includes/session.php");
 		$username = $_POST['username'];
         $password = $_POST['password1'];
-        /*$fname = $_POST['firstname'];
-        $lname = $_POST['lastname'];
-        $email = $_POST['email'];
-        $phone_num = $_POST['phone'];
-        $street_num = $_POST['streetnum'];
-        $street_name = $_POST['streetname'];
-        $unit_num = $_POST['unitnum'];
-        $city= $_POST['city'];
-        $province= $_POST['province'];
-        $postalcode= $_POST['postalcode'];*/
 
 		$query = "select username, password from users where username='" . $username . "' and password='" . $password . "'";
 		$result = $databaseConnection->query($query);

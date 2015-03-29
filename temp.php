@@ -35,6 +35,12 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+$arr = array( 'inv1' => 5);
+$i = 1;
+$j = 'inv' . $i;
+echo $arr[$j];
+//echo array['inv1'];
+
 $conn->close();
 ?>
 

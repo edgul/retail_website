@@ -1,7 +1,8 @@
-mysql -u guloiej -h mysqlsrv2 -p -A guloiej_db << EOF
+mysql -u guloiej -h mysqlsrv2 -p0749435 -A guloiej_db  << EOF
 
 drop table users;
 drop table inventory;
+drop table cart;
 
 create table users (
 	username varchar(255) NOT NULL, 
@@ -30,6 +31,16 @@ create table inventory (
 	s_type varchar(255) NOT NULL,
 	screen int NOT NULL,
 	PRIMARY KEY (p_id)
+);
+
+create table cart (
+	username varchar(255) NOT NULL ,
+	p_id varchar(255) NOT NULL ,
+	qty int NOT NULL,
+	price int NOT NULL,
+	PRIMARY KEY (username, p_id),
+	FOREIGN KEY (p_id)  REFERENCES inventory(p_id),
+	FOREIGN KEY (username) REFERENCES users (username)
 );
 
 insert into users values (
