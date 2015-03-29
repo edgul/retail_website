@@ -108,6 +108,7 @@
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="checkout.php">Check out </a> </li>
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li>
 						<form action="logout.php" method="post">

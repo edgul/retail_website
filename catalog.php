@@ -28,22 +28,25 @@
 		$addsum = array_sum($add);
 
 		//get prices
-		$pquery = $databaseConnection->query( "SELECT price FROM inventory");
+		$pquery = $databaseConnection->query( "SELECT unitprice FROM inventory");
 
 		for ( $i= 1; $i <= 15; $i ++){
 			
 			//update inventory counts 
 			$j ="inv" . $i;
 			$left[$i] = $_SESSION[$j] - $add[$i];
-			$prices[$i] = $pquery->fetch_assoc();
+			$tempprice = $pquery->fetch_assoc();
+			$prices[$i] = $tempprice["unitprice"];
 			$query = "UPDATE inventory SET qty='" . $left[$i] . "' WHERE p_id='" . $i . "'";
         	$databaseConnection->query($query);
-		
+	
 			//add to shopping cart table: recentlyAddedToCart + AlreadyInCart
 			if ( $add[$i] > 0 ){
 				$qtyincart = $databaseConnection->query( "SELECT qty FROM cart WHERE p_id='" . $i . "'");
-				$qtyincart= $qtyincart->fetch_assoc();
-				$add[$i]=$add[$i]+$qtyincart['qty'];
+				$oldcart= $qtyincart->fetch_assoc();
+				$add[$i]=$add[$i]+$oldcart['qty'];
+				echo $oldcart['qty']+$add[$i];
+				$databaseConnection->query("DELETE FROM cart WHERE username='" . $username ."' AND p_id='" . $i . "'");
 				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "','" . $prices[$i] . "')";		
 				$databaseConnection->query($query); 
 			}
@@ -150,6 +153,7 @@
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+					<li><a href="checkout.php"> Check Out </a></li>
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li><form action="logout.php" name="form1" method="post">
                              <input type="submit" value="Logout" ></form>
@@ -186,6 +190,7 @@
 
             <div class=\"col-md-4\">
                 <h1 id=\"catalog\"> Catalog Items </h1>
+				<a href=\"checkout.php\"> Proceed to Checkout </a>
             </div>
             
             <div class=\"col-md-4 col-md-offset-4\">
@@ -579,6 +584,8 @@
             </tbody>
         </table>
 
+		<a href=\"checkout.php\"> Proceed to Checkout </a> 
+		<p> </br> </br> </p>
     </div>
 
 

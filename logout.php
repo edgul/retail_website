@@ -1,18 +1,38 @@
-﻿<!-- login.html 
-     Displays fields for user and password entry to login to the website.
-    Only most recently registered username will be be able to enter. (currently)
+﻿<!-- logout.html 
+
 -->
 <?php
-    session_start();
-    $_SESSION = array();
-    if(isset($_COOKIE[session_name()])) {
-        setcookie(session_name(), '', time()-300, '/');
-    }   
-    session_unset();
-    session_destroy();
+	require_once("Includes/session.php");
+
+   
+	//$_SESSION = array();
+   	if(isset($_COOKIE[session_name()])) {
+       	setcookie(session_name(), '', time()-300, '/');
+   	}   
+   	session_unset();
+   	session_destroy();
+	session_start();
+
 	
+    
+    $result = $databaseConnection->query( "SELECT * FROM cart ");
+	while ( $temp = $result->fetch_assoc() ){
+    	//remove from cart
+    	$qtyincart = $temp['qty'];
+		$pidincart = $temp['p_id'];
+        $databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $pidincart . "'");
+    
+        //return to inv
+        $result2 = $databaseConnection->query( "SELECT qty FROM inventory WHERE p_id='" . $pidincart . "'");
+        $temp2 = $result2->fetch_assoc();
+        $qtyininv = $temp2['qty'];
+        $updateqty = $qtyininv + $qtyincart;
+        $databaseConnection->query( "UPDATE inventory SET qty='" . $updateqty . "' WHERE p_id='" . $pidincart . "'"); 
+	}
+
 	if (isset($_POST['submit'])){
-		require_once ("Includes/session.php");
+		echo "posted";
+	//	require_once ("Includes/session.php");
 		$username = $_POST['username'];
         $password = $_POST['password1'];
 
@@ -100,6 +120,8 @@
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="checkout.php">Check out </a> </li>
+                    <li><a href="userupdate.php">Profile Update</a></li>
                     <li>
 						<form action="logout.php" method="post">
 							<input type="submit" value="Logout" > 
