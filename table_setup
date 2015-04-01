@@ -45,12 +45,12 @@ create table cart (
 );
 
 create table purchase (
-	o_id varchar(255) NOT NULL ,
+	o_id int NOT NULL ,
 	username varchar(255) NOT NULL,
 	p_id varchar(255) NOT NULL ,
 	qty int NOT NULL,
 	unitprice int NOT NULL,
-	price int NOT NULL,	
+	orderdate varchar(255) NOT NULL,
 	PRIMARY KEY (o_id, username, p_id),
 	FOREIGN KEY (p_id)  REFERENCES inventory(p_id),
 	FOREIGN KEY (username) REFERENCES users (username)

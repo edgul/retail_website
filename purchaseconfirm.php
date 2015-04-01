@@ -114,37 +114,62 @@
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
 
-	for ($i = 1; $i < 15; $i++){
-		if (isset($_POST['pullcart'.$i])){
+
+	$date = date('ymd');	
+	echo $date;
+		if (isset($_POST['purchase'])){
 			
-			//remove from cart
-			$result = $databaseConnection->query( "SELECT * FROM cart WHERE p_id='" . $i . "'");
-			$temp = $result->fetch_assoc();
-			$qtyincart = $temp['qty'];
-			$databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $i . "'");
-				
-			
-			//return to inv
-			$result = $databaseConnection->query( "SELECT qty FROM inventory WHERE p_id='" . $i . "'");
-			$temp = $result->fetch_assoc();
-			$qtyininv = $temp['qty'];
-			$updateqty = $qtyininv + $qtyincart;
-			$databaseConnection->query( "UPDATE inventory SET qty='" . $updateqty . "' WHERE p_id='" . $i . "'");
+			//query users cart
+			$result = $databaseConnection->query( "SELECT * FROM cart WHERE username='" . $_SESSION['username'] . "' OR username=''");
+	
+			if ( $result->num_rows > 0){
+			while (	$temp = $result->fetch_assoc() ){
+				//store vital variables
+				$username = $temp['username'];
+				$qtyincart = $temp['qty'];
+				$pidincart = $temp['p_id'];
+				$unitprice = $temp['unitprice'];
+
+				//remove from cart
+				$databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $pidincart . "' AND username='" . $username . "'");
+		
+				//get latest ordernumber	
+				$temp2 = $databaseConnection->query( "SELECT MAX(o_id) AS maxo FROM purchase" );
+				$arg= $temp2->fetch_assoc();
+				$maxordernumber = $arg['maxo'];
+				if ($maxordernumber === NULL){
+					$newordernumber = 1;
+				}
+				else{
+					$newordernumber = $maxordernumber +1;
+				}
+
+				//insert new order into purchase table
+				$databaseConnection->query( "INSERT INTO purchase VALUES (" . $newordernumber  . ",'" . $_SESSION['username'] . "','" . $pidincart . "'," . $qtyincart . "," . $unitprice . ",'". $date  . "')");
+
+			}				
 		}	
 	}
+	
 	
 	if (isset($_SESSION['username'])){
 
 	//get rows from cart 
-	$query = "SELECT *, qty*unitprice AS \"Price\" FROM cart";
+	$query = "SELECT *, qty*unitprice AS \"Price\" FROM purchase WHERE username='" . $_SESSION['username'] ."'";
     $result = $databaseConnection->query($query);
     if ($result->num_rows > 0 ) { 
 		$i = 0;
-        while($row = $result->fetch_assoc()){
-			$qty[$i] = $row["qty"];
+        while($row = $result->fetch_assoc()){ $oid[$i] = $row["o_id"]; $qty[$i] = $row["qty"];
 			$unitp[$i] = $row["unitprice"];
 			$pid[$i] = $row["p_id"];
 			$price[$i] = $row["Price"];
+		
+			if ( $row["orderdate"] === date('ymd')){
+				$status[$i] = "processing"; 
+			}
+			else {
+				$status[$i] = "shipped";
+			}
 			$i = $i +1;
 		}
 	}
@@ -153,11 +178,11 @@
 	echo "
     <!-- container for catalog items -->
     <div class=\"container\">
+                <h1 id=\"catalog\"> Your confirmed orders: </h1>
+				<a href=\"catalog.php\"> Return to Catalog </a>
         <div class=\"row\">
 
             <div class=\"col-md-4\">
-                <h1 id=\"catalog\"> Checkout </h1>
-				<a href=\"catalog.php\"> Return to Catalog </a>
             </div>
             
             <div class=\"col-md-4 col-md-offset-4\">
@@ -170,12 +195,13 @@
         <table class=\"table table-striped\" id=\"catalogTable\">
             <thead>
                 <tr>
-                    <th class=\"col-md-1\"> </th>
+                    <th class=\"col-md-1\"> Order # </th>
                     <th class=\"col-md-1\"> Qty </th>
                     <th class=\"col-md-1\"> Item Id</th>
                     <th class=\"col-md-1\"> Name </th>
                     <th class=\"col-md-1\"> Unit Price </th>
                     <th class=\"col-md-1\"> Price </th>
+                    <th class=\"col-md-1\"> Status </th>
                 </tr>
             </thead>
 
@@ -187,13 +213,13 @@
 			for ($i = 0; $i < $result->num_rows; $i++){
 				echo "	
                 <tr>
-					<td> <form action=\"checkout.php\" method=\"post\" >
-						<input type=\"submit\" name=\"pullcart" . $pid[$i] . "\" value=\"remove from cart\"> </form> </td>
+                    <td> " . $oid[$i] . " </td>
                     <td> " . $qty[$i] . " </td>
                     <td> " . $pid[$i] . " </td> 
                     <td> NAME </td> 
                     <td> " . $unitp[$i] . " </td> 
                     <td> " . $price[$i] . " </td> 
+                    <td> " . $status[$i] . " </td> 
                 </tr>
 					";
 				$sum=$sum + $price[$i];
@@ -218,39 +244,6 @@
 				</tr>
 		</table>
 
-		<form action=\"purchaseconfirm.php\" method=\"post\" >
-			</br>
-			<hr>
-			</br>
-			<h4> Enter your credit card information</h4>
-			Card Number:
-			<input type=\"text\" name=\"creditcard\" />
-			Expiry:		
-			<select name='expireMM' id='expireMM'>
-    			<option value=''>Month</option>
-    			<option value='01'>Janaury</option>
-    			<option value='02'>February</option>
-    			<option value='03'>March</option>
-    			<option value='04'>April</option>
-    			<option value='05'>May</option>
-    			<option value='06'>June</option>
-    			<option value='07'>July</option>
-    			<option value='08'>August</option>
-    			<option value='09'>September</option>
-    			<option value='10'>October</option>
-    			<option value='11'>November</option>
-    			<option value='12'>December</option>
-			</select> 
-			<select name='expireYY' id='expireYY'>
-    			<option value=''>Year</option>
-    			<option value='15'>2010</option>
-    			<option value='16'>2011</option>
-    			<option value='17'>2012</option>
-			</select> 	
-			</br>
-			</br>
-			<input type=\"submit\" value=\"confirm purchase\" name=\"purchase\" />
-		</form>
     </div>
 
 
