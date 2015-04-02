@@ -7,7 +7,9 @@
     require_once  ("Includes/connectDB.php");
 	
     if (isset($_POST['add']) ){
-   
+  
+		$username = $_SESSION['username']; 
+
 		//collect additions to cart 
         $add[1] = $_POST['boss'];
         $add[2] = $_POST['#2'];

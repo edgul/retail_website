@@ -28,6 +28,8 @@
  
       $_SESSION['username'] = $username;
       $_SESSION['password'] = $password;
+
+		header("Location: login.php");
     }
 ?>
 

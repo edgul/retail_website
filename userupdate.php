@@ -4,9 +4,9 @@
 -->
 <?php
    	require_once  ("Includes/session.php");
-	print_r($_SESSION);
+	//print_r($_SESSION);
     if (isset($_POST['submit'])){
-		print_r($_POST);
+		//print_r($_POST);
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
     	require_once  ("Includes/session.php");
@@ -203,7 +203,7 @@
     </nav>
 
 <?php 
-	print_r($_SESSION);
+	//print_r($_SESSION);
     if (isset($_SESSION['username'])){
     	//require_once ("Includes/var_init.php"); 
     	//require_once  ("Includes/connectDB.php");

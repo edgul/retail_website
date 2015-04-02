@@ -98,6 +98,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="purchaseconfirm.php">Your purchases</a></li>
+					<li><a href="checkout.php"> Check Out </a></li>
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li><form action="logout.php" name="form1" method="post">
                              <input type="submit" value="Logout" ></form>
@@ -114,6 +115,7 @@
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
 
+	//clicking remove from cart	
 	for ($i = 1; $i < 15; $i++){
 		if (isset($_POST['pullcart'.$i])){
 			
@@ -135,8 +137,9 @@
 	
 	if (isset($_SESSION['username'])){
 
+	$username = $_SESSION['username'];
 	//get rows from cart 
-	$query = "SELECT *, qty*unitprice AS \"Price\" FROM cart";
+	$query = "SELECT *, qty*unitprice AS \"Price\" FROM cart WHERE username='" . $username . "' OR username='' ";
     $result = $databaseConnection->query($query);
     if ($result->num_rows > 0 ) { 
 		$i = 0;
