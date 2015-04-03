@@ -111,7 +111,7 @@
         // Populate product images
 
         $(function () {
-            var links = $('td:nth-child(2) a');
+            var links = $('td:nth-child(3) a');
             for (var i=0; i<links.length; i++) {
                 $(links[i]).append('<img src="images/' + (i+1) + '.jpg" class="img-responsive" />');
             }
