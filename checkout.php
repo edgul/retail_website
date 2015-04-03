@@ -29,48 +29,46 @@
     <script src="Scripts/jquery-1.11.2.js"></script>
     <script src="Scripts/bootstrap.js"></script>
     <script>
-        /* Product Search */
-        var searchEl = $("#search")[0]; 
-        $(searchEl).on('input', function (e) {
-            var searchText = searchEl.value;
-            var regex = new RegExp(searchText, "i");    // case insensitive
-            var itemRows = $("#catalogTable tbody tr");
 
-            outer:
-            for (var i=0; i<itemRows.length; i++) {
-                var item = itemRows[i];
-                var cols = $("td", item);
-                for (var j = 1; j < cols.length; j++) {
-                    if (regex.test(cols[j].innerText)) {    // if search term matches any text in any column for a row, then show that row
-                        $(item).show("slow");
-                        continue outer;
-                    }
-                }
-                $(item).hide("slow");       // otherwise hide the row
+        var ck_creditcard= /^([0-9]{4}[ -_]{0,1}){4}$/;
+		var ck_expireMM = /^0[0-9]|1[0-2]$/;
+		var ck_expireYY = /^1[5-9]$/;
+
+        function validate(form) {
+            //initialization of variables from fields
+            var creditcard = document.getElementById("creditcard").value;
+            var expireMM= document.getElementById("expireMM").value;
+            var expireYY= document.getElementById("expireYY").value;
+            var errors = [];
+
+            if (!ck_creditcard.test(creditcard)) {
+                errors[errors.length] = "Please enter a valid credit card number.";
             }
-        });
-
-        // Populate product images
-
-        $(function () {
-            var links = $('td:nth-child(2) a');
-            for (var i=0; i<links.length; i++) {
-                $(links[i]).append('<img src="images/' + (i+1) + '.jpg" class="img-responsive" />');
+            if (!ck_expireMM.test(expireMM)) {
+                errors[errors.length] = "Please enter a valid expiry month.";
             }
-        });
+            if (!ck_expireYY.test(expireYY)) {
+                errors[errors.length] = "Please enter a valid expiry year.";
+            }
 
-        // Img modal box
+            if (errors.length > 0) {
+                reportErrors(errors);
+                return false;
+            }
+            else {
+				return true;
+			}
+       	} 
 
-        $('#imgModal').on('show.bs.modal', function (event) {
-            var thumbnailLink = $(event.relatedTarget) // Link that triggered the modal
-            var productImgSrc = thumbnailLink.find('img')[0].src;
-            var productTitle = thumbnailLink.parent().siblings(':nth-child(3)').text();     // grab the product title from different column of same row
+		function reportErrors(errors) {
+            var msg = "Please Enter Valid Data...\n";
+            for (var i = 0; i<errors.length; i++) {
+                var numError = i + 1;
+                msg += "\n" + numError + ". " + errors[i];
+            }
+            alert(msg);
+        }
 
-            var modal = $(this);
-            modal.find('.modal-body img')[0].src = productImgSrc;
-            modal.find('.modal-title').text(productTitle);
-
-        });
     </script>
 
 </head>
@@ -108,6 +106,20 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+    
+	<!-- container for catalog items -->
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4">
+                <h1 id="catalog"> Checkout </h1>
+				<a href="catalog.php"> Return to Catalog </a>
+            </div>
+            
+            <div class="col-md-4 col-md-offset-4">
+                <input id="search" type="search" name="search" placeholder="Search for a product" class="form-control" style="margin-top: 18px; margin-bottom: auto;" />
+            </div>
+        </div>
 
 <?php 	
     
@@ -135,7 +147,15 @@
 		}	
 	}
 	
-	if (isset($_SESSION['username'])){
+	if (!isset($_SESSION['username'])){
+		echo "
+    		<div class=\"container\">
+				<h1> You Must login to see this page. </h2><br/>
+				<a href=\"login.php\" > Login </a>
+			</div>
+		";
+	}
+	else {
 
 	$username = $_SESSION['username'];
 	//get rows from cart 
@@ -152,23 +172,8 @@
 		}
 	}
 
-	//print html	--  tables
-	echo "
-    <!-- container for catalog items -->
-    <div class=\"container\">
-        <div class=\"row\">
 
-            <div class=\"col-md-4\">
-                <h1 id=\"catalog\"> Checkout </h1>
-				<a href=\"catalog.php\"> Return to Catalog </a>
-            </div>
-            
-            <div class=\"col-md-4 col-md-offset-4\">
-                <input id=\"search\" type=\"search\" name=\"search\" placeholder=\"Search for a product\" class=\"form-control\" style=\"margin-top: 18px; margin-bottom: auto;\" />
-            </div>
-        </div>
-
-
+		echo "
         <!-- Table Header -->
         <table class=\"table table-striped\" id=\"catalogTable\">
             <thead>
@@ -201,9 +206,10 @@
 					";
 				$sum=$sum + $price[$i];
 			}
-				$tax= $sum * 0.13;
-				$total= $sum * 1.13;
-				echo "	
+			$tax= $sum * 0.13;
+			$total= $sum * 1.13;
+		
+			echo "	
             </tbody>
         </table>
 		<table>
@@ -220,14 +226,17 @@
 					<td> $" . $total . " </td>
 				</tr>
 		</table>
+		";
+	}
+?>
 
-		<form action=\"purchaseconfirm.php\" method=\"post\" >
+		<form action="purchaseconfirm.php" method="post" >
 			</br>
 			<hr>
 			</br>
 			<h4> Enter your credit card information</h4>
 			Card Number:
-			<input type=\"text\" name=\"creditcard\" />
+			<input type="text" name="creditcard" id="creditcard" />
 			Expiry:		
 			<select name='expireMM' id='expireMM'>
     			<option value=''>Month</option>
@@ -246,46 +255,35 @@
 			</select> 
 			<select name='expireYY' id='expireYY'>
     			<option value=''>Year</option>
-    			<option value='15'>2010</option>
-    			<option value='16'>2011</option>
-    			<option value='17'>2012</option>
+    			<option value='15'>2015</option>
+    			<option value='16'>2016</option>
+    			<option value='17'>2017</option>
+    			<option value='18'>2018</option>
+    			<option value='19'>2019</option>
 			</select> 	
 			</br>
 			</br>
-			<input type=\"submit\" value=\"confirm purchase\" name=\"purchase\" />
+			<input onclick="return validate(form)" type="submit" value="confirm purchase" name="purchase" />
 		</form>
     </div>
 
 
     <!-- Modal -->
-    <div class=\"modal fade\" id=\"imgModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"imgModalLabel\" aria-hidden=\"true\">
-        <div class=\"modal-dialog\">
-            <div class=\"modal-content\">
-                <div class=\"modal-header\">
-                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>
-                    <h4 class=\"modal-title\" id=\"imgModalLabel\">Modal title</h4>
+    <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="imgModalLabel">Modal title</h4>
                 </div>
-                <div class=\"modal-body\">
+                <div class="modal-body">
 
-                    <img class=\"img-responsive center-block\" src=\"images/logo.svg.png\" />
+                    <img class="img-responsive center-block" src="images/logo.svg.png" />
                 </div>
 
             </div>
         </div>
     </div>
-
-		";
-
-	}
-	else{
-		echo "
-    		<div class=\"container\">
-				<h1> You Must login to see this page. </h2><br/>
-				<a href=\"login.php\" > Login </a>
-			</div>
-		";
-	}
-?>
 
 </body>
 </html>
