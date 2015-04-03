@@ -4,12 +4,11 @@
 -->
 <?php
    	require_once  ("Includes/session.php");
-	//print_r($_SESSION);
+	
+	// info change has been submitted
     if (isset($_POST['submit'])){
-		//print_r($_POST);
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
-    	require_once  ("Includes/session.php");
         
        	$username = $_SESSION['username'];
        	$fname = $_POST['firstname'];
@@ -24,18 +23,27 @@
        	$postalcode= $_POST['postalcode'];
        	$password = $_POST['password1'];
 
-		$delete = "DELETE FROM users WHERE username='" . $username . "'";
-		$databaseConnection->query($delete);
-
-		$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
-
-		$result = $databaseConnection->query($query);
-
-		/*if ($result->num_rows > 0 ) {
-			$row = $result->fetch_assoc();
+		//check that password matches
+		$query = $databaseConnection->query ( "SELECT password FROM users WHERE username='" . $username . "'");
+		$pass = $query->fetch_assoc();
+		$pass = $pass['password'];
+		if (!($password === $pass)){
+			$passwordmismatch = True;
 		}
-		*/
+		else{
+			$passwordmismatch = False;
+		
+			//delete current entry
+			$delete = "DELETE FROM users WHERE username='" . $username . "'";
+			$databaseConnection->query($delete);
+
+			//replace with new values
+			$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
+
+			$result = $databaseConnection->query($query);
 		}
+
+	}
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +63,7 @@
         // Email: the most common emails are matched
         var ck_email = /^[\w._%+-]+@([\w-]+\.)+[A-Z]{2,10}$/i;
         // Username: cannot contain special symbols, except ., - & _, and must be less than 20 characters
-        //var ck_username = /^[\w._-]{1,20}$/i;
+        var ck_username = /^[\w._-]{1,20}$/i;
         // City: Allowing letters, spaces, and dashes
         var ck_city = /^[A-Z \-]{2,30}$/i;
         // Street #: Digits
@@ -100,7 +108,7 @@
             //var username = document.getElementById("username").value;
             var postalcode = document.getElementById("postalcode").value;
             var password1 = document.getElementById("password1").value;
-            var password2 = document.getElementById("password2").value;
+            //var password2 = document.getElementById("password2").value;
             var errors = [];
 
             //checks fields to regex
@@ -128,29 +136,21 @@
             if (!ck_postalcode.test(postalcode)) {
                 errors[errors.length] = "Enter valid postalcode;\tEx: X1X 1X1 ";
             }
+            //if (!ck_username.test(username)) {
+                //errors[errors.length] = "You must enter valid UserName; no special chars .";
+            //}
             if (!ck_password.test(password1)) {
                 errors[errors.length] = "You must enter a valid Password; At least 6 characters. At least one: uppercase, lowercase, symbol and digit ";
             }
-            if (password1 != password2) {
-                errors[errors.length] = "Passwords fields must match. ";
-            }
+            //if (password1 != password2) {
+                //errors[errors.length] = "Passwords fields must match. ";
+            //}
     
             if (errors.length > 0) {
                 reportErrors(errors);
                 return false;
             }
             else {
-                //makes a cookie if all fields are good
-                //setCookie("username", username, "password1", password1);
-                alert("Account was created for username: " + getCookie("username") )
-
-                /*//prompts for navigation to login page
-                if (x == true) {
-                    window.location.href = "register.php";
-                }
-                else {
-                    document.getElementById("form").reset();
-                }*/
 
                 return true;
             }
@@ -202,14 +202,36 @@
         </div><!-- /.container-fluid -->
     </nav>
 
+
+    <!--  Contains form and fields for text entry -->
+    <div class="container">
+            <h1>Update your information</h1>
+        <div class="col-sm-4">
+            <form action="userupdate.php" method="post" name="form" id="form" >
+
 <?php 
-	//print_r($_SESSION);
-    if (isset($_SESSION['username'])){
-    	//require_once ("Includes/var_init.php"); 
-    	//require_once  ("Includes/connectDB.php");
-    	//require_once  ("Includes/session.php");
-        
-		//$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
+
+	if ($passwordmismatch){
+		echo "
+		<h3> Whoops. Looks like you used the wrong password. Try again? </h3> </br>
+		";
+	}
+	else{
+		echo "
+		<h3> Changes confirmed! </h3> </br>
+		";
+	}
+
+	//not logged in -> do not display account info
+    if (!isset($_SESSION['username'])){
+		echo "
+    		<div class=\"container\">
+           	 	<h1>You must login to see this page.</h1>
+		";
+	}
+	//logged in -> display account info
+	else {
+		
 		$username=$_SESSION['username'];
 		$query = "SELECT * FROM users WHERE username='" . $username . "'";
 		$result = $databaseConnection->query($query);
@@ -231,12 +253,6 @@
 		}
 
 			echo "    
-
-    <!--  Contains form and fields for text entry -->
-    <div class=\"container\">
-            <h1>Update your information</h1>
-        <div class=\"col-sm-4\">
-            <form action=\"userupdate.php\" method=\"post\" name=\"form\" id=\"form\" >
                 <fieldset>
 
                     <!-- Contact info fields -->
@@ -363,30 +379,17 @@
                     </div>
 
                 </fieldset>
-
+		";	
+		}
+?>
                 <!-- Submit and clear buttons -->
-                <div class=\"form-group \">
-                    <input type=\"reset\" value=\"Clear Form\" class=\"btn btn-default\">
-                    <input type=\"submit\" name=\"submit\"  onclick=\"return validate(form)\" formaction=\"userupdate.php\" formmethod=\"post\" value=\"Register\" class=\"btn btn-default pull-right\">
-
+                <div class="form-group ">
+                    <input type="reset" value="Clear Form" class="btn btn-default">
+                    <input type="submit" formaction="userupdate.php" formmethod="post" name="submit" onclick="return validate(form)" value="Register" class="btn btn-default pull-right">
                 </div>
             </form>
-
-           
         </div>
         </div>
-
-		";	
-		
-	}
-	else {
-		echo "
-    		<div class=\"container\">
-           	 	<h1>You must login to see this page.</h1>
-		";
-	}
-?>
-	
 
 </body>
 </html>
