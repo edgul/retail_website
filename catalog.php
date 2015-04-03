@@ -122,7 +122,7 @@
         $('#imgModal').on('show.bs.modal', function (event) {
             var thumbnailLink = $(event.relatedTarget) // Link that triggered the modal
             var productImgSrc = thumbnailLink.find('img')[0].src;
-            var productTitle = thumbnailLink.parent().siblings(':nth-child(3)').text();     // grab the product title from different column of same row
+            var productTitle = thumbnailLink.parent().siblings(':nth-child(4)').text();     // grab the product title from different column of same row
 
             var modal = $(this);
             modal.find('.modal-body img')[0].src = productImgSrc;
