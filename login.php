@@ -22,16 +22,6 @@
 
 		$username = $_POST['username'];
         $password = $_POST['password1'];
-        /*$fname = $_POST['firstname'];
-        $lname = $_POST['lastname'];
-        $email = $_POST['email'];
-        $phone_num = $_POST['phone'];
-        $street_num = $_POST['streetnum'];
-        $street_name = $_POST['streetname'];
-        $unit_num = $_POST['unitnum'];
-        $city= $_POST['city'];
-        $province= $_POST['province'];
-        $postalcode= $_POST['postalcode'];*/
 
 		$query = "select username, password from users where username='" . $username . "' and password='" . $password . "'";
 		$result = $databaseConnection->query($query);
@@ -45,7 +35,7 @@
 			include("Includes/logout.php");	
 		}
 
-		print_r($_SESSION);
+		//print_r($_SESSION);
 	}
 ?>
 <!DOCTYPE html>
@@ -112,12 +102,14 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="register.php">Register</a></li>
                     <li class="active"><a href="login.php">Login</a></li>
-                    <li><a href="catalog.html">Catalog</a></li>
+                    <li><a href="catalog.php">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="sitemap.html">Sitemap</a></li>
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="purchaseconfirm.php">Your purchases</a></li>
+                    <li><a href="checkout.php">Check out </a> </li>
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li>
 						<form action="logout.php" method="post">
@@ -130,38 +122,61 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <!-- container for form and fields -->
-    <div class="container ">
-        <div class="col-sm-4">
-            <h1>Login</h1>
+<?php
 
-            <form action="login.php" method="post" name="form" id="form">
-                <fieldset>
-                    <!--class="col-sm-4"-->
-                    <div class="form-group">
-                        <label for="username" class="control-label">
-                            Username
-                        </label>
-                        <input type="text" name="username" id="username" class="form-control">
+	if ( isset($_SESSION['username'])){
 
-                    </div>
 
-                    <div class="form-group">
-                        <label for="password1" class="control-label">
-                            Password
-                        </label>
-                        <input type="password" name="password1" id="password1" class="form-control">
+		echo "	
+        	<div class=\"container\">
+           	 	<h1> Welcome, " . $_SESSION['username'] . " </h1>
+				<h4> Here are some things you can do: </h4>
+				<a href=\"catalog.php\"> Proceed to Catalog </a> </br>
+				<a href=\"checkout.php\"> View your cart </a> </br>
+				<a href=\"purchseconfirm.php\"> View your purchases. </a> </br>
+				<a href=\"userupdate.php\"> Change your account info. </a> </br></br>
+				<p> To log in as another user you must first logout. </p>
+			</div>
+		";
+	}
+	else{
+		echo "
+    	<!-- container for form and fields -->
+    	<div class=\"container \">
+        	<div class=\"col-sm-4\">
+            	<h1>Login</h1>
+	
+            	<form action=\"login.php\" method=\"post\" name=\"form\" id=\"form\">
+                	<fieldset>
+                    	<!--class=\"col-sm-4\"-->
+                    	<div class=\"form-group\">
+                        	<label for=\"username\" class=\"control-label\">
+                            	Username
+                        	</label>
+                        	<input type=\"text\" name=\"username\" id=\"username\" class=\"form-control\">
+	
+                    	</div>
+	
+                    	<div class=\"form-group\">
+                        	<label for=\"password1\" class=\"control-label\">
+                            	Password
+                        	</label>
+                        <input type=\"password\" name=\"password1\" id=\"password1\" class=\"form-control\">
+	
+                    	</div>
+	
+                	</fieldset>
+                	<!--<div class=\"form-group\">-->
+                	<input type=\"reset\" value=\"Reset\" class=\"btn btn-default\">
+                	<input type=\"submit\" name=\"submit\" formaction=\"login.php\" formmethod=\"post\" value=\"Login\" class=\"btn btn-default pull-right\">
+                	<!--</div>--> 
+            	</form>
+        	</div>
+    	</div>
+		";
+	}
 
-                    </div>
-
-                </fieldset>
-                <!--<div class="form-group">-->
-                <input type="reset" value="Reset" class="btn btn-default">
-                <input type="submit" name="submit" formaction="login.php" formmethod="post" value="Login" class="btn btn-default pull-right">
-                <!--</div>--> 
-            </form>
-        </div>
-    </div>
+?>
 </body>
 </html>
 

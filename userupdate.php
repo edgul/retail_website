@@ -4,8 +4,9 @@
 -->
 <?php
    	require_once  ("Includes/session.php");
+	//print_r($_SESSION);
     if (isset($_POST['submit'])){
-		print_r($_POST);
+		//print_r($_POST);
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
     	require_once  ("Includes/session.php");
@@ -183,12 +184,15 @@
                     <li><a href="index.html">Home</a></li>
                     <li class="active"><a href="register.php">Register</a></li>
                     <li><a href="login.php">Login</a></li>
-                    <li><a href="catalog.html">Catalog</a></li>
+                    <li><a href="catalog.php">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="sitemap.html">Sitemap</a></li>
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="purchaseconfirm.php">Your purchases</a></li>
+					<li><a href="checkout.php">Check out </a> </li>
+                    <li><a href="userupdate.php">Profile Update</a></li>
                     <li><form action="logout.php" method="post">
                              <input type="submit" value="Logout" >
                     </li>
@@ -199,7 +203,7 @@
     </nav>
 
 <?php 
-	print_r($_SESSION);
+	//print_r($_SESSION);
     if (isset($_SESSION['username'])){
     	//require_once ("Includes/var_init.php"); 
     	//require_once  ("Includes/connectDB.php");

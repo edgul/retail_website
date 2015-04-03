@@ -1,7 +1,9 @@
-mysql -u guloiej -h mysqlsrv2 -p -A guloiej_db << EOF
+mysql -u guloiej -h mysqlsrv2 -p0749435 -A guloiej_db  << EOF
 
 drop table if exists users;
 drop table if exists inventory;
+drop table if exists cart;
+drop table if exists purchase;
 
 create table users (
 	username varchar(255) NOT NULL, 
@@ -23,13 +25,35 @@ create table inventory (
 	p_id varchar(255) NOT NULL,
 	name varchar(255) NOT NULL,
 	qty int NOT NULL,
-	price int NOT NULL,
+	unitprice int NOT NULL,
 	type varchar(255) NOT NULL,
 	proc varchar(255) NOT NULL,
 	space varchar(255) NOT NULL,
 	s_type varchar(255) NOT NULL,
 	screen int NOT NULL,
 	PRIMARY KEY (p_id)
+);
+
+create table cart (
+	username varchar(255) NOT NULL ,
+	p_id varchar(255) NOT NULL ,
+	qty int NOT NULL,
+	unitprice int NOT NULL,
+	PRIMARY KEY (username, p_id),
+	FOREIGN KEY (p_id)  REFERENCES inventory(p_id),
+	FOREIGN KEY (username) REFERENCES users (username)
+);
+
+create table purchase (
+	o_id int NOT NULL ,
+	username varchar(255) NOT NULL,
+	p_id varchar(255) NOT NULL ,
+	qty int NOT NULL,
+	unitprice int NOT NULL,
+	orderdate varchar(255) NOT NULL,
+	PRIMARY KEY (o_id, username, p_id),
+	FOREIGN KEY (p_id)  REFERENCES inventory(p_id),
+	FOREIGN KEY (username) REFERENCES users (username)
 );
 
 insert into users values (
