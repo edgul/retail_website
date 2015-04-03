@@ -6,8 +6,11 @@
 
 	
 	require_once ("Includes/session.php");
+
+	//username and password have been entered
 	if (isset($_POST['submit'])){
-		//on pageload
+	
+	//timeout
 	/*	$idletime=60;//after 60 seconds the user gets logged out
 		if (time()-$_SESSION['timestamp']>$idletime){
 			session_destroy();
@@ -27,15 +30,15 @@
 		$result = $databaseConnection->query($query);
 
 		if ($result->num_rows > 0) {
+			$loginerror = False;
 			$row = $result-> fetch_assoc();
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['password'] = $row['password'];
 		}
 		else{
-			include("Includes/logout.php");	
+			$loginerror = True;
 		}
 
-		//print_r($_SESSION);
 	}
 ?>
 <!DOCTYPE html>
@@ -145,7 +148,15 @@
     	<div class=\"container \">
         	<div class=\"col-sm-4\">
             	<h1>Login</h1>
-	
+		";
+
+		if ($loginerror){
+			echo "
+				<h3> Whoops. There was an error in your username or password. Try again. </h3> </br>
+			";
+		}
+		
+		echo "
             	<form action=\"login.php\" method=\"post\" name=\"form\" id=\"form\">
                 	<fieldset>
                     	<!--class=\"col-sm-4\"-->

@@ -4,8 +4,6 @@
 <?php
 	require_once("Includes/session.php");
 
-   
-
 	$username = $_SESSION['username'];	
 
    	//clears cart values attached to username and returns to inventory 
@@ -25,7 +23,6 @@
 	}
 
 	//clear session variables
-	//$_SESSION = array();
    	if(isset($_COOKIE[session_name()])) {
        	setcookie(session_name(), '', time()-300, '/');
    	}   
@@ -33,26 +30,8 @@
    	session_destroy();
 	session_start();
 
-	//login
-	if (isset($_POST['submit'])){
-		echo "posted";
-		$username = $_POST['username'];
-        $password = $_POST['password1'];
-
-		$query = "select username, password from users where username='" . $username . "' and password='" . $password . "'";
-		$result = $databaseConnection->query($query);
-
-		if ($result->num_rows > 0) {
-			$row = $result-> fetch_assoc();
-			$_SESSION['username'] = $row['username'];
-			$_SESSION['password'] = $row['password'];
-		}
-		else
-			include("Includes/logout.php");	
-				
-		print_r($_SESSION);
-	}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
