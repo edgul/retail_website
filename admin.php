@@ -50,10 +50,9 @@
 
     <div class="container">
 
-
         <h1>Admin: Edit Users</h1>
 
-        <form name="admin">
+        <form name="adminUsers">
         <table class="table table-striped">
             
             <thead><tr>
@@ -110,6 +109,60 @@
                 ?>
         </tbody></table>
         </form>
+
+        <h1>Admin: Edit Inventory</h1>
+
+        <form name="adminInventory">
+        <table class="table table-striped">
+            
+            <thead><tr>
+                <th>Delete</th>
+                <th>Product Id</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+            <th>Type</th>
+            <th>Proc</th>
+            <th>space</th>
+            <th>s_type</th>
+            <th>Screen</th>
+            </tr></thead>
+            
+          <tbody>
+
+            <?php
+
+                require_once ("Includes/var_init.php"); 
+                require_once  ("Includes/connectDB.php");
+                require_once  ("Includes/session.php");
+                                    //echo "Hello";
+                
+                    $query = "SELECT * FROM inventory";
+                    $result = $databaseConnection->query($query);
+                    if ($result->num_rows > 0) { 
+                        while($row = $result->fetch_assoc()){
+                            echo "<tr>";
+                            echo '<td><input type="checkbox" name="delete"></td>';
+				            echo "<td contenteditable>" . $row["p_id"] . "</td>";
+                            echo "<td contenteditable>" . $row["name"] . "</td>";
+                            echo "<td contenteditable>" . $row["qty"] . "</td>";
+                            echo "<td contenteditable>" . $row["unitprice"] . "</td>";
+                            echo "<td contenteditable>" . $row["type"] . "</td>";
+                            echo "<td contenteditable>" . $row["proc"] . "</td>";
+                            echo "<td contenteditable>" . $row["space"] . "</td>";
+                            echo "<td contenteditable>" . $row["s_type"] . "</td>";
+                            echo "<td contenteditable>" . $row["screen"] . "</td>";
+				            echo "</tr>";
+			            }
+                    } else {
+                        echo "no resulsts";
+                    }
+
+
+                ?>
+        </tbody></table>
+        </form>
+
                         
     </div>
     <script>
