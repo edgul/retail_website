@@ -115,73 +115,19 @@
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
 
-	//if coming from review page -> insert review into review table
-	if(isset($_POST['reviewsub'])){
-		$reviewpid = $_SESSION['reviewpid'];
-		
-		//if review for this product and username exists, delete 
-		$databaseConnection->query( " DELETE FROM review WHERE username='" . $_SESSION['username'] . "' AND p_id='" . $reviewpid . "'");
-
-		//insert review
-		$databaseConnection->query( "INSERT INTO review VALUES ('" . $_SESSION['username'] . "','" . $reviewpid . "','" . $_POST['pseudonym'] . "','" . $_POST['numstars'] . "','" . $_POST['descMsg'] . "')" );
-	}
-
-	//purchse was just made -> insert cart into purchase table
-	$date = date('ymd');	
-		if (isset($_POST['purchase'])){
-			
-			//query users cart
-			$result = $databaseConnection->query( "SELECT * FROM cart WHERE username='" . $_SESSION['username'] . "' OR username=''");
-	
-			if ( $result->num_rows > 0){
-			while (	$temp = $result->fetch_assoc() ){
-				//store vital variables
-				$username = $temp['username'];
-				$qtyincart = $temp['qty'];
-				$pidincart = $temp['p_id'];
-				$unitprice = $temp['unitprice'];
-
-				//remove from cart
-				$databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $pidincart . "' AND username='" . $username . "'");
-		
-				//get latest ordernumber	
-				$temp2 = $databaseConnection->query( "SELECT MAX(o_id) AS maxo FROM purchase" );
-				$arg= $temp2->fetch_assoc();
-				$maxordernumber = $arg['maxo'];
-				if ($maxordernumber === NULL){
-					$newordernumber = 1;
-				}
-				else{
-					$newordernumber = $maxordernumber +1;
-				}
-
-				//insert new order into purchase table
-				$databaseConnection->query( "INSERT INTO purchase VALUES (" . $newordernumber  . ",'" . $_SESSION['username'] . "','" . $pidincart . "'," . $qtyincart . "," . $unitprice . ",'". $date  . "')");
-
-			}				
-		}	
-	}
-	
 	//view purchases already made	
-	if (isset($_SESSION['username'])){
 
 	//get rows from cart 
-	$query = "SELECT *, qty*unitprice AS \"Price\" FROM purchase WHERE username='" . $_SESSION['username'] ."'";
+	$query = "SELECT * FROM review";
     $result = $databaseConnection->query($query);
     if ($result->num_rows > 0 ) { 
 		$i = 0;
         while($row = $result->fetch_assoc()){ 
-			$oid[$i] = $row["o_id"]; $qty[$i] = $row["qty"];
-			$unitp[$i] = $row["unitprice"];
+			$pseudonym[$i] = $row['pseudonym'];
 			$pid[$i] = $row["p_id"];
-			$price[$i] = $row["Price"];
+			$rating[$i] = $row["rating"];
+			$msg[$i] = $row["msg"];
 		
-			if ( $row["orderdate"] === date('ymd')){
-				$status[$i] = "processing"; 
-			}
-			else {
-				$status[$i] = "shipped";
-			}
 			$i = $i +1;
 		}
 	}
@@ -190,15 +136,10 @@
 	echo "
     <!-- container for catalog items -->
     <div class=\"container\">
-                <h1 id=\"catalog\"> Your confirmed orders: </h1>
+                <h1 id=\"catalog\"> Reviewed Items: </h1>
 				<a href=\"catalog.php\"> Return to Catalog </a>
         <div class=\"row\">
-
-            <div class=\"col-md-4\">
-            </div>
-            
             <div class=\"col-md-4 col-md-offset-4\">
-                <input id=\"search\" type=\"search\" name=\"search\" placeholder=\"Search for a product\" class=\"form-control\" style=\"margin-top: 18px; margin-bottom: auto;\" />
             </div>
         </div>
 
@@ -207,14 +148,10 @@
         <table class=\"table table-striped\" id=\"catalogTable\">
             <thead>
                 <tr>
-                    <th class=\"col-md-1\"> Order # </th>
-                    <th class=\"col-md-1\"> Qty </th>
-                    <th class=\"col-md-1\"> Item Id</th>
-                    <th class=\"col-md-1\"> Name </th>
-                    <th class=\"col-md-1\"> Unit Price </th>
-                    <th class=\"col-md-1\"> Price </th>
-                    <th class=\"col-md-1\"> Status </th>
-                    <th class=\"col-md-1\"> Review </th>
+                    <th class=\"col-md-1\"> Review by </th>
+                    <th class=\"col-md-1\"> Product Id </th>
+                    <th class=\"col-md-1\"> Star Rating /5 </th>
+                    <th class=\"col-md-1\"> Description </th>
                 </tr>
             </thead>
 
@@ -222,43 +159,19 @@
             <tbody>
 			";
 
-			$sum=0;
 			for ($i = 0; $i < $result->num_rows; $i++){
 				echo "	
                 <tr>
-                    <td> " . $oid[$i] . " </td>
-                    <td> " . $qty[$i] . " </td>
+                    <td> " . $pseudonym[$i] . " </td>
                     <td> " . $pid[$i] . " </td> 
-                    <td> NAME </td> 
-                    <td> " . $unitp[$i] . " </td> 
-                    <td> " . $price[$i] . " </td> 
-                    <td> " . $status[$i] . " </td> 
-                    <td> 
-						<form action='productreview.php' method='post'>
-						<input type='submit' name='review" . $pid[$i] . "' value='review' </td> 
+                    <td> " . $rating[$i] . " </td> 
+                    <td> " . $msg[$i] . " </td> 
                 </tr>
 					";
-				$sum=$sum + $price[$i];
 			}
-				$tax= $sum * 0.13;
-				$total= $sum * 1.13;
 				echo "	
             </tbody>
         </table>
-		<table>
-				<tr>
-					<td>Sub-Total: </td>
-					<td> $" . $sum . " </td>
-				</tr>
-				<tr>
-					<td>Tax: </td>
-					<td> $" . $tax . " </td>
-				</tr>
-				<tr>
-					<td>Total: </td>
-					<td> $" . $total . " </td>
-				</tr>
-		</table>
 
     </div>
 
@@ -282,15 +195,6 @@
 
 		";
 
-	}
-	else{
-		echo "
-    		<div class=\"container\">
-				<h1> You Must login to see this page. </h2><br/>
-				<a href=\"login.php\" > Login </a>
-			</div>
-		";
-	}
 ?>
 
 </body>

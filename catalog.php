@@ -188,7 +188,17 @@
 	for ($i=1; $i <=15; $i ++){
 		$_SESSION['inv'.$i] = $qty[$i-1];
 	}	
+
 	
+	//makes array of already reviewed products
+	$reviews = array_fill(1, 15, False);
+	print_r($reviews);
+	$query = "SELECT * FROM review ";
+	$query = $databaseConnection->query($query);
+	while ( $row = $query->fetch_assoc()){
+		$reviews[$row['p_id']] = True; 
+	}
+
 	//print html	
 	echo "
     <!-- container for catalog items -->
@@ -221,6 +231,7 @@
                     <th class=\"col-md-1\"> Storage Space </th>
                     <th class=\"col-md-1\"> Storage Type </th>
                     <th class=\"col-md-1\"> Screen Size (inches) </th>
+                    <th class=\"col-md-1\"> Product Review </th>
                 </tr>
             </thead>
 
@@ -250,6 +261,13 @@
                     <td> 2 TB </td>
                     <td> HD </td>
                     <td> 30 </td>    
+                    <td> ";
+					if ($reviews[1])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry2 -->
@@ -274,6 +292,13 @@
                     <td> 2 TB </td>
                     <td> HD </td>
                     <td> 15 </td>
+                    <td> ";
+					if ($reviews[2])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry3 -->
@@ -298,6 +323,13 @@
                     <td> 750 GB </td>
                     <td> SSD </td>
                     <td> 14</td>
+                    <td> ";
+					if ($reviews[3])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry4 -->
@@ -322,6 +354,13 @@
                     <td> 2 TB </td>
                     <td> SSD </td>
                     <td> 15 </td>
+                    <td> ";
+					if ($reviews[4])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry5 -->
@@ -346,6 +385,13 @@
                     <td> 500 GB </td>
                     <td> HD </td>
                     <td> 20 </td>
+                    <td> ";
+					if ($reviews[5])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                  </tr>     
 
                 <!-- Row Entry6 -->
@@ -370,6 +416,13 @@
                     <td> 1 TB </td>
                     <td> HD </td>
                     <td> 20 </td>
+                    <td> ";
+					if ($reviews[6])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry7 -->
@@ -394,6 +447,13 @@
                     <td> 750 GB </td>
                     <td> SSD </td>
                     <td> 14 </td>
+                    <td> ";
+					if ($reviews[7])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                  </tr>
 
                 <!-- Row Entry8 -->
@@ -418,6 +478,13 @@
                     <td> 250 GB </td>
                     <td> HD </td>
                     <td> 14 </td>
+                    <td> ";
+					if ($reviews[8])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry9 -->
@@ -442,6 +509,13 @@
                     <td> 1 TB </td>
                     <td> HD </td>
                     <td> 22 </td>
+                    <td> ";
+					if ($reviews[9])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                  </tr>
 
                 <!-- Row Entry10 -->
@@ -466,6 +540,13 @@
                     <td> 250 GB </td>
                     <td> HD </td>
                     <td> 15 </td>
+                    <td> ";
+					if ($reviews[10])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry11 -->
@@ -490,6 +571,13 @@
                     <td> 250 GB </td>
                     <td> HD </td>
                     <td> 20 </td>
+                    <td> ";
+					if ($reviews[11])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry12 -->
@@ -514,6 +602,13 @@
                     <td> 750 GB </td>
                     <td> HD </td>
                     <td> 17</td>
+                    <td> ";
+					if ($reviews[12])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry13 -->
@@ -538,6 +633,13 @@
                     <td> 500 GB </td>
                     <td> HD </td>
                     <td> 15 </td>
+                    <td> ";
+					if ($reviews[13])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry14 -->
@@ -562,6 +664,13 @@
                     <td> 500 GB </td>
                     <td> HD </td>
                     <td> 10 </td>
+                    <td> ";
+					if ($reviews[14])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 
                 <!-- Row Entry15 -->
@@ -586,6 +695,13 @@
                     <td> 256 KB  </td>
                     <td> HD </td>
                     <td> 7 </td>
+                    <td> ";
+					if ($reviews[15])
+						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
+					else
+						echo "No review available.";
+					echo "
+					</td>    
                 </tr>
 				</form>
             </tbody>

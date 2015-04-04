@@ -101,7 +101,7 @@
             <!-- form with input fields and buttons -->
             <form method="post" action="purchaseconfirm.php" name="form" id="form" >
                 User: <br />
-                <input type="text" onclick="this.value = '';" name="username" id="username" value="anonymous" /> <br /> <br />
+                <input type="text" onclick="this.value = '';" name="pseudonym" id="pseudonym" value="anonymous" /> <br /> <br />
                 
                 Describe your experience with this product :<br />
                 <textarea style="height:200px; width:400px" name="descMsg" id="descMsg"> </textarea> <br /><br />
