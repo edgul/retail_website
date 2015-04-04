@@ -16,7 +16,7 @@
         $province= $_POST['province'];
         $postalcode= $_POST['postalcode'];
         $password = $_POST['password1'];
-        
+
 		$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
 
 		$statement = $databaseConnection->query($query);
@@ -24,7 +24,6 @@
           $_SESSION['username'] = $username;
           $_SESSION['password'] = $password;
 
-		header("Location: login.php");
     }
 ?>
 

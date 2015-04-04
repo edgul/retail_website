@@ -72,26 +72,22 @@
 
                 ?>
 
-        <h1>Admin: Edit Users</h1>
+        <h1>Admin: Edit Inventory</h1>
 
-        <form name="adminUsers">
+        <form name="adminInventory">
         <table class="table table-striped">
             
             <thead><tr>
-                <th>Action</th>
-                <th>Username</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-            <th>Phone #</th>
-            <th>Street #</th>
-            <th>Street Name</th>
-            <th>Unit #</th>
-            <th>City</th>
-            <th>Province</th>
-            <th>Postal Code</th>
-
-                <th>Password</th>
+                <th>Actions</th>
+                <th>Product Id</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+            <th>Type</th>
+            <th>Proc</th>
+            <th>space</th>
+            <th>s_type</th>
+            <th>Screen</th>
             </tr></thead>
             
           <tbody>
@@ -103,39 +99,35 @@
                 require_once  ("Includes/session.php");
                                     //echo "Hello";
                 
-                    $query = "SELECT * FROM users";
+                    $query = "SELECT * FROM inventory";
                     $result = $databaseConnection->query($query);
                     if ($result->num_rows > 0) { 
                         while($row = $result->fetch_assoc()){
                             echo "<tr>";
                             //echo '<td><input type="checkbox" name="delete"></td>';
                             echo "<td>
-                            <a href='?action=delete&username={$row['username']}'><img class='actionBtn' src='images/delete.png'></a>
-                            <a href='admin_users_update.php?username={$row['username']}'><img class='actionBtn' src='images/page_edit.png'></a>
+                            <a href='?action=delete&pid={$row['p_id']}'><img class='actionBtn' src='images/delete.png'></a>
+                            <a href='admin_inventory_update.php?pid={$row['p_id']}'><img class='actionBtn' src='images/page_edit.png'></a>
                                 </td>";
-				            echo "<td contenteditable>" . $row["username"] . "</td>";
-                            echo "<td contenteditable>" . $row["fname"] . "</td>";
-                            echo "<td contenteditable>" . $row["lname"] . "</td>";
-                            echo "<td contenteditable>" . $row["email"] . "</td>";
-                            echo "<td contenteditable>" . $row["phone_num"] . "</td>";
-                            echo "<td contenteditable>" . $row["street_num"] . "</td>";
-                            echo "<td contenteditable>" . $row["street_name"] . "</td>";
-                            echo "<td contenteditable>" . $row["unit_num"] . "</td>";
-                            echo "<td contenteditable>" . $row["city"] . "</td>";
-                            echo "<td contenteditable>" . $row["province"] . "</td>";
-                            echo "<td contenteditable>" . $row["postalcode"] . "</td>";
-                            echo "<td contenteditable>" . $row["password"] . "</td>";
-                            echo "</tr>";
+				            echo "<td contenteditable>" . $row["p_id"] . "</td>";
+                            echo "<td contenteditable>" . $row["name"] . "</td>";
+                            echo "<td contenteditable>" . $row["qty"] . "</td>";
+                            echo "<td contenteditable>" . $row["unitprice"] . "</td>";
+                            echo "<td contenteditable>" . $row["type"] . "</td>";
+                            echo "<td contenteditable>" . $row["proc"] . "</td>";
+                            echo "<td contenteditable>" . $row["space"] . "</td>";
+                            echo "<td contenteditable>" . $row["s_type"] . "</td>";
+                            echo "<td contenteditable>" . $row["screen"] . "</td>";
+				            echo "</tr>";
 			            }
                     }
 
-                    echo "<tr><td colspan='13' style='text-align:center;'><a href='admin_users_create.php'><img class='actionBtn' src='images/add.png'></a></td></tr>"
+                    echo "<tr><td colspan='10' style='text-align:center;'><a href='admin_inventory_create.php'><img class='actionBtn' src='images/add.png'></a></td></tr>"
 
 
                 ?>
         </tbody></table>
         </form>
-
 
 
                         

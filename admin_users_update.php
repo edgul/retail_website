@@ -4,38 +4,7 @@
 -->
 <?php
    	require_once  ("Includes/session.php");
-	
-	// info change has been submitted
-    if (isset($_POST['submit'])){
-    	require_once ("Includes/var_init.php"); 
-    	require_once  ("Includes/connectDB.php");
-        
-       	$username = $_GET['username'];
-       	$fname = $_POST['firstname'];
-       	$lname = $_POST['lastname'];
-       	$email = $_POST['email']; 
-       	$phone_num = $_POST['phone']; 
-       	$street_num = $_POST['streetnum'];
-       	$street_name = $_POST['streetname'];
-       	$unit_num = $_POST['unitnum'];
-       	$city= $_POST['city'];
-       	$province= $_POST['province'];
-       	$postalcode= $_POST['postalcode'];
-       	$password = $_POST['password1'];
-
-		
-			//delete current entry
-			$delete = "DELETE FROM users WHERE username='" . $username . "'";
-			$databaseConnection->query($delete);
-
-			//replace with new values
-			$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
-
-			$result = $databaseConnection->query($query);
-
-
-	}
-?>
+    ?>
 
 <!DOCTYPE html>
 <html>
@@ -64,7 +33,7 @@
         // Postal Code: Letter, Num, Letter <space or dash> Num, Letter, Num (eg. L8S 1X3)
         var ck_postalcode = /^[A-Z][0-9][A-Z][ -]?[0-9][A-Z][0-9]$/i;
         // Password: At least 6 characters. At least one: uppercase, lowercase, symbol and digit 
-        var ck_password = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])([a-zA-Z0-9!@#$%^&*]+)?$/;
+        var ck_password = /^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])([a-zA-Z0-9!@#$%^&*]+))?$/;
        
 
 		
@@ -184,8 +153,7 @@
                     <li><a href="purchaseconfirm.php">Your purchases</a></li>
 					<li><a href="checkout.php">Check out </a> </li>
                     <li><a href="userupdate.php">Profile Update</a></li>
-                    <li><form action="logout.php" method="post">
-                             <input type="submit" value="Logout" >
+                    <li><a href="logout.php">Logout</a>
                     </li>
 					<li><a href="#">Help</a></li>
                 </ul>
@@ -199,19 +167,49 @@
             <h1>Update User</h1>
         <div class="col-sm-4">
             <form action="" method="post" name="form" id="form" >
+<?php
+   	require_once  ("Includes/session.php");
+	
+	// info change has been submitted
+    if (isset($_POST['submit'])){
+    	require_once ("Includes/var_init.php"); 
+    	require_once  ("Includes/connectDB.php");
+        
+       	$username = $_GET['username'];
+       	$fname = $_POST['firstname'];
+       	$lname = $_POST['lastname'];
+       	$email = $_POST['email']; 
+       	$phone_num = $_POST['phone']; 
+       	$street_num = $_POST['streetnum'];
+       	$street_name = $_POST['streetname'];
+       	$unit_num = $_POST['unitnum'];
+       	$city= $_POST['city'];
+       	$province= $_POST['province'];
+       	$postalcode= $_POST['postalcode'];
+       	$password = $_POST['password1'];
+        
+        if ($password == "") {
+            // retrieve old password
+		    $query = $databaseConnection->query ( "SELECT password FROM users WHERE username='" . $username . "'");
+		    $row = $query->fetch_assoc();
+		    $password = $row['password'];
+        }
+        
+		
+			//delete current entry
+			$delete = "DELETE FROM users WHERE username='" . $username . "'";
+			$databaseConnection->query($delete);
 
-<?php 
+			//replace with new values
+			$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
 
-	if ($passwordmismatch){
-		echo "
-		<h3> Whoops. Looks like you used the wrong password. Try again? </h3> </br>
-		";
-	}
-	else{
-		echo "
+			$result = $databaseConnection->query($query);
+
+            	echo "
 		<h3> Changes confirmed! </h3> </br>
 		";
 	}
+
 
 		
 		$username=$_GET['username'];
