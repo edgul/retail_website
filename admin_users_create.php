@@ -1,57 +1,38 @@
-﻿<!-- register.html 
-     Displays fields for user input to create an account of the website.
-     Uses cookies to pass data to other pages.
--->
-<?php
-   	require_once  ("Includes/session.php");
-	
-	// info change has been submitted
+<?php 
+    require_once  ("Includes/session.php");
+
     if (isset($_POST['submit'])){
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
+        $username = $_POST['username'];
+        $fname = $_POST['firstname'];
+        $lname = $_POST['lastname'];
+        $email = $_POST['email']; 
+        $phone_num = $_POST['phone']; 
+        $street_num = $_POST['streetnum'];
+        $street_name = $_POST['streetname'];
+        $unit_num = $_POST['unitnum'];
+        $city= $_POST['city'];
+        $province= $_POST['province'];
+        $postalcode= $_POST['postalcode'];
+        $password = $_POST['password1'];
         
-       	$username = $_SESSION['username'];
-       	$fname = $_POST['firstname'];
-       	$lname = $_POST['lastname'];
-       	$email = $_POST['email']; 
-       	$phone_num = $_POST['phone']; 
-       	$street_num = $_POST['streetnum'];
-       	$street_name = $_POST['streetname'];
-       	$unit_num = $_POST['unitnum'];
-       	$city= $_POST['city'];
-       	$province= $_POST['province'];
-       	$postalcode= $_POST['postalcode'];
-       	$password = $_POST['password1'];
-        $passwordnew = $_POST['passwordnew'];
+		$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
 
-		//check that password matches
-		$query = $databaseConnection->query ( "SELECT password FROM users WHERE username='" . $username . "'");
-		$pass = $query->fetch_assoc();
-		$pass = $pass['password'];
-		if (!($password === $pass)){
-			$passwordmismatch = True;
-		}
-		else{
-			$passwordmismatch = False;
-		
-			//delete current entry
-			$delete = "DELETE FROM users WHERE username='" . $username . "'";
-			$databaseConnection->query($delete);
+		$statement = $databaseConnection->query($query);
+ 
+          $_SESSION['username'] = $username;
+          $_SESSION['password'] = $password;
 
-			//replace with new values
-			$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $passwordnew . "')";
-
-			$result = $databaseConnection->query($query);
-		}
-
-	}
+		header("Location: login.php");
+    }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>EnterpriseHardware.com - Register</title>
+    <title>EnterpriseHardware.com - Create User</title>
     <link rel="stylesheet" type="text/css" href="extra.css" />
 
     <script type="text/javascript">
@@ -106,10 +87,10 @@
             var streetname = document.getElementById("streetname").value;
             var unitnum = document.getElementById("unitnum").value;
             var city = document.getElementById("city").value;
-            //var username = document.getElementById("username").value;
+            var username = document.getElementById("username").value;
             var postalcode = document.getElementById("postalcode").value;
-            var passwordnew = document.getElementById("passwordnew").value;
-            //var password2 = document.getElementById("password2").value;
+            var password1 = document.getElementById("password1").value;
+            var password2 = document.getElementById("password2").value;
             var errors = [];
 
             //checks fields to regex
@@ -137,21 +118,32 @@
             if (!ck_postalcode.test(postalcode)) {
                 errors[errors.length] = "Enter valid postalcode;\tEx: X1X 1X1 ";
             }
-            //if (!ck_username.test(username)) {
-                //errors[errors.length] = "You must enter valid UserName; no special chars .";
-            //}
-            if (!ck_password.test(passwordnew)) {
+            if (!ck_username.test(username)) {
+                errors[errors.length] = "You must enter valid UserName; no special chars .";
+            }
+            if (!ck_password.test(password1)) {
                 errors[errors.length] = "You must enter a valid Password; At least 6 characters. At least one: uppercase, lowercase, symbol and digit ";
             }
-            //if (password1 != password2) {
-                //errors[errors.length] = "Passwords fields must match. ";
-            //}
+            if (password1 != password2) {
+                errors[errors.length] = "Passwords fields must match. ";
+            }
     
             if (errors.length > 0) {
                 reportErrors(errors);
                 return false;
             }
             else {
+                //makes a cookie if all fields are good
+                setCookie("username", username, "password1", password1);
+                alert("Account was created for username: " + getCookie("username") )
+
+                /*//prompts for navigation to login page
+                if (x == true) {
+                    window.location.href = "register.php";
+                }
+                else {
+                    document.getElementById("form").reset();
+                }*/
 
                 return true;
             }
@@ -192,7 +184,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="purchaseconfirm.php">Your purchases</a></li>
-					<li><a href="checkout.php">Check out </a> </li>
+                    <li><a href="checkout.php">Check out </a> </li>
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li><form action="logout.php" method="post">
                              <input type="submit" value="Logout" >
@@ -203,87 +195,41 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-
     <!--  Contains form and fields for text entry -->
     <div class="container">
-            <h1>Update your information</h1>
+            <h1>Create User</h1>
         <div class="col-sm-4">
-            <form action="userupdate.php" method="post" name="form" id="form" >
-
-<?php 
-
-	if ($passwordmismatch){
-		echo "
-		<h3> Whoops. Looks like you used the wrong password. Try again? </h3> </br>
-		";
-	}
-	else{
-		echo "
-		<h3> Changes confirmed! </h3> </br>
-		";
-	}
-
-	//not logged in -> do not display account info
-    if (!isset($_SESSION['username'])){
-		echo "
-    		<div class=\"container\">
-           	 	<h1>You must login to see this page.</h1>
-		";
-	}
-	//logged in -> display account info
-	else {
-		
-		$username=$_SESSION['username'];
-		$query = "SELECT * FROM users WHERE username='" . $username . "'";
-		$result = $databaseConnection->query($query);
-
-		if ($result->num_rows > 0 ) {
-			$row = $result->fetch_assoc();
-        	$username = $row['username'];
-        	$fname = $row['fname'];
-        	$lname = $row['lname'];
-        	$email = $row['email']; 
-        	$phone_num = $row['phone_num']; 
-        	$street_num = $row['street_num'];
-        	$street_name = $row['street_name'];
-        	$unit_num = $row['unit_num'];
-        	$city= $row['city'];
-        	$province= $row['province'];
-        	$postalcode= $row['postalcode'];
-        	$password = $row['password'];
-		}
-
-			echo "    
+            <form action="admin_users_create.php" method="post" name="form" id="form" >
                 <fieldset>
 
                     <!-- Contact info fields -->
                     <legend>Contact Info</legend>
-                    <div class=\"form-group\">
-                        <label for=\"firstname\" class=\" control-label\" >First name</label>
-                        <div class=\"\"><input type=\"text\" id=\"firstname\" name=\"firstname\" class=\"form-control\" value=\"" . $fname . "\" ></div>
+                    <div class="form-group">
+                        <label for="firstname" class=" control-label" >First name</label>
+                        <div class=""><input type="text" id="firstname" name="firstname" class="form-control"  ></div>
                     </div>
 
-                    <div class=\"form-group\">
-                        <label for=\"lastname\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="lastname" class=" control-label">
                             Last name
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"lastname\" id=\"lastname\" class=\"form-control\" value=\"" . $lname . "\"  >
+                        </label><div class="">
+                            <input type="text" name="lastname" id="lastname" class="form-control"  >
                         </div>
                     </div>
 
-                    <div class=\"form-group\">
-                        <label for=\"email\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="email" class=" control-label">
                             Email
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"email\" id=\"email\" class=\"form-control\" value=\"" . $email . "\" >
+                        </label><div class="">
+                            <input type="text" name="email" id="email" class="form-control"  >
                         </div>
                     </div>
 
-                    <div class=\"form-group\">
-                        <label for=\"phone\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="phone" class=" control-label">
                             Phone #
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"phone\" id=\"phone\" class=\"form-control\" value=\"" . $phone_num. "\"  >
+                        </label><div class="">
+                            <input type="text" name="phone" id="phone" class="form-control"  >
                         </div>
                     </div>
 
@@ -293,40 +239,40 @@
                 <fieldset>
                     <legend>Shipping Address</legend>
 
-                    <div class=\"form-group\">
-                        <label for=\"streetnum\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="streetnum" class=" control-label">
                             Street #
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"streetnum\" id=\"streetnum\" class=\"form-control\" value=\"" . $street_num. "\"  >
+                        </label><div class="">
+                            <input type="text" name="streetnum" id="streetnum" class="form-control"  >
                         </div>
                     </div>
 
 
-                    <div class=\"form-group\">
-                        <label for=\"streetname\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="streetname" class=" control-label">
                             Street Name
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"streetname\" id=\"streetname\" class=\"form-control\" value=\"" . $street_name. "\"  >
+                        </label><div class="">
+                            <input type="text" name="streetname" id="streetname" class="form-control"  >
                         </div>
                     </div>
 
-                    <div class=\"form-group\">
-                        <label for=\"unitnum\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="unitnum" class=" control-label">
                             Unit #
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"unitnum\" id=\"unitnum\" class=\"form-control\" value=\"" . $unit_num. "\"  >
+                        </label><div class="">
+                            <input type="text" name="unitnum" id="unitnum" class="form-control">
                         </div>
                     </div>
 
-                    <div class=\"form-group\">
-                        <label for=\"city\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="city" class=" control-label">
                             City
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"city\" id=\"city\" list=\"cities\" class=\"form-control\"   value=\"" . $city. "\"  >
+                        </label><div class="">
+                            <input type="text" name="city" id="city" list="cities" class="form-control"  >
                         </div>
                     </div>
 
-                    <datalist id=\"cities\">
+                    <datalist id="cities">
                         <option>Hamilton</option>
                         <option>Mississauga</option>
                         <option>Toronto</option>
@@ -334,34 +280,34 @@
                         <option>Oakville</option>
                     </datalist>
 
-                    <div class=\"form-group\">
-                        <label for=\"province\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="province" class=" control-label">
                             Province
                         </label>
-                        <div class=\"\">
-                            <select name=\"province\" id=\"province\" class=\"form-control\" value=\"" . $province . "\"  >
-                                <option value=\"AB\">Alberta</option>
-                                <option value=\"BC\">British Columbia</option>
-                                <option value=\"MB\">Manitoba</option>
-                                <option value=\"NB\">New Brunswick</option>
-                                <option value=\"NL\">Newfoundland and Labrador</option>
-                                <option value=\"NS\">Nova Scotia</option>
-                                <option value=\"ON\">Ontario</option>
-                                <option value=\"PE\">Prince Edward Island</option>
-                                <option value=\"QC\">Quebec</option>
-                                <option value=\"SK\">Saskatchewan</option>
-                                <option value=\"NT\">Northwest Territories</option>
-                                <option value=\"NU\">Nunavut</option>
-                                <option value=\"YT\">Yukon</option>
+                        <div class="">
+                            <select name="province" id="province" class="form-control"  >
+                                <option value="AB">Alberta</option>
+                                <option value="BC">British Columbia</option>
+                                <option value="MB">Manitoba</option>
+                                <option value="NB">New Brunswick</option>
+                                <option value="NL">Newfoundland and Labrador</option>
+                                <option value="NS">Nova Scotia</option>
+                                <option value="ON">Ontario</option>
+                                <option value="PE">Prince Edward Island</option>
+                                <option value="QC">Quebec</option>
+                                <option value="SK">Saskatchewan</option>
+                                <option value="NT">Northwest Territories</option>
+                                <option value="NU">Nunavut</option>
+                                <option value="YT">Yukon</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class=\"form-group\">
-                        <label for=\"postalcode\" class=\" control-label\">
+                    <div class="form-group">
+                        <label for="postalcode" class=" control-label">
                             Postal Code
-                        </label><div class=\"\">
-                            <input type=\"text\" name=\"postalcode\" id=\"postalcode\" class=\"form-control\" value=\"" . $postalcode. "\"  >
+                        </label><div class="">
+                            <input type="text" name="postalcode" id="postalcode" class="form-control"  >
                         </div>
                     </div>
 
@@ -369,37 +315,44 @@
 
                 <!-- Account information fields -->
                 <fieldset>
-                    <legend>Password</legend>
+                    <legend>Account</legend>
 
-                    <div class=\"form-group\">
-                        <label for=\"password1\" class=\" control-label\">
-                            Old Password to Confirm Changes
-                        </label><div class=\"\">
-                            <input type=\"password\" name=\"password1\" id=\"password1\" class=\"form-control\"   >
+                    <div class="form-group">
+                        <label for="username" class=" control-label">
+                            Username
+                        </label><div class="">
+                            <input type="text" name="username" id="username" class="form-control"  >
                         </div>
                     </div>
-                    
-                    <div class=\"form-group\">
-                        <label for=\"passwordnew\" class=\" control-label\">
-                            New Password
-                        </label><div class=\"\">
-                            <input type=\"password\" name=\"passwordnew\" id=\"passwordnew\" class=\"form-control\"   >
+
+                    <div class="form-group">
+                        <label for="password1" class=" control-label">
+                            Password
+                        </label><div class="">
+                            <input type="password" name="password1" id="password1" class="form-control"  >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password2" class=" control-label">
+                            Re-enter Password
+                        </label><div class="">
+                            <input type="password" name="password2" id="password2" class="form-control" >
                         </div>
                     </div>
 
                 </fieldset>
-		";	
-		}
-?>
+
                 <!-- Submit and clear buttons -->
                 <div class="form-group ">
                     <input type="reset" value="Clear Form" class="btn btn-default">
-                    <input type="submit" formaction="userupdate.php" formmethod="post" name="submit" onclick="return validate(form)" value="Register" class="btn btn-default pull-right">
+                    <input type="submit" name="submit"  onclick="return validate(form)" formaction="admin_users_create.php" formmethod="post" value="Create User" class="btn btn-default pull-right">
+
                 </div>
             </form>
-        </div>
-        </div>
 
+           
+        </div>
+        </div>
 </body>
 </html>
-

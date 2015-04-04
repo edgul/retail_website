@@ -1,4 +1,4 @@
-﻿<!-- register.html 
+<!-- register.html 
      Displays fields for user input to create an account of the website.
      Uses cookies to pass data to other pages.
 -->
@@ -10,7 +10,7 @@
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
         
-       	$username = $_SESSION['username'];
+       	$username = $_GET['username'];
        	$fname = $_POST['firstname'];
        	$lname = $_POST['lastname'];
        	$email = $_POST['email']; 
@@ -22,27 +22,17 @@
        	$province= $_POST['province'];
        	$postalcode= $_POST['postalcode'];
        	$password = $_POST['password1'];
-        $passwordnew = $_POST['passwordnew'];
 
-		//check that password matches
-		$query = $databaseConnection->query ( "SELECT password FROM users WHERE username='" . $username . "'");
-		$pass = $query->fetch_assoc();
-		$pass = $pass['password'];
-		if (!($password === $pass)){
-			$passwordmismatch = True;
-		}
-		else{
-			$passwordmismatch = False;
 		
 			//delete current entry
 			$delete = "DELETE FROM users WHERE username='" . $username . "'";
 			$databaseConnection->query($delete);
 
 			//replace with new values
-			$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $passwordnew . "')";
+			$query = "INSERT INTO users VALUES ('" . $username . "','" . $fname . "','" . $lname . "','" . $email . "','" . $phone_num . "','" . $street_num . "','" . $street_name . "','" . $unit_num . "','" . $city . "','" . $province . "','" . $postalcode . "','" . $password . "')";
 
 			$result = $databaseConnection->query($query);
-		}
+
 
 	}
 ?>
@@ -74,7 +64,7 @@
         // Postal Code: Letter, Num, Letter <space or dash> Num, Letter, Num (eg. L8S 1X3)
         var ck_postalcode = /^[A-Z][0-9][A-Z][ -]?[0-9][A-Z][0-9]$/i;
         // Password: At least 6 characters. At least one: uppercase, lowercase, symbol and digit 
-        var ck_password = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])([a-zA-Z0-9!@#$%^&*]+)$/;
+        var ck_password = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])([a-zA-Z0-9!@#$%^&*]+)?$/;
        
 
 		
@@ -108,7 +98,7 @@
             var city = document.getElementById("city").value;
             //var username = document.getElementById("username").value;
             var postalcode = document.getElementById("postalcode").value;
-            var passwordnew = document.getElementById("passwordnew").value;
+            var password1 = document.getElementById("password1").value;
             //var password2 = document.getElementById("password2").value;
             var errors = [];
 
@@ -140,7 +130,7 @@
             //if (!ck_username.test(username)) {
                 //errors[errors.length] = "You must enter valid UserName; no special chars .";
             //}
-            if (!ck_password.test(passwordnew)) {
+            if (!ck_password.test(password1)) {
                 errors[errors.length] = "You must enter a valid Password; At least 6 characters. At least one: uppercase, lowercase, symbol and digit ";
             }
             //if (password1 != password2) {
@@ -206,9 +196,9 @@
 
     <!--  Contains form and fields for text entry -->
     <div class="container">
-            <h1>Update your information</h1>
+            <h1>Update User</h1>
         <div class="col-sm-4">
-            <form action="userupdate.php" method="post" name="form" id="form" >
+            <form action="" method="post" name="form" id="form" >
 
 <?php 
 
@@ -223,17 +213,8 @@
 		";
 	}
 
-	//not logged in -> do not display account info
-    if (!isset($_SESSION['username'])){
-		echo "
-    		<div class=\"container\">
-           	 	<h1>You must login to see this page.</h1>
-		";
-	}
-	//logged in -> display account info
-	else {
 		
-		$username=$_SESSION['username'];
+		$username=$_GET['username'];
 		$query = "SELECT * FROM users WHERE username='" . $username . "'";
 		$result = $databaseConnection->query($query);
 
@@ -365,6 +346,8 @@
                         </div>
                     </div>
 
+
+
                 </fieldset>
 
                 <!-- Account information fields -->
@@ -373,28 +356,22 @@
 
                     <div class=\"form-group\">
                         <label for=\"password1\" class=\" control-label\">
-                            Old Password to Confirm Changes
+                            New Password (leave blank to preserve old)
                         </label><div class=\"\">
                             <input type=\"password\" name=\"password1\" id=\"password1\" class=\"form-control\"   >
                         </div>
                     </div>
-                    
-                    <div class=\"form-group\">
-                        <label for=\"passwordnew\" class=\" control-label\">
-                            New Password
-                        </label><div class=\"\">
-                            <input type=\"password\" name=\"passwordnew\" id=\"passwordnew\" class=\"form-control\"   >
-                        </div>
-                    </div>
+                   
 
                 </fieldset>
+
 		";	
-		}
+		
 ?>
                 <!-- Submit and clear buttons -->
                 <div class="form-group ">
                     <input type="reset" value="Clear Form" class="btn btn-default">
-                    <input type="submit" formaction="userupdate.php" formmethod="post" name="submit" onclick="return validate(form)" value="Register" class="btn btn-default pull-right">
+                    <input type="submit" name="submit" onclick="return validate(form)" value="Update User" class="btn btn-default pull-right">
                 </div>
             </form>
         </div>

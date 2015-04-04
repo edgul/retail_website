@@ -11,11 +11,15 @@
         .dataChanged {
             border:  1px solid red;
         }
+        .actionBtn {
+            height: 1.5em;
+            width: auto;
+        }
     </style>
 </head>
 
 <body>
-    <!-- nav bar code -->
+    <!-- Nav bar code -->
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,18 +34,18 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="register.php">Register</a></li>
                     <li><a href="login.php">Login</a></li>
-                    <li><a href="catalog.php">Catalog</a></li>
+                    <li class="active"><a href="catalog.php">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="sitemap.html">Sitemap</a></li>
                     <li><a href="review.html">Review</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="purchaseconfirm.php">Your purchases</a></li>
-                    <li><a href="checkout.php">Check out </a> </li>
+					<li><a href="checkout.php"> Check Out </a></li>
                     <li><a href="userupdate.php">Profile Update</a></li>
-                    <li><form action="logout.php" method="post">
+                    <li><form action="logout.php" name="form1" method="post">
                              <input type="submit" value="Logout" ></form>
-                    </li>
+					</li>
 					<li><a href="#">Help</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -56,7 +60,7 @@
         <table class="table table-striped">
             
             <thead><tr>
-                <th>Delete</th>
+                <th>Action</th>
                 <th>Username</th>
                 <th>First Name</th>
                 <th>Last Name</th>
@@ -86,7 +90,11 @@
                     if ($result->num_rows > 0) { 
                         while($row = $result->fetch_assoc()){
                             echo "<tr>";
-                            echo '<td><input type="checkbox" name="delete"></td>';
+                            //echo '<td><input type="checkbox" name="delete"></td>';
+                            echo "<td>
+                            <a href='admin_users_delete.php?username={$row['username']}'><img class='actionBtn' src='images/delete.png'></a>
+                            <a href='admin_users_update.php?username={$row['username']}'><img class='actionBtn' src='images/page_edit.png'></a>
+                                </td>";
 				            echo "<td contenteditable>" . $row["username"] . "</td>";
                             echo "<td contenteditable>" . $row["fname"] . "</td>";
                             echo "<td contenteditable>" . $row["lname"] . "</td>";
