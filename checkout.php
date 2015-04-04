@@ -109,6 +109,15 @@
     
 	<!-- container for catalog items -->
     <div class="container">
+
+<?php 	
+    
+    require_once  ("Includes/session.php");
+    require_once ("Includes/var_init.php"); 
+    require_once  ("Includes/connectDB.php");
+
+	if (isset($_SESSION['username'])){
+	echo '
         <div class="row">
 
             <div class="col-md-4">
@@ -120,12 +129,8 @@
                 <input id="search" type="search" name="search" placeholder="Search for a product" class="form-control" style="margin-top: 18px; margin-bottom: auto;" />
             </div>
         </div>
-
-<?php 	
-    
-    require_once  ("Includes/session.php");
-    require_once ("Includes/var_init.php"); 
-    require_once  ("Includes/connectDB.php");
+	';
+	}
 
 	//clicking remove from cart	
 	for ($i = 1; $i < 15; $i++){
@@ -230,6 +235,9 @@
 	}
 ?>
 
+<?php
+	if (isset($_SESSION['username'])){
+		echo '
 		<form action="purchaseconfirm.php" method="post" >
 			</br>
 			<hr>
@@ -238,33 +246,37 @@
 			Card Number:
 			<input type="text" name="creditcard" id="creditcard" />
 			Expiry:		
-			<select name='expireMM' id='expireMM'>
-    			<option value=''>Month</option>
-    			<option value='01'>Janaury</option>
-    			<option value='02'>February</option>
-    			<option value='03'>March</option>
-    			<option value='04'>April</option>
-    			<option value='05'>May</option>
-    			<option value='06'>June</option>
-    			<option value='07'>July</option>
-    			<option value='08'>August</option>
-    			<option value='09'>September</option>
-    			<option value='10'>October</option>
-    			<option value='11'>November</option>
-    			<option value='12'>December</option>
+			<select name="expireMM" id="expireMM">
+    			<option value="">Month</option>
+    			<option value="01">Janaury</option>
+    			<option value="02">February</option>
+    			<option value="03">March</option>
+    			<option value="04">April</option>
+    			<option value="05">May</option>
+    			<option value="06">June</option>
+    			<option value="07">July</option>
+    			<option value="08">August</option>
+    			<option value="09">September</option>
+    			<option value="10">October</option>
+    			<option value="11">November</option>
+    			<option value="12">December</option>
 			</select> 
-			<select name='expireYY' id='expireYY'>
-    			<option value=''>Year</option>
-    			<option value='15'>2015</option>
-    			<option value='16'>2016</option>
-    			<option value='17'>2017</option>
-    			<option value='18'>2018</option>
-    			<option value='19'>2019</option>
+			<select name="expireYY" id="expireYY">
+    			<option value="">Year</option>
+    			<option value="15">2015</option>
+    			<option value="16">2016</option>
+    			<option value="17">2017</option>
+    			<option value="18">2018</option>
+    			<option value="19">2019</option>
 			</select> 	
 			</br>
 			</br>
 			<input onclick="return validate(form)" type="submit" value="confirm purchase" name="purchase" />
 		</form>
+		';
+	}
+?>
+
     </div>
 
 
