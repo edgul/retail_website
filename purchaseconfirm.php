@@ -115,9 +115,22 @@
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
 
+	//coming from review page
+	if(isset($_POST['reviewsub'])){
+		print_r($_SESSION);
+		print_r($_POST);
+		$reviewpid = $_SESSION['reviewpid'];
 
+		//load msg, stars, username, pseudonym into review table	
+		
+		//if review for this product and username exists, replace
+		//$query = $databaseConnection->query( " SELECT * FROM review WHERE username='" . $username . "' AND pid='" . $reviewpid . "'");
+		//if review doesn't exist by this user, simply insert
+
+	}
+
+	//purchse was just made -> insert cart into purchase table
 	$date = date('ymd');	
-	echo $date;
 		if (isset($_POST['purchase'])){
 			
 			//query users cart
@@ -152,7 +165,7 @@
 		}	
 	}
 	
-	
+	//view purchases already made	
 	if (isset($_SESSION['username'])){
 
 	//get rows from cart 
@@ -160,7 +173,8 @@
     $result = $databaseConnection->query($query);
     if ($result->num_rows > 0 ) { 
 		$i = 0;
-        while($row = $result->fetch_assoc()){ $oid[$i] = $row["o_id"]; $qty[$i] = $row["qty"];
+        while($row = $result->fetch_assoc()){ 
+			$oid[$i] = $row["o_id"]; $qty[$i] = $row["qty"];
 			$unitp[$i] = $row["unitprice"];
 			$pid[$i] = $row["p_id"];
 			$price[$i] = $row["Price"];
@@ -203,6 +217,7 @@
                     <th class=\"col-md-1\"> Unit Price </th>
                     <th class=\"col-md-1\"> Price </th>
                     <th class=\"col-md-1\"> Status </th>
+                    <th class=\"col-md-1\"> Review </th>
                 </tr>
             </thead>
 
@@ -221,6 +236,9 @@
                     <td> " . $unitp[$i] . " </td> 
                     <td> " . $price[$i] . " </td> 
                     <td> " . $status[$i] . " </td> 
+                    <td> 
+						<form action='productreview.php' method='post'>
+						<input type='submit' name='review" . $pid[$i] . "' value='review' </td> 
                 </tr>
 					";
 				$sum=$sum + $price[$i];
