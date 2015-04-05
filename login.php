@@ -34,14 +34,15 @@
 			$row = $result-> fetch_assoc();
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['password'] = $row['password'];
-            if (is_admin_sql()) {
+			if (is_admin_sql()) {
                 $_SESSION['is_admin'] = TRUE;
             }
+
+			$databaseConnection->query( "UPDATE cart SET username='" . $username . "' WHERE username='" . session_id() . "'");
 		}
 		else{
 			$loginerror = True;
 		}
-
 	}
 ?>
 <!DOCTYPE html>
@@ -193,4 +194,3 @@
 ?>
 </body>
 </html>
-

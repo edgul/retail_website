@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once  ("Includes/connectDB.php");
+	$_SESSION['timestamp']=time(); 
 
     function logged_on()
     {
