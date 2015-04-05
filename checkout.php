@@ -30,6 +30,7 @@
     <script src="Scripts/bootstrap.js"></script>
     <script>
 
+
         var ck_creditcard= /^([0-9]{4}[ -_]{0,1}){4}$/;
 		var ck_expireMM = /^0[0-9]|1[0-2]$/;
 		var ck_expireYY = /^1[5-9]$/;
@@ -41,14 +42,14 @@
             var expireYY= document.getElementById("expireYY").value;
             var errors = [];
 
+			//var tempstr = expireYY.concat(expireMM);
+			//alert (tempstr);
+
             if (!ck_creditcard.test(creditcard)) {
                 errors[errors.length] = "Please enter a valid credit card number.";
             }
-            if (!ck_expireMM.test(expireMM)) {
-                errors[errors.length] = "Please enter a valid expiry month.";
-            }
-            if (!ck_expireYY.test(expireYY)) {
-                errors[errors.length] = "Please enter a valid expiry year.";
+            if (!ck_expireMM.test(expireMM) || !ck_expireYY.test(expireYY) || parseInt(expireYY.concat(expireMM)) < 1504) {
+                errors[errors.length] = "Please enter a valid expiry.";
             }
 
             if (errors.length > 0) {

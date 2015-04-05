@@ -122,7 +122,7 @@ insert into inventory values(
 );	
 
 insert into inventory values(
-	10, 'cleark', 3, 350, 'laptop', 'intel i3', '250 GB', 'HD','', 15
+	10, 'clerk', 3, 350, 'laptop', 'intel i3', '250 GB', 'HD','', 15
 );	
 
 insert into inventory values(
