@@ -167,7 +167,7 @@
 		$username = $_SESSION['username'];
 	
 		//get rows from cart 
-		$query = "SELECT c.*, i.unitprice, i.name, c.qty * i.unitprice AS \"Price\" FROM cart AS c, inventory AS i WHERE (username='" . $username . "' OR username='') AND c.p_id = i.p_id ";
+		$query = "SELECT c.*, i.unitprice, i.name, c.qty * i.unitprice AS \"Price\" FROM cart AS c, inventory AS i WHERE (username='" . $username . "' OR username='" . session_id() . "') AND c.p_id = i.p_id ";
     	$result = $databaseConnection->query($query);
 		
     	if ($result->num_rows > 0 ) { 

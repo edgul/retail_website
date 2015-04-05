@@ -8,8 +8,11 @@
 
 	//if add to cart was clicked	
     if (isset($_POST['add']) ){
-  
-		$username = $_SESSION['username']; 
+ 		if (isset($_SESSION['username']))
+			$username = $_SESSION['username']; 
+		else
+			$username = session_id();
+
         $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
 
         for ( $i= 1; $i <= $numProds; $i++){
@@ -27,7 +30,7 @@
 	
 			//add to shopping cart table: recentlyAddedToCart + AlreadyInCart
 			if ( $add[$i] > 0 ){
-				$qtyincart = $databaseConnection->query( "SELECT qty FROM cart WHERE p_id='" . $i . "'");
+				$qtyincart = $databaseConnection->query( "SELECT qty FROM cart WHERE p_id='" . $i . "' AND username='" . $username . "'");
 				$oldcart= $qtyincart->fetch_assoc();
 				$add[$i]=$add[$i]+$oldcart['qty'];
 				$databaseConnection->query("DELETE FROM cart WHERE username='" . $username ."' AND p_id='" . $i . "'");
@@ -36,9 +39,6 @@
 			}
 
 		}
-		
-		//notify items that were added
-	
 	}	
 ?>
 
@@ -220,14 +220,14 @@
 
 
 
-			
+				
                 <?php
 
                 require_once ("Includes/var_init.php"); 
                 require_once  ("Includes/connectDB.php");
                 require_once  ("Includes/session.php");
-                                    //echo "Hello";
-                
+       
+					//Loads the catalog table         
                     $query = "SELECT * FROM inventory";
                     $result = $databaseConnection->query($query);
                     if ($result->num_rows > 0) { 
