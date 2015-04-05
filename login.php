@@ -34,11 +34,12 @@
 			$row = $result-> fetch_assoc();
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['password'] = $row['password'];
+			
+			$databaseConnection->query( "UPDATE cart SET username='" . $username . "' WHERE username='" . session_id() . "'");
 		}
 		else{
 			$loginerror = True;
 		}
-
 	}
 ?>
 <!DOCTYPE html>
