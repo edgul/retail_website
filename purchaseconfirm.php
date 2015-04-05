@@ -50,6 +50,8 @@
             }
         });
 
+
+/*
         // Populate product images
 
         $(function () {
@@ -71,6 +73,7 @@
             modal.find('.modal-title').text(productTitle);
 
         });
+*/
     </script>
 
 </head>
@@ -128,9 +131,14 @@
 
 	//purchse was just made -> insert cart into purchase table
 	$date = date('ymd');	
+	$recommend=false;
 	
 	if (isset($_POST['purchase'])){
-			
+	
+			$recommend = true;	
+			//get item num in inv	
+			$numItemsInInv = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
+
 			//query users cart
 			$result = $databaseConnection->query( "SELECT * FROM cart WHERE username='" . $_SESSION['username'] . "' OR username=''");
 	
@@ -145,12 +153,24 @@
 				$newordernumber = $maxordernumber +1;
 			}
 
+			//remove from cart and put in purchase table
 			if ( $result->num_rows > 0){
+				$recommendNum=1;
 			while (	$temp = $result->fetch_assoc() ){
 				//store vital variables
 				$username = $temp['username'];
 				$qtyincart = $temp['qty'];
 				$pidincart = $temp['p_id'];
+
+				//accumulate reccomended Items array
+				if ( $pidincart < $numItemsInInv){
+					$recommendedItems [$recommendNum] = $pidincart +1;
+					$recommendNum = $recommendNum + 1;
+				}
+				if ( $pidincart > 1){
+					$recommendedItems [$recommendNum] = $pidincart -1;
+					$recommendNum = $recommendNum + 1;
+				}
 
 				//remove from cart
 				$databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $pidincart . "' AND username='" . $username . "'");
@@ -189,15 +209,38 @@
 			}
 		}
 		
-	
+		//print_r($recommendedItems);	
 		//print html	--  tables
 		echo "
     	<!-- container for catalog items -->
     	<div class=\"container\">
+				";
+			
+					if ( $recommend){	
+						echo "<h3> Recommended Items for You: </h3>
+						";			
+
+						echo " <table class=\"table table-striped\"> 
+											<tr>
+						";
+
+						//print_r($recommendedItems);
+						for  ( $j = 1; $j <  $recommendNum; $j++){
+							echo " <td> 
+											<a href=\"catalog.php\">  
+													<img height='100' width='100' src='images/" .  $recommendedItems[$j] . ".jpg'> 
+													" . $name[$recommendedItems[$j]] . " 
+											</a> 
+										</td>";
+	
+						}
+						echo " </tr></table></br><hr></br>";
+					}	
+
+				echo "
                 	<h1 id=\"catalog\"> Your confirmed orders: </h1>
 					<a href=\"catalog.php\"> Return to Catalog </a>
         	<div class=\"row\">
-	
             	<div class=\"col-md-4\">
             	</div>
             	
@@ -281,8 +324,9 @@
 		
 			echo "
     	</div>
-	
-	
+			";	
+
+/*	
     	<!-- Modal -->
     	<div class=\"modal fade\" id=\"imgModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"imgModalLabel\" aria-hidden=\"true\">
         	<div class=\"modal-dialog\">
@@ -299,8 +343,8 @@
             	</div>
         	</div>
     	</div>
-	
 		";
+*/
 
 	} else{ 
 			echo "
