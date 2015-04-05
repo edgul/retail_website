@@ -153,8 +153,7 @@
                     <li><a href="purchaseconfirm.php">Your purchases</a></li>
 					<li><a href="checkout.php"> Check Out </a></li>
                     <li><a href="userupdate.php">Profile Update</a></li>
-                    <li><form action="logout.php" name="form1" method="post">
-                             <input type="submit" value="Logout" ></form>
+                    <li><a href='logout.php'>Logout</a></form>
 					</li>
 					<li><a href="#">Help</a></li>
                 </ul>
