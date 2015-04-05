@@ -57,10 +57,7 @@
 
 <!--  Contains form and fields for text entry -->
     <div class="container">
-                <?php
-            
-            require_once("Includes/session.php");
-            if (confirm_is_admin_and_alert_otherwise()): ?>
+
         <?php 
 
     if (isset($_POST['submit'])){
@@ -208,10 +205,7 @@
 
            
         </div>
-        
-    
-        <?php endif; ?>
-        
+        </div>
                         
     </div>
 </body>

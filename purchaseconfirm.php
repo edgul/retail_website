@@ -167,7 +167,7 @@
 	if (isset($_SESSION['username'])){
 
 		//get rows from cart 
-		$query = "SELECT p.*,i.name, i.unitprice, p.qty*i.unitprice AS \"Price\" FROM purchase AS p, inventory as i WHERE username='" . $_SESSION['username'] ."' AND p.p_id = i.p_id ";
+		$query = "SELECT p.*,i.name, i.unitprice, p.qty*i.unitprice AS \"Price\" FROM purchase AS p, inventory as i WHERE username='" . $_SESSION['username'] ."' AND p.p_id = i.p_id";
     	$result = $databaseConnection->query($query);
     	if ($result->num_rows > 0 ) { 
 			$i = 0;
@@ -188,6 +188,7 @@
 				$i = $i +1;
 			}
 		}
+		
 	
 		//print html	--  tables
 		echo "
@@ -204,50 +205,58 @@
                 	<input id=\"search\" type=\"search\" name=\"search\" placeholder=\"Search for a product\" class=\"form-control\" style=\"margin-top: 18px; margin-bottom: auto;\" />
             	</div>
         	</div>
+			";	
 	
-	
-        	<!-- Table Header -->
-        	<table class=\"table table-striped\" id=\"catalogTable\">
-            	<thead>
+			$neworder=false;	
+			$lastordernum=0;
+			$sum=0;
+			for ($i = 0; $i < $result->num_rows; $i++){
+				if($lastordernum !== $oid[$i]){
+					$lastordernum = $oid[$i];
+					echo "
+        			<!-- Table Header -->
+        			<table class=\"table table-striped\" id=\"catalogTable" . $i . "\">
+            			<thead>
+                			<tr>
+                    			<th class=\"col-md-1\"> Order # </th>
+                    			<th class=\"col-md-1\"> Qty </th>
+                    			<th class=\"col-md-1\"> Item Id</th>
+                    			<th class=\"col-md-1\"> Name </th>
+                    			<th class=\"col-md-1\"> Unit Price </th>
+                    			<th class=\"col-md-1\"> Price </th>
+                    			<th class=\"col-md-1\"> Status </th>
+                    			<th class=\"col-md-1\"> Review </th>
+                			</tr>
+            			</thead>
+					";
+				}
+			
+				echo "	
+            		<!-- Table Entries -->
+            		<tbody>
+
                 	<tr>
-                    	<th class=\"col-md-1\"> Order # </th>
-                    	<th class=\"col-md-1\"> Qty </th>
-                    	<th class=\"col-md-1\"> Item Id</th>
-                    	<th class=\"col-md-1\"> Name </th>
-                    	<th class=\"col-md-1\"> Unit Price </th>
-                    	<th class=\"col-md-1\"> Price </th>
-                    	<th class=\"col-md-1\"> Status </th>
-                    	<th class=\"col-md-1\"> Review </th>
-                	</tr>
-            	</thead>
-	
-            	<!-- Table Entries -->
-            	<tbody>
-				";
-	
-				$sum=0;
-				for ($i = 0; $i < $result->num_rows; $i++){
-					echo "	
-                	<tr>
-                    	<td> " . $oid[$i] . " </td>
-                    	<td> " . $qty[$i] . " </td>
-                    	<td> " . $pid[$i] . " </td> 
-                    	<td> " . $name[$i] . "</td> 
-                    	<td> " . $unitp[$i] . " </td> 
-                    	<td> " . $price[$i] . " </td> 
-                    	<td> " . $status[$i] . " </td> 
-                    	<td> 
+                   		<td> " . $oid[$i] . " </td>
+                   		<td> " . $qty[$i] . " </td>
+                   		<td> " . $pid[$i] . " </td> 
+                   		<td> " . $name[$i] . "</td> 
+                   		<td> " . $unitp[$i] . " </td> 
+                   		<td> " . $price[$i] . " </td> 
+                   		<td> " . $status[$i] . " </td> 
+                   		<td> 
 							<form action='productreview.php' method='post'>
 							<input type='submit' name='review" . $pid[$i] . "' value='review' </td> 
                 	</tr>
-						";
-					$sum=$sum + $price[$i];
-				}
-					$tax= $sum * 0.13;
-					$total= $sum * 1.13;
-					echo "	
-            	</tbody>
-        	</table>
+            		</tbody>
+				";
+				
+				$sum=$sum + $price[$i];
+				$tax= $sum * 0.13;
+				$total= $sum * 1.13;
+						
+				if ($oid[$i+1] !== $oid[$i]){
+				echo "	
+       		</table>
 			<table>
 					<tr>
 						<td>Sub-Total: </td>
@@ -261,8 +270,16 @@
 						<td>Total: </td>
 						<td> $" . $total . " </td>
 					</tr>
-			</table>
+			</table> </br> </br> </br>
+					";
+					$sum=0;
+					$tax=0;
+					$total=0;
+				}
 	
+			}
+		
+			echo "
     	</div>
 	
 	
@@ -285,7 +302,8 @@
 	
 		";
 
-	} else{ echo "
+	} else{ 
+			echo "
     		<div class=\"container\">
 				<h1> You Must login to see this page. </h2><br/>
 				<a href=\"login.php\" > Login </a>

@@ -60,8 +60,6 @@
                 require_once  ("Includes/connectDB.php");
                 require_once  ("Includes/session.php");
 
-            if (confirm_is_admin_and_alert_otherwise()): ?>
-
                 if (isset($_GET['action']) && $_GET['action'] == "delete") {
                     $query = "DELETE FROM users WHERE username = {$_GET['username']};";
                     $result = $databaseConnection->query($query);
@@ -131,7 +129,7 @@
         </tbody></table>
         </form>
 
-        <?php endif; ?>
+
                         
     </div>
     <script>
