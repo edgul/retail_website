@@ -144,7 +144,7 @@ insert into inventory values(
 );	
 
 insert into inventory values(
-	15, 'The Janitor', 3, 75, 'laptop', 'banana sticker', '256 KB', 'HD','A cardboard box with a picture of a monitor taped to it.', 7, "images/7.jpg"
+	15, 'The Janitor', 3, 75, 'laptop', 'banana sticker', '256 KB', 'HD','A cardboard box with a picture of a monitor taped to it.', 7, "images/15.jpg"
 );	
 
 EOF
