@@ -5,41 +5,33 @@
     require_once  ("Includes/session.php");
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
-	
+
+	//if add to cart was clicked	
     if (isset($_POST['add']) ){
   
 		$username = $_SESSION['username']; 
-
         $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
 
-        		for ( $i= 1; $i <= $numProds; $i++){
-                    $add[$i] = $_POST[$i + ""];
-                }
+        for ( $i= 1; $i <= $numProds; $i++){
+        	$add[$i] = $_POST[$i + ""];
+        }
 
-		
 		$addsum = array_sum($add);
-
-		//get prices
-		$pquery = $databaseConnection->query( "SELECT unitprice FROM inventory");
 
 		for ( $i= 1; $i <= $numProds; $i ++){
 			
 			//update inventory counts 
 			$j ="inv" . $i;
 			$left[$i] = $_SESSION[$j] - $add[$i];
-			$tempprice = $pquery->fetch_assoc();
-			$prices[$i] = $tempprice["unitprice"];
-			$query = "UPDATE inventory SET qty='" . $left[$i] . "' WHERE p_id='" . $i . "'";
-        	$databaseConnection->query($query);
+			$databaseConnection->query( "UPDATE inventory SET qty='" . $left[$i] . "' WHERE p_id='" . $i . "'");
 	
 			//add to shopping cart table: recentlyAddedToCart + AlreadyInCart
 			if ( $add[$i] > 0 ){
 				$qtyincart = $databaseConnection->query( "SELECT qty FROM cart WHERE p_id='" . $i . "'");
 				$oldcart= $qtyincart->fetch_assoc();
 				$add[$i]=$add[$i]+$oldcart['qty'];
-				echo $oldcart['qty']+$add[$i];
 				$databaseConnection->query("DELETE FROM cart WHERE username='" . $username ."' AND p_id='" . $i . "'");
-				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "','" . $prices[$i] . "')";		
+				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "' )";		
 				$databaseConnection->query($query); 
 			}
 
@@ -182,7 +174,6 @@
 	
 	//makes array of already reviewed products
 	$reviews = array_fill(1, 15, False);
-	print_r($reviews);
 	$query = "SELECT * FROM review ";
 	$query = $databaseConnection->query($query);
 	while ( $row = $query->fetch_assoc()){

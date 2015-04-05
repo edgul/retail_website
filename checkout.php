@@ -151,7 +151,8 @@
 			$databaseConnection->query( "UPDATE inventory SET qty='" . $updateqty . "' WHERE p_id='" . $i . "'");
 		}	
 	}
-	
+
+	//not logged in -> cannot see page	
 	if (!isset($_SESSION['username'])){
 		echo "
     		<div class=\"container\">
@@ -160,22 +161,25 @@
 			</div>
 		";
 	}
+	//logged in -> display cart
 	else {
-
-	$username = $_SESSION['username'];
-	//get rows from cart 
-	$query = "SELECT *, qty*unitprice AS \"Price\" FROM cart WHERE username='" . $username . "' OR username='' ";
-    $result = $databaseConnection->query($query);
-    if ($result->num_rows > 0 ) { 
-		$i = 0;
-        while($row = $result->fetch_assoc()){
-			$qty[$i] = $row["qty"];
-			$unitp[$i] = $row["unitprice"];
-			$pid[$i] = $row["p_id"];
-			$price[$i] = $row["Price"];
-			$i = $i +1;
+		$username = $_SESSION['username'];
+	
+		//get rows from cart 
+		$query = "SELECT c.*, i.unitprice, i.name, c.qty * i.unitprice AS \"Price\" FROM cart AS c, inventory AS i WHERE (username='" . $username . "' OR username='') AND c.p_id = i.p_id ";
+    	$result = $databaseConnection->query($query);
+		
+    	if ($result->num_rows > 0 ) { 
+			$i = 0;
+        	while($row = $result->fetch_assoc()){
+				$name[$i] = $row["name"];
+				$qty[$i] = $row["qty"];
+				$unitp[$i] = $row["unitprice"];
+				$pid[$i] = $row["p_id"];
+				$price[$i] = $row["Price"];
+				$i = $i +1;
+			}
 		}
-	}
 
 
 		echo "
@@ -186,7 +190,7 @@
                     <th class=\"col-md-1\"> </th>
                     <th class=\"col-md-1\"> Qty </th>
                     <th class=\"col-md-1\"> Item Id</th>
-                    <th class=\"col-md-1\"> Name </th>
+                    <th class=\"col-md-1\"> Item Name </th>
                     <th class=\"col-md-1\"> Unit Price </th>
                     <th class=\"col-md-1\"> Price </th>
                 </tr>
@@ -204,7 +208,7 @@
 						<input type=\"submit\" name=\"pullcart" . $pid[$i] . "\" value=\"remove from cart\"> </form> </td>
                     <td> " . $qty[$i] . " </td>
                     <td> " . $pid[$i] . " </td> 
-                    <td> NAME </td> 
+                    <td> " . $name[$i] . " </td> 
                     <td> " . $unitp[$i] . " </td> 
                     <td> " . $price[$i] . " </td> 
                 </tr>
