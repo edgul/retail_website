@@ -7,12 +7,12 @@
 	$username = $_SESSION['username'];	
 
    	//clears cart values attached to username and returns to inventory 
-    $result = $databaseConnection->query( "SELECT * FROM cart ");
+    $result = $databaseConnection->query( "SELECT * FROM cart WHERE username='" . $username . "' OR username='" . session_id() . "'");
 	while ( $temp = $result->fetch_assoc() ){
     	//remove from cart
     	$qtyincart = $temp['qty'];
 		$pidincart = $temp['p_id'];
-        $databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $pidincart . "' AND username='" . $username . "'");
+        $databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $pidincart . "' AND (username='" . $username . "' OR username='" . session_id() . "')");
     
         //return to inv
         $result2 = $databaseConnection->query( "SELECT qty FROM inventory WHERE p_id='" . $pidincart . "'");
