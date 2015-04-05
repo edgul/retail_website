@@ -116,8 +116,8 @@
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
 
-	if (isset($_SESSION['username'])){
-	echo '
+    ?>
+
         <div class="row">
 
             <div class="col-md-4">
@@ -125,13 +125,12 @@
 				<a href="catalog.php"> Return to Catalog </a>
             </div>
             
-            <div class="col-md-4 col-md-offset-4">
+            <!--<div class="col-md-4 col-md-offset-4">
                 <input id="search" type="search" name="search" placeholder="Search for a product" class="form-control" style="margin-top: 18px; margin-bottom: auto;" />
-            </div>
+            </div>-->
         </div>
-	';
-	}
 
+        <?php 	
 	//clicking remove from cart	
 	for ($i = 1; $i < 15; $i++){
 		if (isset($_POST['pullcart'.$i])){
@@ -152,21 +151,8 @@
 		}	
 	}
 
-	//not logged in -> cannot see page	
-	if (!isset($_SESSION['username'])){
-		echo "
-    		<div class=\"container\">
-				<h1> You Must login to see this page. </h2><br/>
-				<a href=\"login.php\" > Login </a>
-			</div>
-		";
-	}
-	//logged in -> display cart
-	else {
-		$username = $_SESSION['username'];
-	
 		//get rows from cart 
-		$query = "SELECT c.*, i.unitprice, i.name, c.qty * i.unitprice AS \"Price\" FROM cart AS c, inventory AS i WHERE (username='" . $username . "' OR username='" . session_id() . "') AND c.p_id = i.p_id ";
+		$query = "SELECT c.*, i.unitprice, i.name, c.qty * i.unitprice AS \"Price\" FROM cart AS c, inventory AS i WHERE c.p_id = i.p_id AND " . username_condition();
     	$result = $databaseConnection->query($query);
 		
     	if ($result->num_rows > 0 ) { 
@@ -183,6 +169,7 @@
 
 
 		echo "
+        <div class='jumbotron'>
         <!-- Table Header -->
         <table class=\"table table-striped\" id=\"catalogTable\">
             <thead>
@@ -234,14 +221,11 @@
 					<td>Total: </td>
 					<td> $" . $total . " </td>
 				</tr>
-		</table>
+		</table></div>
 		";
-	}
-?>
 
-<?php
-	if (isset($_SESSION['username'])){
-		echo '
+?>
+<?php if (!logged_in()): alert("failure", "You must <a href='login.php'>login</a> to purchase this cart."); else: ?>
 		<form action="purchaseconfirm.php" method="post" >
 			</br>
 			<hr>
@@ -277,10 +261,11 @@
 			</br>
 			<input onclick="return validate(form)" type="submit" value="confirm purchase" name="purchase" />
 		</form>
-		';
-	}
-?>
 
+
+        <?php endif; ?>
+
+        
     </div>
 
 

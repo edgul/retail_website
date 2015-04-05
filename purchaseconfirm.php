@@ -68,6 +68,15 @@
     require_once  ("Includes/session.php");
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
+    ?>
+
+    <!-- container for catalog items -->
+    <div class="container">
+
+    <?php 
+
+
+    if (confirm_is_logged_in_and_alert_otherwise()):
 
 	//if coming from review page -> insert review into review table
 	if(isset($_POST['reviewsub'])){
@@ -133,9 +142,6 @@
 			}				
 		}	
 	}
-	
-	//view purchases already made	
-	if (isset($_SESSION['username'])){
 
 		//get rows from cart 
 		$query = "SELECT p.*,i.name, i.unitprice, p.qty*i.unitprice AS \"Price\" FROM purchase AS p, inventory as i WHERE username='" . $_SESSION['username'] ."' AND p.p_id = i.p_id";
@@ -162,10 +168,7 @@
 		
 		//print_r($recommendedItems);	
 		//print html	--  tables
-		echo "
-    	<!-- container for catalog items -->
-    	<div class=\"container\">
-				";
+
 			
 					if ( $recommend){	
 						echo "<h3> Recommended Items for You: </h3>
@@ -189,10 +192,10 @@
 					}	
 
 				echo "
-                	<h1 id=\"catalog\"> Your confirmed orders: </h1>
-					<a href=\"catalog.php\"> Return to Catalog </a>
         	<div class=\"row\">
-            	<div class=\"col-md-4\">
+            	<div class=\"col-md-4\">                	
+                <h1 id=\"catalog\"> Your confirmed orders: </h1>
+					<a href=\"catalog.php\"> Return to Catalog </a>
             	</div>
             	
             	<div class=\"col-md-4 col-md-offset-4\">
@@ -274,39 +277,11 @@
 	
 			}
 		
-			echo "
-    	</div>
-			";	
 
-/*	
-    	<!-- Modal -->
-    	<div class=\"modal fade\" id=\"imgModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"imgModalLabel\" aria-hidden=\"true\">
-        	<div class=\"modal-dialog\">
-            	<div class=\"modal-content\">
-                	<div class=\"modal-header\">
-                    	<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>
-                    	<h4 class=\"modal-title\" id=\"imgModalLabel\">Modal title</h4>
-                	</div>
-                	<div class=\"modal-body\">
-	
-                    	<img class=\"img-responsive center-block\" src=\"images/logo.svg.png\" />
-                	</div>
-	
-            	</div>
-        	</div>
-    	</div>
-		";
-*/
 
-	} else{ 
-			echo "
-    		<div class=\"container\">
-				<h1> You Must login to see this page. </h2><br/>
-				<a href=\"login.php\" > Login </a>
-			</div>
-		";
-	}
 ?>
+
+    	</div>
 
         <script src="Scripts/jquery-1.11.2.js"></script>
     <script src="Scripts/bootstrap.js"></script>
@@ -332,7 +307,7 @@
         });
 
     </script>
-
+    <?php endif; ?>
 </body>
 </html>
 

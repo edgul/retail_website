@@ -4,31 +4,7 @@
 <?php
 	require_once("Includes/session.php");
 
-	$username = $_SESSION['username'];	
-
-   	//clears cart values attached to username and returns to inventory 
-    $result = $databaseConnection->query( "SELECT * FROM cart WHERE username='" . $username . "' OR username='" . session_id() . "'");
-	while ( $temp = $result->fetch_assoc() ){
-    	//remove from cart
-    	$qtyincart = $temp['qty'];
-		$pidincart = $temp['p_id'];
-        $databaseConnection->query( "DELETE FROM cart WHERE p_id='" . $pidincart . "' AND (username='" . $username . "' OR username='" . session_id() . "')");
-    
-        //return to inv
-        $result2 = $databaseConnection->query( "SELECT qty FROM inventory WHERE p_id='" . $pidincart . "'");
-        $temp2 = $result2->fetch_assoc();
-        $qtyininv = $temp2['qty'];
-        $updateqty = $qtyininv + $qtyincart;
-        $databaseConnection->query( "UPDATE inventory SET qty='" . $updateqty . "' WHERE p_id='" . $pidincart . "'"); 
-	}
-
-	//clear session variables
-   	if(isset($_COOKIE[session_name()])) {
-       	setcookie(session_name(), '', time()-300, '/');
-   	}   
-   	session_unset();
-   	session_destroy();
-	session_start();
+   	logout();
 
 ?>
 

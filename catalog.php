@@ -8,14 +8,17 @@
     require_once ("Includes/common.php");
 	
     if (isset($_POST['add']) ){
-  
-		$username = $_SESSION['username']; 
+        if (logged_in()) {
+		    $username = $_SESSION['username']; 
+        } else {
+            $username = session_id();
+        }
 
         $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
 
-        		for ( $i= 1; $i <= $numProds; $i++){
-                    $add[$i] = $_POST[$i + ""];
-                }
+        for ( $i= 1; $i <= $numProds; $i++){
+            $add[$i] = $_POST[$i + ""];
+        }
 
 		
 		$addsum = array_sum($add);
@@ -35,7 +38,8 @@
 				$add[$i]=$add[$i]+$oldcart['qty'];
 				$databaseConnection->query("DELETE FROM cart WHERE username='" . $username ."' AND p_id='" . $i . "'");
 				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "')";		
-				$databaseConnection->query($query); 
+				$result = $databaseConnection->query($query);
+                if (!$result) echo "Failed";
 			}
 
 		}

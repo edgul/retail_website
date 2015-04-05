@@ -9,19 +9,6 @@
 
 	//username and password have been entered
 	if (isset($_POST['submit'])){
-	
-	//timeout
-	/*	$idletime=60;//after 60 seconds the user gets logged out
-		if (time()-$_SESSION['timestamp']>$idletime){
-			session_destroy();
-			session_unset();
-			echo "\n What what!";
-		}else{
-			$_SESSION['timestamp']=time();
-		}
-		//on session creation
-		$_SESSION['timestamp']=time(); 
-	*/
 
 		$username = $_POST['username'];
         $password = $_POST['password1'];

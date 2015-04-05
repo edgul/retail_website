@@ -43,8 +43,7 @@ create table cart (
 	p_id int NOT NULL ,
 	qty int NOT NULL,
 	PRIMARY KEY (username, p_id),
-	FOREIGN KEY (p_id)  REFERENCES inventory(p_id),
-	FOREIGN KEY (username) REFERENCES users (username)
+	FOREIGN KEY (p_id)  REFERENCES inventory(p_id)
 );
 
 create table purchase (
