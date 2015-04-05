@@ -15,7 +15,7 @@
 	overflow-y: scroll; 
 }
 
-        tr td:first-child {
+        td, th {
             text-align: center;
         }
 
@@ -26,55 +26,7 @@
         
     </style>
     
-    <script src="Scripts/jquery-1.11.2.js"></script>
-    <script src="Scripts/bootstrap.js"></script>
-    <script>
-        /* Product Search */
-        var searchEl = $("#search")[0]; 
-        $(searchEl).on('input', function (e) {
-            var searchText = searchEl.value;
-            var regex = new RegExp(searchText, "i");    // case insensitive
-            var itemRows = $("#catalogTable tbody tr");
 
-            outer:
-            for (var i=0; i<itemRows.length; i++) {
-                var item = itemRows[i];
-                var cols = $("td", item);
-                for (var j = 1; j < cols.length; j++) {
-                    if (regex.test(cols[j].innerText)) {    // if search term matches any text in any column for a row, then show that row
-                        $(item).show("slow");
-                        continue outer;
-                    }
-                }
-                $(item).hide("slow");       // otherwise hide the row
-            }
-        });
-
-
-/*
-        // Populate product images
-
-        $(function () {
-            var links = $('td:nth-child(2) a');
-            for (var i=0; i<links.length; i++) {
-                $(links[i]).append('<img src="images/' + (i+1) + '.jpg" class="img-responsive" />');
-            }
-        });
-
-        // Img modal box
-
-        $('#imgModal').on('show.bs.modal', function (event) {
-            var thumbnailLink = $(event.relatedTarget) // Link that triggered the modal
-            var productImgSrc = thumbnailLink.find('img')[0].src;
-            var productTitle = thumbnailLink.parent().siblings(':nth-child(3)').text();     // grab the product title from different column of same row
-
-            var modal = $(this);
-            modal.find('.modal-body img')[0].src = productImgSrc;
-            modal.find('.modal-title').text(productTitle);
-
-        });
-*/
-    </script>
 
 </head>
 
@@ -104,7 +56,6 @@
 					<li><a href="checkout.php"> Check Out </a></li>
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li><a href='logout.php'>Logout</a>
-                             <input type="submit" value="Logout" ></form>
 					</li>
 					<li><a href="#">Help</a></li>
                 </ul>
@@ -245,7 +196,7 @@
             	</div>
             	
             	<div class=\"col-md-4 col-md-offset-4\">
-                	<input id=\"search\" type=\"search\" name=\"search\" placeholder=\"Search for a product\" class=\"form-control\" style=\"margin-top: 18px; margin-bottom: auto;\" />
+                	<input id=\"search\" type=\"search\" name=\"search\" placeholder=\"Search for an order by its order number\" class=\"form-control\" style=\"margin-top: 18px; margin-bottom: auto;\" />
             	</div>
         	</div>
 			";	
@@ -257,8 +208,9 @@
 				if($lastordernum !== $oid[$i]){
 					$lastordernum = $oid[$i];
 					echo "
+                    <div class='orderDetails' id='orderDetails{$oid[$i]}'>
         			<!-- Table Header -->
-        			<table class=\"table table-striped\" id=\"catalogTable" . $i . "\">
+        			<table class=\"table table-striped orderTable\" id=\"orderTable" . $oid[$i]  . "\">
             			<thead>
                 			<tr>
                     			<th class=\"col-md-1\"> Order # </th>
@@ -313,7 +265,7 @@
 						<td>Total: </td>
 						<td> $" . $total . " </td>
 					</tr>
-			</table> </br> </br> </br>
+			</table></div> </br> </br> </br>
 					";
 					$sum=0;
 					$tax=0;
@@ -355,6 +307,31 @@
 		";
 	}
 ?>
+
+        <script src="Scripts/jquery-1.11.2.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script>
+
+
+
+        /* Order Search */
+        var searchEl = $("#search")[0];
+        $(searchEl).on('input', function (e) {
+            var searchText = searchEl.value;
+            var orderDetails = $(".orderDetails");
+
+            for (var i = 0; i < orderDetails.length; i++) {
+                var item = orderDetails[i];
+                if ((item.id == "orderDetails" + searchText) || (searchText == "")) {
+                    $(item).show("fast")
+                } else {
+                    $(item).hide("fast");       // otherwise hide the row
+                }
+
+            }
+        });
+
+    </script>
 
 </body>
 </html>

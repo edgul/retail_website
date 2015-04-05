@@ -101,7 +101,6 @@
 					<li><a href="checkout.php"> Check Out </a></li>
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li><a href='logout.php'>Logout</a>
-                             <input type="submit" value="Logout" ></form>
 					</li>
 					<li><a href="#">Help</a></li>
                 </ul>

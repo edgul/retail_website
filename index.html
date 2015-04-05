@@ -8,15 +8,6 @@
 	<title>EnterpriseHardware.com - Home</title>
     <link rel="stylesheet" type="text/css" href="extra.css" />
     <script src="Scripts/jquery-1.11.2.js"></script>
-    <script>
-        //event for button click to hide picture
-        $(document).ready(function () {
-            $("button").click(function(){
-                $("#pic").toggle("slow");
-            })
-        });    
-    </script>
-
 </head>
 
 <body>
@@ -45,17 +36,13 @@
                     <li><a href="purchaseconfirm.php">Your purchases</a></li>
 					<li><a href="checkout.php">Check out </a> </li>
                     <li><a href="userupdate.php">Profile Update</a></li>
-					<li><form action="logout.php" method="post">
-                             <input type="submit" value="Logout" >
+					<li><a href='logout.php'>Logout</a>
 					</li>
                     <li><a href="#">Help</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
-    <!-- button for hiding picture -->
-    <button> Hide </button>
 
     <div class="container" id="pic" >
         <div class="jumbotron text-center">
