@@ -67,7 +67,7 @@
     if (isset($_POST['submit'])){
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
-        $pid = $_POST['pid'];
+        $p_id = $_POST['p_id'];
         $name = $_POST['name'];
         $qty = $_POST['qty'];
         $price = $_POST['price'];
@@ -76,15 +76,22 @@
         $space = $_POST['space'];
         $s_type = $_POST['s_type'];
         $screen = $_POST['screen'];
+        $image_link = $_POST['image_link'];
+        $descr = $_POST['descr'];
 
-		$query = "INSERT INTO inventory VALUES ('" . $pid . "','" . $name . "','" . $qty . "','" . $price . "','" . $type . "','" . $proc . "','" . $space . "','" . $s_type . "','" . $screen . "')";
-
-		$statement = $databaseConnection->query($query);
-        if ($statement) {
-            echo "Successful";
+        if ($databaseConnection->query("SELECT p_id FROM inventory WHERE p_id = '$p_id'")->num_rows > 0) {
+            alert("failure", "Product with ID: $p_id already exists. Choose unique product ID.");
         } else {
-            echo "Not successful";
+		    $query = "INSERT INTO inventory VALUES ('" . $p_id . "','" . $name . "','" . $qty . "','" . $price . "','" . $type . "','" . $proc . "','" . $space . "','" . $s_type . "','" . $descr . "','" . $screen . "','" . $image_link . "')";
+		    $statement = $databaseConnection->query($query);
+            if ($statement) {
+                alert("success", "Successfully added product to inventory. Return to <a href='admin_inventory.php'>Inventory Administration</a>");
+            } else {
+                alert("failure", "Failed to add product to inventory.");
+            }            
         }
+
+
 
     }
 ?>
@@ -97,9 +104,20 @@
 
                     <!-- Contact info fields -->
                     <legend>Product Inventory Details</legend>
+
+                    <div class="form-group">
+                        <label for="p_id" class=" control-label" >Product ID (must be unique)</label>
+                        <div class=""><input type="text" id="p_id" name="p_id" class="form-control"  ></div>
+                    </div>
+
                     <div class="form-group">
                         <label for="name" class=" control-label" >Name</label>
                         <div class=""><input type="text" id="name" name="name" class="form-control"  ></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descr" class=" control-label" >Description</label>
+                        <div class=""><input type="text" id="descr" name="descr" class="form-control"  ></div>
                     </div>
 
                     <div class="form-group">
@@ -118,7 +136,15 @@
                         </div>
                     </div>
 
-                    
+                    <div class="form-group">
+                        <label for="image_link" class=" control-label">
+                            Image Link (if available)
+                        </label><div class="">
+                            <input type="text" name="image_link" id="image_link" class="form-control"  >
+                        </div>
+                    </div>
+
+
                 </fieldset>
 
                 <!-- Shipping info fields -->
@@ -152,7 +178,7 @@
 
                     <div class="form-group">
                         <label for="s_type" class=" control-label">
-                            Screen type
+                            Storage type
                         </label><div class="">
                             <input type="text" name="s_type" id="s_type" list="s_types" class="form-control"  >
                         </div>

@@ -62,8 +62,9 @@
 
             if (confirm_is_admin_and_alert_otherwise()): ?>
 
+        <?php
                 if (isset($_GET['action']) && $_GET['action'] == "delete") {
-                    $query = "DELETE FROM users WHERE username = {$_GET['username']};";
+                    $query = "DELETE FROM inventory WHERE p_id = {$_GET['pid']};";
                     $result = $databaseConnection->query($query);
                     if ($result) {
                         echo '<div class="alert alert-success" role="alert">User successfully deleted!</div>';

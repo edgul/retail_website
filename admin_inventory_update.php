@@ -66,7 +66,7 @@
     if (isset($_POST['submit'])){
     	require_once ("Includes/var_init.php"); 
     	require_once  ("Includes/connectDB.php");
-        $pid = $_POST['pid'];
+        $p_id = $_POST['p_id'];
         $name = $_POST['name'];
         $qty = $_POST['qty'];
         $price = $_POST['price'];
@@ -75,29 +75,31 @@
         $space = $_POST['space'];
         $s_type = $_POST['s_type'];
         $screen = $_POST['screen'];
+        $image_link = $_POST['image_link'];
+        $descr = $_POST['descr'];
+
 
 
         //delete current entry
-			$delete = "DELETE FROM inventory WHERE p_id='" . $pid . "'";
-			$databaseConnection->query($delete);
+	    $delete = "DELETE FROM inventory WHERE p_id='" . $p_id . "'";
+	    $databaseConnection->query($delete);
 
-		$query = "INSERT INTO inventory VALUES ('" . $pid . "','" . $name . "','" . $qty . "','" . $price . "','" . $type . "','" . $proc . "','" . $space . "','" . $s_type . "','" . $screen . "')";
-
-		$statement = $databaseConnection->query($query);
-        if ($statement) {
-            echo "Successful";
-        } else {
-            echo "Not successful";
-        }
+		    $query = "INSERT INTO inventory VALUES ('" . $p_id . "','" . $name . "','" . $qty . "','" . $price . "','" . $type . "','" . $proc . "','" . $space . "','" . $s_type . "','" . $descr . "','" . $screen . "','" . $image_link . "')";
+		    $statement = $databaseConnection->query($query);
+            if ($statement) {
+                alert("success", "Successfully updated product. Return to <a href='admin_inventory.php'>Inventory Administration</a>");
+            } else {
+                alert("failure", "Failed to update product.");
+            }            
     }
 
-    $pid=$_GET['pid'];
-		$query = "SELECT * FROM inventory WHERE p_id='" . $pid . "'";
+    $p_id=$_GET['pid'];
+		$query = "SELECT * FROM inventory WHERE p_id='" . $p_id . "'";
 		$result = $databaseConnection->query($query);
 
 		if ($result->num_rows > 0 ) {
 			$row = $result->fetch_assoc();
-            $pid = $row['p_id'];
+            $p_id = $row['p_id'];
             $name = $row['name'];
             $qty = $row['qty'];
             $price = $row['unitprice'];
@@ -106,6 +108,8 @@
             $space = $row['space'];
             $s_type = $row['s_type'];
             $screen = $row['screen'];
+            $image_link = $row['image_link'];
+            $descr = $row['descr'];
 
 		}
 
@@ -119,9 +123,17 @@
 
                     <!-- Contact info fields -->
                     <legend>Product Inventory Details</legend>
+
+                    <input type="hidden" id="p_id" name="p_id" class="form-control" value="<?=$p_id?>">
+
                     <div class="form-group">
                         <label for="name" class=" control-label" >Name</label>
                         <div class=""><input type="text" id="name" name="name" class="form-control" value="<?=$name?>" ></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descr" class=" control-label" >Description</label>
+                        <div class=""><input type="text" id="descr" name="descr" class="form-control" value="<?=$descr?>" ></div>
                     </div>
 
                     <div class="form-group">
@@ -140,6 +152,13 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="image_link" class=" control-label">
+                            Image Link (if available)
+                        </label><div class="">
+                            <input type="text" name="image_link" id="image_link" class="form-control" value="<?=$image_link?>" >
+                        </div>
+                    </div>
                     
                 </fieldset>
 
@@ -151,7 +170,7 @@
                         <label for="type" class=" control-label">
                             Type
                         </label><div class="">
-                            <input type="text" name="type" id="type" class="form-control"  >
+                            <input type="text" name="type" id="type" class="form-control" value="<?=$type?>" >
                         </div>
                     </div>
 
@@ -160,7 +179,7 @@
                         <label for="proc" class=" control-label">
                             Processer
                         </label><div class="">
-                            <input type="text" name="proc" id="proc" class="form-control"  >
+                            <input type="text" name="proc" id="proc" class="form-control" value="<?=$proc?>" >
                         </div>
                     </div>
 
@@ -168,15 +187,15 @@
                         <label for="space" class=" control-label">
                             Storage Space
                         </label><div class="">
-                            <input type="text" name="space" id="space" class="form-control">
+                            <input type="text" name="space" id="space" class="form-control" value="<?=$space?>">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="s_type" class=" control-label">
-                            Screen type
+                            Storage type
                         </label><div class="">
-                            <input type="text" name="s_type" id="s_type" list="s_types" class="form-control"  >
+                            <input type="text" name="s_type" id="s_type" list="s_types" class="form-control" value="<?=$s_type?>" >
                         </div>
                     </div>
 
@@ -184,7 +203,7 @@
                         <label for="screen" class=" control-label">
                             Screen Size
                         </label><div class="">
-                            <input type="text" name="screen" id="screen" class="form-control">
+                            <input type="text" name="screen" id="screen" class="form-control" value="<?=$screen?>">
                         </div>
                     </div>
 
@@ -201,7 +220,7 @@
                 <!-- Submit and clear buttons -->
                 <div class="form-group ">
                     <input type="reset" value="Clear Form" class="btn btn-default">
-                    <input type="submit" name="submit"  onclick="return validate(form)" value="Add Inventory" class="btn btn-default pull-right">
+                    <input type="submit" name="submit"  onclick="return validate(form)" value="Update Inventory" class="btn btn-default pull-right">
 
                 </div>
             </form>

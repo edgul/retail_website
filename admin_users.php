@@ -95,6 +95,7 @@
             <th>Postal Code</th>
 
                 <th>Password</th>
+            <th>Admin Priveleges</th>
             </tr></thead>
             
           <tbody>
@@ -128,6 +129,7 @@
                             echo "<td contenteditable>" . $row["province"] . "</td>";
                             echo "<td contenteditable>" . $row["postalcode"] . "</td>";
                             echo "<td contenteditable>" . $row["password"] . "</td>";
+                            echo "<td>" . $row['is_admin'] == 1 ? "<img src='accept.png' alt='checkmark />" : '' . "</td>";
                             echo "</tr>";
 			            }
                     }

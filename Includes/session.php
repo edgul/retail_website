@@ -1,6 +1,8 @@
 <?php
     session_start();
     require_once  ("Includes/connectDB.php");
+    require_once ("common.php");
+
 	$_SESSION['timestamp']=time(); 
 
     function logged_on()
@@ -26,6 +28,8 @@
         }
         elseif  (!is_admin()) {
             echo '<div class="alert alert-danger" role="alert">You do not have sufficient priveleges to access this page!</div>';
+        } else {
+            return TRUE;
         }
     }
 

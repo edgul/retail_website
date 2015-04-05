@@ -5,40 +5,49 @@
     require_once  ("Includes/session.php");
     require_once ("Includes/var_init.php"); 
     require_once  ("Includes/connectDB.php");
-
-	//if add to cart was clicked	
+    require_once ("Includes/common.php");
+	
     if (isset($_POST['add']) ){
- 		if (isset($_SESSION['username']))
-			$username = $_SESSION['username']; 
-		else
-			$username = session_id();
+  
+		$username = $_SESSION['username']; 
 
         $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
 
-        for ( $i= 1; $i <= $numProds; $i++){
-        	$add[$i] = $_POST[$i + ""];
-        }
+        		for ( $i= 1; $i <= $numProds; $i++){
+                    $add[$i] = $_POST[$i + ""];
+                }
 
+		
 		$addsum = array_sum($add);
+
+		//get prices
+		$pquery = $databaseConnection->query( "SELECT unitprice FROM inventory");
 
 		for ( $i= 1; $i <= $numProds; $i ++){
 			
 			//update inventory counts 
 			$j ="inv" . $i;
 			$left[$i] = $_SESSION[$j] - $add[$i];
-			$databaseConnection->query( "UPDATE inventory SET qty='" . $left[$i] . "' WHERE p_id='" . $i . "'");
+			$tempprice = $pquery->fetch_assoc();
+			$prices[$i] = $tempprice["unitprice"];
+			$query = "UPDATE inventory SET qty='" . $left[$i] . "' WHERE p_id='" . $i . "'";
+        	$databaseConnection->query($query);
 	
 			//add to shopping cart table: recentlyAddedToCart + AlreadyInCart
 			if ( $add[$i] > 0 ){
-				$qtyincart = $databaseConnection->query( "SELECT qty FROM cart WHERE p_id='" . $i . "' AND username='" . $username . "'");
+				$qtyincart = $databaseConnection->query( "SELECT qty FROM cart WHERE p_id='" . $i . "'");
 				$oldcart= $qtyincart->fetch_assoc();
 				$add[$i]=$add[$i]+$oldcart['qty'];
+				echo $oldcart['qty']+$add[$i];
 				$databaseConnection->query("DELETE FROM cart WHERE username='" . $username ."' AND p_id='" . $i . "'");
-				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "' )";		
+				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "','" . $prices[$i] . "')";		
 				$databaseConnection->query($query); 
 			}
 
 		}
+		
+		//notify items that were added
+	
 	}	
 ?>
 
@@ -90,13 +99,13 @@
             }
         });
 
-        // Populate product images
+        //// Populate product images
 
         $(function () {
-            var links = $('td:nth-child(3) a');
-            for (var i = 0; i < links.length; i++) {
-                $(links[i]).append('<img src="images/' + (i + 1) + '.jpg" class="img-responsive" />');
-            }
+        //    var links = $('td:nth-child(3) a');
+        //    for (var i = 0; i < links.length; i++) {
+        //        $(links[i]).append('<img src="images/' + (i + 1) + '.jpg" class="img-responsive" />');
+        //    }
 
             // Img modal box
 
@@ -174,6 +183,7 @@
 	
 	//makes array of already reviewed products
 	$reviews = array_fill(1, 15, False);
+	print_r($reviews);
 	$query = "SELECT * FROM review ";
 	$query = $databaseConnection->query($query);
 	while ( $row = $query->fetch_assoc()){
@@ -220,14 +230,14 @@
 
 
 
-				
+			
                 <?php
 
                 require_once ("Includes/var_init.php"); 
                 require_once  ("Includes/connectDB.php");
                 require_once  ("Includes/session.php");
-       
-					//Loads the catalog table         
+                                    //echo "Hello";
+                
                     $query = "SELECT * FROM inventory";
                     $result = $databaseConnection->query($query);
                     if ($result->num_rows > 0) { 
@@ -239,11 +249,11 @@
                             for ($i = 0; $i <= $row['qty']; $i++){
 						        echo "<option value=\"" . $i . "\">" . $i . "</option> ";
 					        }
-                            echo "<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >";
+                            echo '<input type="submit" formaction="catalog.php" formmethod="post" value="add all items" name="add" >';
                             echo "</td>";
 
-                            echo "<td><a data-toggle=\"modal\" href=\"#imgModal\"></a></td>";
-                            echo "<td contenteditable>" . $row["name"] . "</td>";
+                            echo '<td><a data-toggle="modal" href="#imgModal"><img src="' . getImageSrc($row['image_link']) . '" class="img-responsive" /></a></td>';
+                                                        echo "<td contenteditable>" . $row["name"] . "</td>";
                             echo "<td contenteditable>" . $row["unitprice"] . "</td>";
                             echo "<td contenteditable>" . "Description here" . "</td>";
                             echo "<td contenteditable>" . $row["type"] . "</td>";

@@ -34,6 +34,7 @@ create table inventory (
 	s_type varchar(255) NOT NULL,
 	descr varchar(255) NOT NULL,
 	screen int NOT NULL,
+    image_link varchar(255),
 	PRIMARY KEY (p_id)
 );
 
@@ -80,68 +81,68 @@ insert into users values(
 
 insert into users values(
 	'normal', 'normal', 'user', 'normal@hotmail.com', '555-555-5555', '11', 'street',
-	'5', 'Ham', 'ON', 'q1q1q1', 'Normal123#'
+	'5', 'Ham', 'ON', 'q1q1q1', 'Normal123#', NULL
 );
 
 insert into inventory values(
-	1, 'boss', 7, 1000, 'desktop', 'intel i7', '2 TB', 'HD','', 30
+	1, 'The Boss', 7, 1000, 'desktop', 'intel i7', '2 TB', 'HD','Top of the line everything. For the big man.', 30, "images/1.jpg"
 );	
 
 insert into inventory values(
-	2, '#2', 2, 950, 'laptop', 'intel i7', '2 TB', 'HD','', 15
+	2, 'The #2', 2, 950, 'laptop', 'intel i7', '2 TB', 'HD',"Portable version of the big boss's computer.", 15, "images/2.jpg"
 );	
 
 insert into inventory values(
-	3, 'sales rep', 3, 900, 'laptop', 'intel i5', '750 GB', 'SSD','', 14
+	3, 'The Sales Rep', 3, 900, 'laptop', 'intel i5', '750 GB', 'SSD','On the go, fast and pleasing.', 14, "images/3.jpg"
 );	
 
 insert into inventory values(
-	4, 'techie', 5, 850, 'laptop', 'intel i7', '2 TB', 'SSD','', 15
+	4, 'The Techie', 5, 850, 'laptop', 'intel i7', '2 TB', 'SSD','The best specs, somehow for a cheaper price!', 15, "images/4.jpg"
 );	
 
 insert into inventory values(
-	5, 'assistant', 2, 700, 'laptop', 'intel i5', '500 GB', 'HD','', 20
+	5, 'The Assistant', 2, 700, 'laptop', 'intel i5', '500 GB', 'HD','Help with what you need, when you need it, now!', 20, "images/5.jpg"
 );	
 
 insert into inventory values(
-	6, 'manager', 3, 800, 'desktop', 'intel i7', '1 TB', 'HD','', 20
+	6, 'The Manager', 3, 800, 'desktop', 'intel i7', '1 TB', 'HD',"He doesn't do much, but he tells others how to do it.", 20, "images/6.jpg"
 );	
 
 insert into inventory values(
-	7, 'crew lead', 3, 600, 'laptop', 'intel i5', '750 GB', 'SSD','', 14
+	7, 'The Crew Lead', 3, 600, 'laptop', 'intel i5', '750 GB', 'SSD','Upper management material, underrecognized and overworked.', 14, "images/7.jpg"
 );	
 
 insert into inventory values(
-	8, 'crew member', 3, 550, 'laptop', 'intel i3', '250 GB', 'HD','', 14
+	8, 'The Crew Member', 3, 550, 'laptop', 'intel i3', '250 GB', 'HD','The dirty work of the company, lazy and overworked.', 14, "images/8.jpg"
 );	
 
 insert into inventory values(
-	9, 'hr', 3, 700, 'desktop', 'intel i7', '1 TB', 'HD','',22 
+	9, 'The HR', 3, 700, 'desktop', 'intel i7', '1 TB', 'HD','MS array guru, can they use it to its full potential?',22, "images/9.jpg"
 );	
 
 insert into inventory values(
-	10, 'clerk', 3, 350, 'laptop', 'intel i3', '250 GB', 'HD','', 15
+	10, 'The Clerk', 3, 350, 'laptop', 'intel i3', '250 GB', 'HD','Did you say "filing"?', 15, "images/10.jpg"
 );	
 
 insert into inventory values(
-	11, 'guest', 3, 300, 'desktop', 'intel i3', '250 GB', 'HD','', 20
+	11, 'The Guest', 3, 300, 'desktop', 'intel i3', '250 GB', 'HD','Provides basic access, with limited rights.', 20, "images/11.jpg"
 );	
 
 insert into inventory values(
-	12, 'coop', 3, 250, 'laptop', 'intel i5', '750 GB', 'HD','',17 
+	12, 'The Coop', 3, 250, 'laptop', 'intel i5', '750 GB', 'HD','How did he get a better computer than the Intern?',17, "images/12.jpg"
 
 );	
 
 insert into inventory values(
-	13, 'intern', 3, 200, 'desktop', 'intel i3', '500 GB', 'HD','',15 
+	13, 'The Intern', 3, 200, 'desktop', 'intel i3', '500 GB', 'HD','You\'re already investing in him. Don\'t spend a penny more.',15, "images/13.jpg"
 );	
 
 insert into inventory values(
-	14, 'secretary', 3, 100, 'desktop', 'intel i3', '500 GB', 'HD','', 10
+	14, 'The Secretary', 3, 100, 'desktop', 'intel i3', '500 GB', 'HD','Perfect for word processing and thats about it!', 10, "images/14.jpg"
 );	
 
 insert into inventory values(
-	15, 'janitor', 3, 75, 'laptop', 'banana sticker', '256 KB', 'HD','', 7 
+	15, 'The Janitor', 3, 75, 'laptop', 'banana sticker', '256 KB', 'HD','A cardboard box with a picture of a monitor taped to it.', 7, "images/7.jpg"
 );	
 
 insert into cart values(
