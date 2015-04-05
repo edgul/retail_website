@@ -10,29 +10,19 @@
   
 		$username = $_SESSION['username']; 
 
-		//collect additions to cart 
-        $add[1] = $_POST['boss'];
-        $add[2] = $_POST['#2'];
-        $add[3] = $_POST['sales_rep'];
-        $add[4] = $_POST['techie'];
-        $add[5] = $_POST['assistant'];
-        $add[6] = $_POST['manager'];
-        $add[7] = $_POST['crew_lead'];
-        $add[8] = $_POST['crew_member'];
-        $add[9] = $_POST['hr'];
-        $add[10] = $_POST['clerk'];
-        $add[11] = $_POST['guest'];
-        $add[12] = $_POST['coop'];
-        $add[13] = $_POST['intern'];
-        $add[14] = $_POST['secretary'];
-        $add[15] = $_POST['janitor'];
+        $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
+
+        		for ( $i= 1; $i <= $numProds; $i++){
+                    $add[$i] = $_POST[$i + ""];
+                }
+
 		
 		$addsum = array_sum($add);
 
 		//get prices
 		$pquery = $databaseConnection->query( "SELECT unitprice FROM inventory");
 
-		for ( $i= 1; $i <= 15; $i ++){
+		for ( $i= 1; $i <= $numProds; $i ++){
 			
 			//update inventory counts 
 			$j ="inv" . $i;
@@ -197,41 +187,40 @@
 	$query = $databaseConnection->query($query);
 	while ( $row = $query->fetch_assoc()){
 		$reviews[$row['p_id']] = True; 
-	}
+	} ?>
 
-	//print html	
-	echo "
+
     <!-- container for catalog items -->
-    <div class=\"container\">
-        <div class=\"row\">
+    <div class="container">
+        <div class="row">
 
-            <div class=\"col-md-4\">
-                <h1 id=\"catalog\"> Catalog Items </h1>
-				<a href=\"checkout.php\"> Proceed to Checkout </a>
+            <div class="col-md-4">
+                <h1 id="catalog"> Catalog Items </h1>
+				<a href="checkout.php"> Proceed to Checkout </a>
             </div>
             
-            <div class=\"col-md-4 col-md-offset-4\">
-                <input id=\"search\" type=\"search\" name=\"search\" placeholder=\"Search for a product\" class=\"form-control\" style=\"margin-top: 18px; margin-bottom: auto;\" />
+            <div class="col-md-4 col-md-offset-4">
+                <input id="search" type="search" name="search" placeholder="Search for a product" class="form-control" style="margin-top: 18px; margin-bottom: auto;" />
             </div>
         </div>
 
-
+        			<form action="catalog.php" name="form2" method="post" >
         <!-- Table Header -->
-        <table class=\"table table-striped\" id=\"catalogTable\">
+        <table class="table table-striped" id="catalogTable">
             <thead>
                 <tr>
                     <th> In stock </th>
                     <th> Add to cart</th>
-                    <th class=\"col-md-1\"> Image </th>
-                    <th class=\"col-md-1\"> Name </th>
-                    <th class=\"col-md-1\"> Price </th>
-                    <th class=\"col-md-3\"> Description </th>
-                    <th class=\"col-md-1\"> Type </th>
-                    <th class=\"col-md-1\"> Processor </th>
-                    <th class=\"col-md-1\"> Storage Space </th>
-                    <th class=\"col-md-1\"> Storage Type </th>
-                    <th class=\"col-md-1\"> Screen Size (inches) </th>
-                    <th class=\"col-md-1\"> Product Review </th>
+                    <th class="col-md-1"> Image </th>
+                    <th class="col-md-1"> Name </th>
+                    <th class="col-md-1"> Price </th>
+                    <th class="col-md-3"> Description </th>
+                    <th class="col-md-1"> Type </th>
+                    <th class="col-md-1"> Processor </th>
+                    <th class="col-md-1"> Storage Space </th>
+                    <th class="col-md-1"> Storage Type </th>
+                    <th class="col-md-1"> Screen Size (inches) </th>
+                    <th class="col-md-1"> Product Review </th>
                 </tr>
             </thead>
 
@@ -239,499 +228,72 @@
             <tbody>
 
 
-			<form action=\"catalog.php\" name=\"form2\" method=\"post\" >
+
 			
-                <!-- Row Entry1 -->
-                <tr>
-                    <td> " . $qty[0]. " </td>
-                    <td> <select name=\"boss\"/> 
-					";
-					for ($i = 0; $i <= $qty[0]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td><a data-toggle=\"modal\" href=\"#imgModal\"></a></td>
-                    <td> The Boss </td>  
-                    <td> $1000 </td>
-                    <td> Top of the line everything. For the big man.</td>
-                    <td> Desktop </td>
-                    <td> Intel i7 </td>
-                    <td> 2 TB </td>
-                    <td> HD </td>
-                    <td> 30 </td>    
-                    <td> ";
-					if ($reviews[1])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
+                <?php
 
-                <!-- Row Entry2 -->
-                <tr>
-                    <td> " . $qty[1] . " </td>
-                    <td> <select name=\"#2\"/>
-					";
-					for ($i = 0; $i <= $qty[1]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td><a data-toggle=\"modal\" href=\"#imgModal\"></a></td>
-                    <td> The #2 </td>
-                    <td> $950 </td>
-                    <td>
-                        Portable version of the big boss's computer.
-                    </td>
-                    <td> Laptop </td>
-                    <td> Intel i7 </td>
-                    <td> 2 TB </td>
-                    <td> HD </td>
-                    <td> 15 </td>
-                    <td> ";
-					if ($reviews[2])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
+                require_once ("Includes/var_init.php"); 
+                require_once  ("Includes/connectDB.php");
+                require_once  ("Includes/session.php");
+                                    //echo "Hello";
+                
+                    $query = "SELECT * FROM inventory";
+                    $result = $databaseConnection->query($query);
+                    if ($result->num_rows > 0) { 
+                        while($row = $result->fetch_assoc()){
+                            echo "<tr>";
+                            //echo '<td><input type="checkbox" name="delete"></td>';
+				            echo "<td contenteditable>" . $row["qty"] . "</td>";
+                            echo "<td><select name='{$row['p_id']}'>";
+                            for ($i = 0; $i <= $row['qty']; $i++){
+						        echo "<option value=\"" . $i . "\">" . $i . "</option> ";
+					        }
+                            echo "<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >";
+                            echo "</td>";
 
-                <!-- Row Entry3 -->
-                <tr>
-                    <td> " . $qty[2] . " </td>
-                    <td> <select name=\"sales rep\"/>
-					";
-					for ($i = 0; $i <= $qty[2]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"></a></td>
-                    <td> The Sales Rep </td>
-                    <td> $900</td>
-                    <td>
-                        On the go, fast and pleasing.
-                    </td>
-                    <td> Laptop </td>
-                    <td> Intel i5 </td>
-                    <td> 750 GB </td>
-                    <td> SSD </td>
-                    <td> 14</td>
-                    <td> ";
-					if ($reviews[3])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
+                            echo "<td><a data-toggle=\"modal\" href=\"#imgModal\"></a></td>";
+                            echo "<td contenteditable>" . $row["name"] . "</td>";
+                            echo "<td contenteditable>" . $row["unitprice"] . "</td>";
+                            echo "<td contenteditable>" . "Description here" . "</td>";
+                            echo "<td contenteditable>" . $row["type"] . "</td>";
+                            echo "<td contenteditable>" . $row["proc"] . "</td>";
+                            echo "<td contenteditable>" . $row["space"] . "</td>";
+                            echo "<td contenteditable>" . $row["s_type"] . "</td>";
+                            echo "<td contenteditable>" . $row["screen"] . "</td>";
+                            echo "<td contenteditable>" . "Review here" . "</td>";
+				            echo "</tr>";
+			            }
+                    }
 
-                <!-- Row Entry4 -->
-                <tr>
-                    <td> " . $qty[3] . " </td>
-                    <td> <select name=\"techie\"/>
-					";
-					for ($i = 0; $i <= $qty[3]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Techie </td>
-                    <td> $850</td>
-                    <td>            
-                        The best specs, somehow for a cheaper price!
-                    </td>
-                    <td> Laptop </td>
-                    <td> Intel i7</td>
-                    <td> 2 TB </td>
-                    <td> SSD </td>
-                    <td> 15 </td>
-                    <td> ";
-					if ($reviews[4])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
+                    
 
-                <!-- Row Entry5 -->
-                <tr>
-                    <td> " . $qty[4] . " </td>
-                    <td> <select name=\"assistant\"/>
-					";
-					for ($i = 0; $i <= $qty[4]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Assistant </td>
-                    <td> $700 </td>
-                    <td>
-                        Help with what you need, when you need it, now!
-                    </td>
-                    <td> Laptop </td>
-                    <td> Intel i5 </td>
-                    <td> 500 GB </td>
-                    <td> HD </td>
-                    <td> 20 </td>
-                    <td> ";
-					if ($reviews[5])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                 </tr>     
-
-                <!-- Row Entry6 -->
-                 <tr>
-                    <td> " . $qty[5] . " </td>
-                    <td> <select name=\"manager\"/>
-					";
-					for ($i = 0; $i <= $qty[5]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                     <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Manager </td>
-                    <td> $ 800 </td>
-                    <td>
-                        He doesn't do much, but he tells others how to do it.
-                    </td>
-                    <td> Desktop </td>
-                    <td> Intel i7 </td>
-                    <td> 1 TB </td>
-                    <td> HD </td>
-                    <td> 20 </td>
-                    <td> ";
-					if ($reviews[6])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-
-                <!-- Row Entry7 -->
-                <tr>
-                    <td> " . $qty[6] . " </td>
-                    <td> <select name=\"crew lead\"/>
-					";
-					for ($i = 0; $i <= $qty[6]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td><a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Crew Lead </td>
-                    <td> $600 </td>
-                    <td>
-                        Upper management material, underrecognized and overworked.
-                    </td>
-                    <td> Laptop </td>
-                    <td> Intel i5</td>
-                    <td> 750 GB </td>
-                    <td> SSD </td>
-                    <td> 14 </td>
-                    <td> ";
-					if ($reviews[7])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                 </tr>
-
-                <!-- Row Entry8 -->
-                 <tr>
-                    <td> " . $qty[7] . " </td>
-                    <td> <select name=\"crew member\"/>
-					";
-					for ($i = 0; $i <= $qty[7]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                     <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Crew Member </td>
-                    <td> $550</td>
-                    <td>
-                        The dirty work of the company, lazy and overworked.
-                    </td>
-                    <td> Laptop </td>
-                    <td> Intel i3 </td>
-                    <td> 250 GB </td>
-                    <td> HD </td>
-                    <td> 14 </td>
-                    <td> ";
-					if ($reviews[8])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-
-                <!-- Row Entry9 -->
-                <tr>
-                    <td> " . $qty[8] . " </td>
-                    <td> <select name=\"hr\"/>
-					";
-					for ($i = 0; $i <= $qty[8]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The HR </td>
-                    <td> $700 </td>
-                    <td>
-                        MS array guru, can they use it to its full potential?
-                    </td>
-                    <td> Desktop </td>
-                    <td> Intel i7</td>
-                    <td> 1 TB </td>
-                    <td> HD </td>
-                    <td> 22 </td>
-                    <td> ";
-					if ($reviews[9])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                 </tr>
-
-                <!-- Row Entry10 -->
-                <tr>
-                    <td> " . $qty[9] . " </td>
-                    <td> <select name=\"clerk\"/>
-					";
-					for ($i = 0; $i <= $qty[9]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Clerk </td>
-                    <td> $350 </td>
-                    <td>
-                        Did you say \"filing\"?
-                    </td>
-                    <td> Laptop </td>
-                    <td>Intel i3 </td>
-                    <td> 250 GB </td>
-                    <td> HD </td>
-                    <td> 15 </td>
-                    <td> ";
-					if ($reviews[10])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-
-                <!-- Row Entry11 -->
-                <tr>
-                    <td> " . $qty[10] . " </td>
-                    <td> <select name=\"guest\"/>
-					";
-					for ($i = 0; $i <= $qty[10]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Guest </td>
-                    <td> $300 </td>
-                    <td>    
-                        Provides basic access, with limited rights.
-                    </td>
-                    <td> Desktop </td>
-                    <td> Intel i3</td>
-                    <td> 250 GB </td>
-                    <td> HD </td>
-                    <td> 20 </td>
-                    <td> ";
-					if ($reviews[11])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-
-                <!-- Row Entry12 -->
-                <tr>
-                    <td> " . $qty[11] . " </td>
-                    <td> <select name=\"coop\"/>
-					";
-					for ($i = 0; $i <= $qty[11]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Coop </td>
-                    <td> $250 </td>
-                    <td>
-                        How did he get a better computer than the Intern?
-                    </td>
-                    <td> Laptop </td>
-                    <td> Intel i5 </td>
-                    <td> 750 GB </td>
-                    <td> HD </td>
-                    <td> 17</td>
-                    <td> ";
-					if ($reviews[12])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-
-                <!-- Row Entry13 -->
-                <tr>
-                    <td> " . $qty[12] . " </td>
-                    <td> <select name=\"intern\"/>
-					";
-					for ($i = 0; $i <= $qty[12]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Intern</td>
-                    <td> $200</td>
-                    <td>
-                        You're already investing in him. Don't spend a penny more.
-                    </td>
-                    <td> Desktop </td>
-                    <td> Intel i3</td>
-                    <td> 500 GB </td>
-                    <td> HD </td>
-                    <td> 15 </td>
-                    <td> ";
-					if ($reviews[13])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-
-                <!-- Row Entry14 -->
-                <tr>
-                    <td> " . $qty[13] . " </td>
-                    <td> <select name=\"secretary\"/>
-					";
-					for ($i = 0; $i <= $qty[13]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Secretary </td>
-                    <td> $100 </td>
-                    <td>
-                        Perfect for word processing and thats about it!
-                    </td>
-                    <td> Desktop </td>
-                    <td> Intel i3</td>
-                    <td> 500 GB </td>
-                    <td> HD </td>
-                    <td> 10 </td>
-                    <td> ";
-					if ($reviews[14])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-
-                <!-- Row Entry15 -->
-                <tr>
-                    <td> " . $qty[14] . " </td>
-                    <td> <select name=\"janitor\"/>
-					";
-					for ($i = 0; $i <= $qty[14]; $i++){
-						echo "<option value=\"" . $i . "\">" . $i . "</option> ";
-					}
-					echo "
-						<input type=\"submit\" formaction=\"catalog.php\" formmethod=\"post\" value=\"add all items\" name=\"add\" >
-					</td>
-                    <td> <a data-toggle=\"modal\" href=\"#imgModal\"> </a></td>
-                    <td> The Janitor </td>
-                    <td> $75 </td>
-                    <td>
-                        A cardboard box with a picture of a monitor taped to it.
-                    </td>
-                    <td> Laptop </td>
-                    <td> Banana Sticker</td>
-                    <td> 256 KB  </td>
-                    <td> HD </td>
-                    <td> 7 </td>
-                    <td> ";
-					if ($reviews[15])
-						echo " <a href='viewreview.php' > <input type='button' value='see review' >	</a> ";
-					else
-						echo "No review available.";
-					echo "
-					</td>    
-                </tr>
-				</form>
+                ?>
+				
             </tbody>
         </table>
+                        </form>
 
-		<a href=\"checkout.php\"> Proceed to Checkout </a> 
+		<a href="checkout.php"> Proceed to Checkout </a> 
 		<p> </br> </br> </p>
     </div>
 
 
     <!-- Modal -->
-    <div class=\"modal fade\" id=\"imgModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"imgModalLabel\" aria-hidden=\"true\">
-        <div class=\"modal-dialog\">
-            <div class=\"modal-content\">
-                <div class=\"modal-header\">
-                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>
-                    <h4 class=\"modal-title\" id=\"imgModalLabel\">Modal title</h4>
+    <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="imgModalLabel">Modal title</h4>
                 </div>
-                <div class=\"modal-body\">
+                <div class="modal-body">
 
-                    <img class=\"img-responsive center-block\" src=\"images/logo.svg.png\" />
+                    <img class="img-responsive center-block" src="images/logo.svg.png" />
                 </div>
 
             </div>
         </div>
     </div>
-
-		";
-?>
-
 </body>
 </html>
 

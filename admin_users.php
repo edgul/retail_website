@@ -61,7 +61,7 @@
                 require_once  ("Includes/session.php");
 
                 if (isset($_GET['action']) && $_GET['action'] == "delete") {
-                    $query = "DELETE FROM users WHERE username = {$_GET['username']};";
+                    $query = "DELETE FROM users WHERE username=\"{$_GET['username']}\"";
                     $result = $databaseConnection->query($query);
                     if ($result) {
                         echo '<div class="alert alert-success" role="alert">User successfully deleted!</div>';
