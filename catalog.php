@@ -20,16 +20,11 @@
 		
 		$addsum = array_sum($add);
 
-		//get prices
-		$pquery = $databaseConnection->query( "SELECT unitprice FROM inventory");
-
 		for ( $i= 1; $i <= $numProds; $i ++){
 			
 			//update inventory counts 
 			$j ="inv" . $i;
 			$left[$i] = $_SESSION[$j] - $add[$i];
-			$tempprice = $pquery->fetch_assoc();
-			$prices[$i] = $tempprice["unitprice"];
 			$query = "UPDATE inventory SET qty='" . $left[$i] . "' WHERE p_id='" . $i . "'";
         	$databaseConnection->query($query);
 	
@@ -38,16 +33,13 @@
 				$qtyincart = $databaseConnection->query( "SELECT qty FROM cart WHERE p_id='" . $i . "'");
 				$oldcart= $qtyincart->fetch_assoc();
 				$add[$i]=$add[$i]+$oldcart['qty'];
-				echo $oldcart['qty']+$add[$i];
 				$databaseConnection->query("DELETE FROM cart WHERE username='" . $username ."' AND p_id='" . $i . "'");
-				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "','" . $prices[$i] . "')";		
+				$query = "INSERT INTO cart VALUES ('" . $username . "','" . $i . "','" . $add[$i] . "')";		
 				$databaseConnection->query($query); 
 			}
 
 		}
 		
-		//notify items that were added
-	
 	}	
 ?>
 
