@@ -240,6 +240,16 @@
     <script src="Scripts/jquery-1.11.2.js"></script>
     <script src="Scripts/bootstrap.js"></script>
     <script>
+        var itemRows = $("#catalogTable tbody tr");
+        
+        // Initially display only 5
+        outer:
+        for (var i = 5; i < itemRows.length; i++) {
+            var item = itemRows[i];
+            $(item).hide("slow");       // otherwise hide the row
+        }
+
+
         /* Product Search */
         var searchEl = $("#search")[0];
         $(searchEl).on('input', function (e) {
