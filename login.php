@@ -34,6 +34,9 @@
 			$row = $result-> fetch_assoc();
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['password'] = $row['password'];
+            if (is_admin_sql()) {
+                $_SESSION['is_admin'] = TRUE;
+            }
 		}
 		else{
 			$loginerror = True;

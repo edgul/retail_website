@@ -18,7 +18,8 @@ create table users (
 	city varchar(255) NOT NULL,
 	province varchar(255) NOT NULL, 
 	postalcode varchar(255) NOT NULL, 
-	password varchar(255) NOT NULL, 
+	password varchar(255) NOT NULL,
+    is_admin tinyint,
 	PRIMARY KEY (username)
 );
 
@@ -67,22 +68,19 @@ create table review (
 	FOREIGN KEY (username) REFERENCES users (username)
 );
 
-insert into cart values(
-	'kingshit', 1, 2
-);
-
-insert into cart values(
-	'kingshit', 2, 3
-);
-
 insert into users values (
-	'kingshit', 'ed', 'gul', 'ed@hotmail.com', '555-555-555', '11', 'street',
-	 '5', 'Ham', 'ON', 'q1q1q1', 'Use123#'
+	'kingshit', 'ed', 'gul', 'ed@hotmail.com', '555-555-5555', '11', 'street',
+	 '5', 'Ham', 'ON', 'q1q1q1', 'Use123#', 1
 );
 
 insert into users values(
-	'twotwo', 'two', 'two', 'two@hotmail.com', '555-555-555', '11', 'street',
-	'5', 'Ham', 'ON', 'q1q1q1', 'Use123#'
+	'twotwo', 'two', 'two', 'two@hotmail.com', '555-555-5555', '11', 'street',
+	'5', 'Ham', 'ON', 'q1q1q1', 'Use123#', 1
+);
+
+insert into users values(
+	'normal', 'normal', 'user', 'normal@hotmail.com', '555-555-5555', '11', 'street',
+	'5', 'Ham', 'ON', 'q1q1q1', 'Normal123#'
 );
 
 insert into inventory values(
@@ -145,5 +143,13 @@ insert into inventory values(
 insert into inventory values(
 	15, 'janitor', 3, 75, 'laptop', 'banana sticker', '256 KB', 'HD','', 7 
 );	
+
+insert into cart values(
+	'kingshit', 1, 2
+);
+
+insert into cart values(
+	'kingshit', 2, 3
+);
 
 EOF

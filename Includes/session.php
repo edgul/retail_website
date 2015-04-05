@@ -4,30 +4,39 @@
 
     function logged_on()
     {
-        return isset($_SESSION['userid']);
+        return isset($_SESSION['username']);
     }
 
     function confirm_is_admin() {
         if (!logged_on())
         {   
-            header ("Location: logon.php");
+            header ("Location: login.php");
         }   
 
         if (!is_admin())
         {   
             header ("Location: index.php");
         }   
-    }   
+    }
 
-    function is_admin()
+    function confirm_is_admin_and_alert_otherwise() {
+        if (!logged_on()) {
+            echo '<div class="alert alert-danger">You must <a href="login.php">login</a> to view this page';
+        }
+        elseif  (!is_admin()) {
+            echo '<div class="alert alert-danger" role="alert">You do not have sufficient priveleges to access this page!</div>';
+        }
+    }
+
+    function is_admin() {
+        return isset($_SESSION['is_admin']);
+    }
+
+    function is_admin_sql()
     {   
         global $databaseConnection;
-        $query = "SELECT user_id FROM users_in_roles UIR INNER JOIN roles R on UIR.role_id = R.id WHERE R.name = 'admin' AND UIR.user_id = ? LIMIT 1";
-        $statement = $databaseConnection->prepare($query);
-        $statement->bind_param('d', $_SESSION['userid']);
-        $statement->execute();
-        $statement->store_result();
-        return $statement->num_rows == 1;
+        $query = "SELECT * FROM users WHERE username = '{$_SESSION['username']}' AND is_admin=1";
+        return $databaseConnection->query($query)->num_rows == 1;
     }
 ?>
 

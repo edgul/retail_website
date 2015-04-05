@@ -53,7 +53,10 @@
     </nav>
 
     <div class="container">
-
+                <?php
+            
+            require_once("Includes/session.php");
+            if (confirm_is_admin_and_alert_otherwise()): ?>
                    <?php
 
                 require_once ("Includes/var_init.php"); 
@@ -136,7 +139,7 @@
         </tbody></table>
         </form>
 
-
+                <?php endif; ?>
 
                         
     </div>
