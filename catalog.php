@@ -67,56 +67,7 @@
         
     </style>
     
-    <script src="Scripts/jquery-1.11.2.js"></script>
-    <script src="Scripts/bootstrap.js"></script>
-    <script>
-        /* Product Search */
-        var searchEl = $("#search")[0];
-        $(searchEl).on('input', function (e) {
-            var searchText = searchEl.value;
-            var regex = new RegExp(searchText, "i");    // case insensitive
-            var itemRows = $("#catalogTable tbody tr");
-
-            outer:
-            for (var i = 0; i < itemRows.length; i++) {
-                var item = itemRows[i];
-                var cols = $("td", item);
-                for (var j = 1; j < cols.length; j++) {
-                    if (regex.test(cols[j].innerText)) {    // if search term matches any text in any column for a row, then show that row
-                        $(item).show("slow");
-                        continue outer;
-                    }
-                }
-                $(item).hide("slow");       // otherwise hide the row
-            }
-        });
-
-        //// Populate product images
-
-        $(function () {
-        //    var links = $('td:nth-child(3) a');
-        //    for (var i = 0; i < links.length; i++) {
-        //        $(links[i]).append('<img src="images/' + (i + 1) + '.jpg" class="img-responsive" />');
-        //    }
-
-            // Img modal box
-
-        $('#imgModal').on('show.bs.modal', function (event) {
-            var thumbnailLink = $(event.relatedTarget); // Link that triggered the modal
-            var productImgSrc = thumbnailLink.find('img')[0].src;
-            var productTitle = thumbnailLink.parent().siblings('td:nth-child(4)').text();     // grab the product title from different column of same row
-
-            var modal = $(this);
-            modal.find('.modal-body img')[0].src = productImgSrc;
-            modal.find('.modal-title').text(productTitle);
-
-        });
-
-
-        });
-
-
-    </script>
+    
 
 </head>
 
@@ -286,6 +237,56 @@
             </div>
         </div>
     </div>
+    <script src="Scripts/jquery-1.11.2.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script>
+        /* Product Search */
+        var searchEl = $("#search")[0];
+        $(searchEl).on('input', function (e) {
+            var searchText = searchEl.value;
+            var regex = new RegExp(searchText, "i");    // case insensitive
+            var itemRows = $("#catalogTable tbody tr");
+
+            outer:
+            for (var i = 0; i < itemRows.length; i++) {
+                var item = itemRows[i];
+                var cols = $("td", item);
+                for (var j = 1; j < cols.length; j++) {
+                    if (regex.test(cols[j].innerText)) {    // if search term matches any text in any column for a row, then show that row
+                        $(item).show("slow");
+                        continue outer;
+                    }
+                }
+                $(item).hide("slow");       // otherwise hide the row
+            }
+        });
+
+        //// Populate product images
+
+        $(function () {
+            //    var links = $('td:nth-child(3) a');
+            //    for (var i = 0; i < links.length; i++) {
+            //        $(links[i]).append('<img src="images/' + (i + 1) + '.jpg" class="img-responsive" />');
+            //    }
+
+            // Img modal box
+
+            $('#imgModal').on('show.bs.modal', function (event) {
+                var thumbnailLink = $(event.relatedTarget); // Link that triggered the modal
+                var productImgSrc = thumbnailLink.find('img')[0].src;
+                var productTitle = thumbnailLink.parent().siblings('td:nth-child(4)').text();     // grab the product title from different column of same row
+
+                var modal = $(this);
+                modal.find('.modal-body img')[0].src = productImgSrc;
+                modal.find('.modal-title').text(productTitle);
+
+            });
+
+
+        });
+
+
+    </script>
 </body>
 </html>
 
