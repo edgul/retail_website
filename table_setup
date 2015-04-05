@@ -18,7 +18,7 @@ create table users (
 	city varchar(255) NOT NULL,
 	province varchar(255) NOT NULL, 
 	postalcode varchar(255) NOT NULL, 
-	password varchar(255) NOT NULL,
+	password varchar(255) NOT NULL, 
     is_admin tinyint,
 	PRIMARY KEY (username)
 );
@@ -69,13 +69,14 @@ create table review (
 	FOREIGN KEY (username) REFERENCES users (username)
 );
 
+
 insert into users values (
-	'kingshit', 'ed', 'gul', 'ed@hotmail.com', '555-555-5555', '11', 'street',
+	'kingshit', 'ed', 'gul', 'ed@hotmail.com', '555-555-555', '11', 'street',
 	 '5', 'Ham', 'ON', 'q1q1q1', 'Use123#', 1
 );
 
 insert into users values(
-	'twotwo', 'two', 'two', 'two@hotmail.com', '555-555-5555', '11', 'street',
+	'twotwo', 'two', 'two', 'two@hotmail.com', '555-555-555', '11', 'street',
 	'5', 'Ham', 'ON', 'q1q1q1', 'Use123#', 1
 );
 
@@ -84,12 +85,13 @@ insert into users values(
 	'5', 'Ham', 'ON', 'q1q1q1', 'Normal123#', NULL
 );
 
+
 insert into inventory values(
 	1, 'The Boss', 7, 1000, 'desktop', 'intel i7', '2 TB', 'HD','Top of the line everything. For the big man.', 30, "images/1.jpg"
 );	
 
 insert into inventory values(
-	2, 'The #2', 2, 950, 'laptop', 'intel i7', '2 TB', 'HD',"Portable version of the big boss's computer.", 15, "images/2.jpg"
+	2, 'The #2', 2, 950, 'laptop', 'intel i7', '2 TB', 'HD','Portable version of the big boss''s computer.', 15, "images/2.jpg"
 );	
 
 insert into inventory values(
@@ -105,7 +107,7 @@ insert into inventory values(
 );	
 
 insert into inventory values(
-	6, 'The Manager', 3, 800, 'desktop', 'intel i7', '1 TB', 'HD',"He doesn't do much, but he tells others how to do it.", 20, "images/6.jpg"
+	6, 'The Manager', 3, 800, 'desktop', 'intel i7', '1 TB', 'HD','He doesn''t do much, but he tells others how to do it.', 20, "images/6.jpg"
 );	
 
 insert into inventory values(
@@ -134,7 +136,7 @@ insert into inventory values(
 );	
 
 insert into inventory values(
-	13, 'The Intern', 3, 200, 'desktop', 'intel i3', '500 GB', 'HD','You\'re already investing in him. Don\'t spend a penny more.',15, "images/13.jpg"
+	13, 'The Intern', 3, 200, 'desktop', 'intel i3', '500 GB', 'HD','You''re already investing in him. Don''t spend a penny more.',15, "images/13.jpg"
 );	
 
 insert into inventory values(
@@ -144,13 +146,5 @@ insert into inventory values(
 insert into inventory values(
 	15, 'The Janitor', 3, 75, 'laptop', 'banana sticker', '256 KB', 'HD','A cardboard box with a picture of a monitor taped to it.', 7, "images/7.jpg"
 );	
-
-insert into cart values(
-	'kingshit', 1, 2
-);
-
-insert into cart values(
-	'kingshit', 2, 3
-);
 
 EOF

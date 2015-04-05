@@ -255,7 +255,7 @@
                             echo '<td><a data-toggle="modal" href="#imgModal"><img src="' . getImageSrc($row['image_link']) . '" class="img-responsive" /></a></td>';
                                                         echo "<td contenteditable>" . $row["name"] . "</td>";
                             echo "<td contenteditable>" . $row["unitprice"] . "</td>";
-                            echo "<td contenteditable>" . "Description here" . "</td>";
+                            echo "<td contenteditable>" . $row['descr'] . "</td>";
                             echo "<td contenteditable>" . $row["type"] . "</td>";
                             echo "<td contenteditable>" . $row["proc"] . "</td>";
                             echo "<td contenteditable>" . $row["space"] . "</td>";
