@@ -7,7 +7,7 @@
     require_once  ("Includes/connectDB.php");
     require_once ("Includes/common.php");
 	
-            $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
+    $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
 
     if (isset($_POST['add']) ){
         if (logged_in()) {
@@ -201,7 +201,7 @@
                             echo "</td>";
 
                             echo '<td><a data-toggle="modal" href="#imgModal"><img src="' . getImageSrc($row['image_link']) . '" class="img-responsive" /></a></td>';
-                                                        echo "<td contenteditable>" . $row["name"] . "</td>";
+                            echo "<td contenteditable>" . $row["name"] . "</td>";
                             echo "<td contenteditable>" . $row["unitprice"] . "</td>";
                             echo "<td contenteditable>" . $row['descr'] . "</td>";
                             echo "<td contenteditable>" . $row["type"] . "</td>";

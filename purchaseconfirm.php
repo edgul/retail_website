@@ -183,8 +183,7 @@
 						for  ( $j = 1; $j <  $recommendNum; $j++){
 							echo " <td> 
 											<a href=\"catalog.php\">  
-													<img height='100' width='100' src='" .  getImageSrc($image_link[$recommendedItems[$j]]) . "'> 
-													" . $name[$recommendedItems[$j]] . " 
+													<img height='100' width='100' src='" .  getImageSrc($image_link[$recommendedItems[$j]]) . "'> " . $name[$recommendedItems[$j]] . " 
 											</a> 
 										</td>";
 	
