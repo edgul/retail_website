@@ -7,6 +7,8 @@
     require_once  ("Includes/connectDB.php");
     require_once ("Includes/common.php");
 	
+            $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
+
     if (isset($_POST['add']) ){
         if (logged_in()) {
 		    $username = $_SESSION['username']; 
@@ -14,7 +16,7 @@
             $username = session_id();
         }
 
-        $numProds = $databaseConnection->query("SELECT * FROM inventory")->num_rows;
+
 
         for ( $i= 1; $i <= $numProds; $i++){
             $add[$i] = $_POST[$i + ""];
@@ -128,8 +130,8 @@
 
 	
 	//makes array of already reviewed products
-	$reviews = array_fill(1, 15, False);
-	print_r($reviews);
+	$reviews = array_fill(1, $numProds, False);
+	//print_r($reviews);
 	$query = "SELECT * FROM review ";
 	$query = $databaseConnection->query($query);
 	while ( $row = $query->fetch_assoc()){
@@ -151,7 +153,7 @@
             </div>
         </div>
 
-        			<form action="catalog.php" name="form2" method="post" >
+		<form action="catalog.php" name="form2" method="post" >
         <!-- Table Header -->
         <table class="table table-striped" id="catalogTable">
             <thead>
@@ -207,7 +209,7 @@
                             echo "<td contenteditable>" . $row["space"] . "</td>";
                             echo "<td contenteditable>" . $row["s_type"] . "</td>";
                             echo "<td contenteditable>" . $row["screen"] . "</td>";
-                            echo "<td contenteditable>" . "Review here" . "</td>";
+                            echo "<td contenteditable>" . $reviews[$row['p_id']] ? "<a href='viewreview.php'>Check review</a> " : "Review N/A" . "</td>";
 				            echo "</tr>";
 			            }
                     }
@@ -278,12 +280,6 @@
         //// Populate product images
 
         $(function () {
-            //    var links = $('td:nth-child(3) a');
-            //    for (var i = 0; i < links.length; i++) {
-            //        $(links[i]).append('<img src="images/' + (i + 1) + '.jpg" class="img-responsive" />');
-            //    }
-
-            // Img modal box
 
             $('#imgModal').on('show.bs.modal', function (event) {
                 var thumbnailLink = $(event.relatedTarget); // Link that triggered the modal
