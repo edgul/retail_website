@@ -214,9 +214,9 @@
                                 echo "<a href='viewreview.php'>Check review</a> ";
                             } else 
                             { 
-                                echo "Review N/A" . "</td>"; 
+                                echo "Review N/A"; 
                             }
-				            echo "</tr>";
+				            echo "</td></tr>";
 			            }
                     }
 
