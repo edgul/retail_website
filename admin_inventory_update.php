@@ -56,7 +56,10 @@
 
 <!--  Contains form and fields for text entry -->
     <div class="container">
-
+                <?php
+            
+            require_once("Includes/session.php");
+            if (confirm_is_admin_and_alert_otherwise()): ?>
         <?php 
 
     if (isset($_POST['submit'])){
@@ -111,7 +114,7 @@
 
 ?>
 
-
+        <p><a href="admin.php">Admin Home</a> >> <a href="admin_inventory.php">Inventory Administration</a> >> <a href="">Update Inventory</a></p>
             <h1>Edit Inventory</h1>
         <div class="col-sm-4">
             <form action="" method="post" name="form" id="form" >
@@ -223,6 +226,8 @@
 
            
         </div>
+
+        <?php endif; ?>
         </div>
                         
     </div>

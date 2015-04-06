@@ -53,94 +53,20 @@
     </nav>
 
     <div class="container">
+        <?php
+            
+            require_once("Includes/session.php");
+            if (confirm_is_admin_and_alert_otherwise()): ?>
         <h1>Admin Actions</h1>
 
         <ul>
             <li><a href="admin_users.php">User Administration</a></li>
             <li><a href="admin_inventory.php">Inventory Administration</a></li>
         </ul>
-                        
+        <?php endif; ?>                
     </div>
-    <script>
-        var tds = document.querySelectorAll("form td");
-        for (var i = 0; i < tds.length; i++) {
-            tds[i].addEventListener("DOMSubtreeModified", function (ev) {
-                //tds[i].style = "border: 10px solid red;";
-                //tds[i].parentElement.className = "dataChanged";
-            });
-        }
-    </script>
+
 </body>
 
 	
 </html>
-
-
-<!--
-        
-
-        <h1>Admin: Edit Purchase</h1>
-
-        <form name="adminPurchase">
-        <table class="table table-striped">
-            
-            <thead><tr>
-                <th>Delete</th>
-                <th>Order Id</th>
-                <th>Username</th>
-                <th>Product Id</th>
-                <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Order Date</th>
-            </tr></thead>
-            
-          <tbody>
-
-            <?php
-
-                require_once ("Includes/var_init.php"); 
-                require_once  ("Includes/connectDB.php");
-                require_once  ("Includes/session.php");
-
-                    $query = "SELECT * FROM purchase";
-                    $result = $databaseConnection->query($query);
-                    if ($result->num_rows > 0) { 
-                        while($row = $result->fetch_assoc()){
-                            echo "<tr>";
-                            echo '<td><input type="checkbox" name="delete"></td>';
-				            echo "<td contenteditable>" . $row["o_id"] . "</td>";
-                            echo "<td contenteditable>" . $row["username"] . "</td>";
-                            echo "<td contenteditable>" . $row["p_id"] . "</td>";
-                            echo "<td contenteditable>" . $row["qty"] . "</td>";
-                            echo "<td contenteditable>" . $row["unitprice"] . "</td>";
-                            echo "<td contenteditable>" . $row["orderdate"] . "</td>";
-				            echo "</tr>";
-			            }
-                    }
-
-
-                ?>
-        </tbody></table>
-        </form>
-
-
-
-
-                        
-    </div>
-    <script>
-        var tds = document.querySelectorAll("form td");
-        for (var i = 0; i < tds.length; i++) {
-            tds[i].addEventListener("DOMSubtreeModified", function (ev) {
-                //tds[i].style = "border: 10px solid red;";
-                //tds[i].parentElement.className = "dataChanged";
-            });
-        }
-    </script>
-</body>
-
-	
-</html>
-
-
--->

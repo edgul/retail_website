@@ -195,6 +195,14 @@
 
     <!--  Contains form and fields for text entry -->
     <div class="container">
+
+                <?php
+            
+            require_once("Includes/session.php");
+            if (confirm_is_admin_and_alert_otherwise()): ?>
+
+
+        <p><a href="admin.php">Admin Home</a> >> <a href="admin_users.php">User Administration</a> >> <a href="">Create User</a></p>
             <h1>Create User</h1>
         <div class="col-sm-4">
             <form action="admin_users_create.php" method="post" name="form" id="form" >
@@ -351,6 +359,9 @@
 
            
         </div>
+
+
+        <?php endif; ?>
         </div>
 </body>
 </html>

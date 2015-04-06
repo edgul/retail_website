@@ -74,6 +74,7 @@
 
                 ?>
 
+        <p><a href="admin.php">Admin Home</a> >> <a href="admin_inventory.php">Inventory Administration</a> </p>
         <h1>Admin: Edit Inventory</h1>
 
         <form name="adminInventory">

@@ -164,6 +164,14 @@
 
     <!--  Contains form and fields for text entry -->
     <div class="container">
+
+
+                <?php
+            
+            require_once("Includes/session.php");
+            if (confirm_is_admin_and_alert_otherwise()): ?>
+
+        <p><a href="admin.php">Admin Home</a> >> <a href="admin_users.php">User Administration</a> >> <a href="">Update User</a></p>
             <h1>Update User</h1>
         <div class="col-sm-4">
             <form action="" method="post" name="form" id="form" >
@@ -373,6 +381,10 @@
                 </div>
             </form>
         </div>
+
+
+        <?php endif; ?>
+
         </div>
 
 </body>

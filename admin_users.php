@@ -53,6 +53,11 @@
 
     <div class="container">
 
+                <?php
+            
+            require_once("Includes/session.php");
+            if (confirm_is_admin_and_alert_otherwise()): ?>
+
                    <?php
 
                 require_once ("Includes/var_init.php"); 
@@ -71,7 +76,9 @@
 
                 ?>
 
+        <p><a href="admin.php">Admin Home</a> >> <a href="admin_users.php">User Administration</a> </p>
         <h1>Admin: Edit Users</h1>
+        
 
         <form name="adminUsers">
         <table class="table table-striped">
@@ -125,7 +132,7 @@
                             echo "<td contenteditable>" . $row["province"] . "</td>";
                             echo "<td contenteditable>" . $row["postalcode"] . "</td>";
                             echo "<td contenteditable>" . $row["password"] . "</td>";
-                            echo "<td>" . $row['is_admin'] == 1 ? "<img src='accept.png' alt='checkmark />" : '' . "</td>";
+                            echo "<td>" . ($row['is_admin'] == 1 ? "<img src='images/accept.png' alt='checkmark' />" : '') . "</td>";
                             echo "</tr>";
 			            }
                     }
@@ -138,7 +145,7 @@
         </form>
 
 
-
+        <?php endif; ?>
                         
     </div>
     <script>
