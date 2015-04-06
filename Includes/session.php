@@ -82,7 +82,7 @@
     }
 
     function is_admin() {
-        return isset($_SESSION['is_admin']);
+        return is_admin_sql();
     }
 
     function is_admin_sql()
