@@ -55,7 +55,7 @@
                     <li><a href="catalog.php">Catalog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="sitemap.html">Sitemap</a></li>
-                    <li class="active"><a href="review.html">Review</a></li>
+                    <li class="active"><a href='viewreview.php'>Reviews</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="purchaseconfirm.php">Your purchases</a></li>
@@ -63,7 +63,7 @@
                     <li><a href="userupdate.php">Profile Update</a></li>
                     <li><a href='logout.php'>Logout</a>
                     </li>
-					<li><a href="#">Help</a></li>
+					<li><a href="admin.php">Admin</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
