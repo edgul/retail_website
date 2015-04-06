@@ -249,7 +249,6 @@
         var itemRows = $("#catalogTable tbody tr");
         
         // Initially display only 5
-        outer:
         for (var i = 5; i < itemRows.length; i++) {
             var item = itemRows[i];
             $(item).hide("slow");       // otherwise hide the row
@@ -268,7 +267,7 @@
                 var item = itemRows[i];
                 var cols = $("td", item);
                 for (var j = 1; j < cols.length; j++) {
-                    if (regex.test(cols[j].innerText)) {    // if search term matches any text in any column for a row, then show that row
+                    if (regex.test($(cols[j]).text())) {    // if search term matches any text in any column for a row, then show that row
                         $(item).show("slow");
                         continue outer;
                     }
