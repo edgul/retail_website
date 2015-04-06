@@ -155,6 +155,7 @@
 				$unitp[$i] = $row["unitprice"];
 				$pid[$i] = $row["p_id"];
 				$price[$i] = $row["Price"];
+                $image_link[$i] = $row["image_link"];
 			
 				if ( $row["orderdate"] === date('ymd')){
 					$status[$i] = "processing"; 
@@ -182,7 +183,7 @@
 						for  ( $j = 1; $j <  $recommendNum; $j++){
 							echo " <td> 
 											<a href=\"catalog.php\">  
-													<img height='100' width='100' src='images/" .  $recommendedItems[$j] . ".jpg'> 
+													<img height='100' width='100' src='" .  getImageSrc($image_link[$recommendedItems[$j]]) . "'> 
 													" . $name[$recommendedItems[$j]] . " 
 											</a> 
 										</td>";

@@ -77,7 +77,7 @@
         <table class="table table-striped">
             
             <thead><tr>
-                <th>Action</th>
+                <th class="col-md-1">Action</th>
                 <th>Username</th>
                 <th>First Name</th>
                 <th>Last Name</th>
@@ -91,7 +91,7 @@
             <th>Postal Code</th>
 
                 <th>Password</th>
-            <th>Admin Priveleges</th>
+            <th class="col-md-1">Admin Priveleges</th>
             </tr></thead>
             
           <tbody>

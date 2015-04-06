@@ -1,6 +1,6 @@
 <?php
     
-    define('IDLE_TIMEOUT', 60);
+    define('IDLE_TIMEOUT', 180);
 
     session_start();
     require_once  ("Includes/connectDB.php");
