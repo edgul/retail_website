@@ -66,9 +66,9 @@
                     $query = "DELETE FROM inventory WHERE p_id = {$_GET['pid']};";
                     $result = $databaseConnection->query($query);
                     if ($result) {
-                        echo '<div class="alert alert-success" role="alert">User successfully deleted!</div>';
+                        echo '<div class="alert alert-success" role="alert">User successfully deleted! Return to <a href="admin_inventory.php">Inventory Administration</a></div>';
                     } else {
-                        echo '<div class="alert alert-danger" role="alert">User deletion failed</div>';
+                        echo '<div class="alert alert-danger" role="alert">User deletion failed.</div>';
                     }
                 }
 
@@ -131,7 +131,7 @@
         </tbody></table>
         </form>
 
-
+        <?php endif; ?>
                         
     </div>
     <script>

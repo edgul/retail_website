@@ -62,17 +62,20 @@
     }
 
     function confirm_is_admin_and_alert_otherwise() {
-        if (confirm_is_logged_in_and_alert_otherwise && !is_admin()) {
-            echo '<div class="alert alert-danger" role="alert">You do not have sufficient priveleges to access this page!</div>';
-        } else {
-            return TRUE;
+        if (confirm_is_logged_in_and_alert_otherwise()) {
+            if (!is_admin()) {
+                echo '<div class="alert alert-danger" role="alert">You do not have sufficient priveleges to access this page!</div>';
+            
+            } else {
+                return TRUE;
+            }
         }
     }
 
     
     function confirm_is_logged_in_and_alert_otherwise() {
         if (!logged_in()) {
-            echo '<div class="alert alert-danger">You must <a href="login.php">login</a> to view this page';
+            echo '<div class="alert alert-danger">You must <a href="login.php">login</a> to view this page</div>';
         } else {
             return TRUE;
         }

@@ -209,7 +209,13 @@
                             echo "<td contenteditable>" . $row["space"] . "</td>";
                             echo "<td contenteditable>" . $row["s_type"] . "</td>";
                             echo "<td contenteditable>" . $row["screen"] . "</td>";
-                            echo "<td contenteditable>" . $reviews[$row['p_id']] ? "<a href='viewreview.php'>Check review</a> " : "Review N/A" . "</td>";
+                            echo "<td contenteditable>";
+                            if ($reviews[$row['p_id']]) {
+                                echo "<a href='viewreview.php'>Check review</a> ";
+                            } else 
+                            { 
+                                echo "Review N/A" . "</td>"; 
+                            }
 				            echo "</tr>";
 			            }
                     }
